@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View.OnClickListener;
 import android.view.View;
@@ -13,15 +14,54 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 public class MainActivity extends Activity{
-    TextView textView;
+    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges;
+    Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnBadges = findViewById(R.id.btnBadges);
+        btnGroups = findViewById(R.id.btnGroups);
+        btnSelectedBadges = findViewById(R.id.btnSelectedBadges);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BUTTONS", "User tapped the Supabutton");
+                activity = new Intent(MainActivity.this, LogIn_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnBadges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BUTTONS", "User tapped the Supabutton");
+                activity = new Intent(MainActivity.this, Badges_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnGroups.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BUTTONS", "User tapped the Supabutton");
+                activity = new Intent(MainActivity.this, Groups_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnSelectedBadges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BUTTONS", "User tapped the Supabutton");
+                activity = new Intent(MainActivity.this, SelectedBadges_Activity.class);
+                startActivity(activity);
+
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
     }
+
+
 }

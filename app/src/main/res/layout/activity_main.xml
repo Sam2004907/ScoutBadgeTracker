@@ -8,10 +8,31 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtInfo"
+        android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to the MyMediCare app please select one of the options below."
+        android:text="Main Activity"
     />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnLogin" />
+    <Button
+        android:id="@+id/btnBadges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnBadges" />
+    <Button
+        android:id="@+id/btnGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnGroups" />
+    <Button
+        android:id="@+id/btnSelectedBadges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnSelectedBadges" />
 
 </LinearLayout>
