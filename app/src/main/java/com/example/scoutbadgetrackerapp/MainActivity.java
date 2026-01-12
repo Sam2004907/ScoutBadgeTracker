@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.List;
+
 public class MainActivity extends Activity{
     Button btnLogin, btnBadges, btnGroups, btnSelectedBadges;
     Intent activity;
@@ -20,6 +22,12 @@ public class MainActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DBHelper db = new DBHelper(this);
+        db.addBadge(new BadgeList(1,"Pioneering",null,null));
+        db.addBadge(new BadgeList(2,"Air or Sea Navigation",null,null));
+        List<BadgeList> badges = db.getAllBadges();
+        Log.d("Badges", badges.toString());
+
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
         btnGroups = findViewById(R.id.btnGroups);
