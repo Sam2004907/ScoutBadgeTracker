@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity{
@@ -23,9 +24,10 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
-        db.addBadge(new BadgeList(1,"Pioneering",null,null));
-        db.addBadge(new BadgeList(2,"Air or Sea Navigation",null,null));
-        List<BadgeList> badges = db.getAllBadges();
+//        db.addBadge(new BadgeList("Pioneering",null,null));
+//        db.addBadge(new BadgeList("Air or Sea Navigation",null,"activity_sc_air_or_sea_nav"));
+        ArrayList<ArrayList<String>> badges = db.getAllBadges();
+        badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
         Log.d("Badges", badges.toString());
 
         btnLogin = findViewById(R.id.btnLogin);

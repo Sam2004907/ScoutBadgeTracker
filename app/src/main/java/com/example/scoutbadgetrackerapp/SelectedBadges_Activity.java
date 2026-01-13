@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SelectedBadges_Activity extends Activity{
@@ -18,6 +19,7 @@ public class SelectedBadges_Activity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DBHelper db = new DBHelper(this);
         setContentView(R.layout.activity_selectedbadge);
         imgBadge = findViewById(R.id.imgBadge);
         txtTitle = findViewById(R.id.txtTitle);
@@ -30,6 +32,8 @@ public class SelectedBadges_Activity extends Activity{
                 imgBadge.setImageResource(R.drawable.activity_sc_activitycenterservice);
                 txtTitle.setText("Activity Center Service");
             }else if(Objects.equals(value, "activity_sc_air_or_sea_nav")){
+                List<BadgeList> badge = db.getBadge("Air or Sea Navigation");
+                Log.d("Database Request", badge.toString());
                 imgBadge.setImageResource(R.drawable.activity_sc_air_or_sea_nav);
                 txtTitle.setText("Air or Sea Navigation");
             }else if(Objects.equals(value, "activity_sc_air_researcher")){

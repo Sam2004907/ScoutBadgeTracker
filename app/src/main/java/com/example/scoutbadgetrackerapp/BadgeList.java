@@ -6,8 +6,7 @@ public class BadgeList {
 
     public BadgeList(){ }
 
-    public BadgeList(int id, String name, String req, String icon){
-        this._id = id;
+    public BadgeList(String name, String req, String icon){
         this._name = name;
         this._req = req;
         this._icon = icon;

@@ -39,6 +39,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("name", badge.getName());
+        values.put("Requirements", badge.getReq());
+        values.put("Icon", badge.getIcon());
 
         db.insert(TABLE_BADGES, null, values);
 
@@ -50,13 +52,39 @@ public class DBHelper extends SQLiteOpenHelper {
     //Delete Badge
 
     //Get Badges
-    public List<BadgeList> getAllBadges() {
-        List<BadgeList> badgeList = new ArrayList<BadgeList>();
+    public ArrayList<ArrayList<String>> getAllBadges() {
+
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        int index = 0;
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_BADGES;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));
+                results.get(index).add(cursor.getString(1));
+                results.get(index).add(cursor.getString(2));
+                results.get(index).add(cursor.getString(3));
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        // return student list
+        return results;
+    }
+
+    public List<BadgeList> getBadge(String badgeName) {
+        List<BadgeList> badgeList = new ArrayList<BadgeList>();
+        // Select All Query
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE name = " + badgeName;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(whereQuery, null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
