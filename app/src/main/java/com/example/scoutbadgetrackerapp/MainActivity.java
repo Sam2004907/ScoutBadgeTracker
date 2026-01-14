@@ -24,8 +24,10 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
-//        db.addBadge(new BadgeList("Pioneering",null,null));
+//        db.addBadge(new BadgeList("Activity Center Service",null,"activity_sc_activitycenterservice"));
 //        db.addBadge(new BadgeList("Air or Sea Navigation",null,"activity_sc_air_or_sea_nav"));
+//        db.addBadge(new BadgeList("Air Researcher",null,"activity_sc_air_researcher"));
+//        db.addBadge(new BadgeList("Air Spotter",null,"activity_sc_air_spotter"));
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
         badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
         Log.d("Badges", badges.toString());

@@ -78,28 +78,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return results;
     }
 
-    public List<BadgeList> getBadge(String badgeName) {
-        List<BadgeList> badgeList = new ArrayList<BadgeList>();
+    public String[] getBadge(String badgeName) {
+        String[] results = new String[4];
+        int index = 0;
+
         // Select All Query
-        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE name = " + badgeName;
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE name = ? ";
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(whereQuery, null);
+        Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeName});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                BadgeList badge = new BadgeList();
-                badge.setID(Integer.parseInt(cursor.getString(0)));
-                badge.setName(cursor.getString(1));
-                badge.setReq(cursor.getString(2));
-                badge.setName(cursor.getString(3));
-                // Adding student to list
-                badgeList.add(badge);
+                results[0] = cursor.getString(0);
+                results[1] = cursor.getString(1);
+                results[2] = cursor.getString(2);
+                results[3] = cursor.getString(3);
+                index+=1;
             } while (cursor.moveToNext());
         }
 
         // return student list
-        return badgeList;
+        return results;
     }
 }

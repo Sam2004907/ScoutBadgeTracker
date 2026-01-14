@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/txtTitle"
@@ -16,50 +15,50 @@
         android:textAlignment="center"
         android:textSize="34sp" />
 
-    <TableRow>
+<!--    <TableRow>-->
 
-        <ImageButton
-            android:id="@+id/imgbtnBadge1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="activity_sc_activitycenterservice"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/activity_sc_activitycenterservice" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/imgbtnBadge1"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="activity_sc_activitycenterservice"-->
+<!--            android:padding="5dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/activity_sc_activitycenterservice" />-->
 
-        <ImageButton
-            android:id="@+id/imgbtnBadge2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="activity_sc_air_or_sea_nav"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/activity_sc_air_or_sea_nav" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/imgbtnBadge2"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="Air or Sea Navigation"-->
+<!--            android:padding="5dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/activity_sc_air_or_sea_nav" />-->
 
-    </TableRow>
-    <TableRow>
+<!--    </TableRow>-->
+<!--    <TableRow>-->
 
-        <ImageButton
-            android:id="@+id/imgbtnBadge3"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:background="@android:color/transparent"
-            android:contentDescription="activity_sc_air_researcher"
-            android:src="@drawable/activity_sc_air_researcher" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/imgbtnBadge3"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:padding="5dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="activity_sc_air_researcher"-->
+<!--            android:src="@drawable/activity_sc_air_researcher" />-->
 
-        <ImageButton
-            android:id="@+id/imgbtnBadge4"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="activity_sc_air_spotter"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/activity_sc_air_spotter" />
-    </TableRow>
+<!--        <ImageButton-->
+<!--            android:id="@+id/imgbtnBadge4"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="activity_sc_air_spotter"-->
+<!--            android:padding="5dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/activity_sc_air_spotter" />-->
+<!--    </TableRow>-->
 
 </TableLayout>
