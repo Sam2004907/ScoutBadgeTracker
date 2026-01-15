@@ -31,25 +31,12 @@ public class SelectedBadges_Activity extends Activity{
 
             String[] badge = db.getBadge(badgeName);
             Log.d("Database Request", badge.toString());
-            String iconName = badge[3];
+            String iconName = badge[4];
             imgBadge.setImageResource(
                     getResources().getIdentifier(iconName, "drawable", getPackageName())
             );
             txtTitle.setText(badgeName);
 
-
-//            if(Objects.equals(value, "activity_sc_activitycenterservice")){
-//                imgBadge.setImageResource(R.drawable.activity_sc_activitycenterservice);
-//                txtTitle.setText("Activity Center Service");
-//            }else if(Objects.equals(value, "activity_sc_air_or_sea_nav")){
-//
-//            }else if(Objects.equals(value, "activity_sc_air_researcher")){
-//                imgBadge.setImageResource(R.drawable.activity_sc_air_researcher);
-//                txtTitle.setText("Air Researcher");
-//            }else if(Objects.equals(value, "activity_sc_air_spotter")){
-//                imgBadge.setImageResource(R.drawable.activity_sc_air_spotter);
-//                txtTitle.setText("Air Spotter");
-//            }
         }
     }
 

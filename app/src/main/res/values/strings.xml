@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ScoutBadgeTrackerApp</string>
+    <string-array name="badgeTypes">
+        <item>activity</item>
+        <item>challenge</item>
+        <item>core</item>
+        <item>staged</item>
+    </string-array>
 </resources>

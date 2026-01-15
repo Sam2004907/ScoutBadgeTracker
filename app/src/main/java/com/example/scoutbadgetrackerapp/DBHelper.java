@@ -22,6 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String createBadgeTable = "CREATE TABLE " + TABLE_BADGES+ "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "name TEXT, "
+                + "type TEXT, "
                 + "Requirements TEXT, "
                 + "Icon Text)";
         db.execSQL(createBadgeTable);
@@ -39,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("name", badge.getName());
+        values.put("type", badge.getType());
         values.put("Requirements", badge.getReq());
         values.put("Icon", badge.getIcon());
 
@@ -70,6 +72,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(1));
                 results.get(index).add(cursor.getString(2));
                 results.get(index).add(cursor.getString(3));
+                results.get(index).add(cursor.getString(4));
                 index+=1;
             } while (cursor.moveToNext());
         }
@@ -79,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String[] getBadge(String badgeName) {
-        String[] results = new String[4];
+        String[] results = new String[5];
         int index = 0;
 
         // Select All Query
@@ -95,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[1] = cursor.getString(1);
                 results[2] = cursor.getString(2);
                 results[3] = cursor.getString(3);
+                results[4] = cursor.getString(4);
                 index+=1;
             } while (cursor.moveToNext());
         }
