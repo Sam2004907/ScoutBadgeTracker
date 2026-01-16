@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "username TEXT, "
                 + "password TEXT, "
                 + "name TEXT, "
-                + "DOB DATE, "
+                + "DOB TEXT, "
                 + "email TEXT, "
                 + "phone_number TEXT, "
                 + "role TEXT, "
@@ -50,6 +50,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "type Text, "
                 + "requirement_id TEXT, "
                 + "evidence TEXT, "
+                + "user_id INTEGER, "
+                + "badge_id INTEGER, "
                 + "FOREIGN KEY (user_id) REFERENCES " + TABLE_USERS + "(id), "
                 + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
         db.execSQL(createEvidenceTable);
@@ -155,7 +157,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("username", user.getUsername());
         values.put("password", user.getPassword());
         values.put("name", user.getName());
-        values.put("DOB", user.getDOB().getTime());
+        values.put("DOB", user.getDOB());
         values.put("email", user.getEmail());
         values.put("phone_number", user.getPhoneNumber());
         values.put("role", user.getRole());

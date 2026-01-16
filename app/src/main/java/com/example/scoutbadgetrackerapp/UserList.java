@@ -4,11 +4,10 @@ import java.util.Date;
 
 public class UserList {
     int _id;
-    String _name, _username, _password, _email, _phonenumber, _role, _scoutgroup;
-    Date _DOB;
+    String _name, _username, _password, _DOB, _email, _phonenumber, _role, _scoutgroup;
     public UserList(){ }
 
-    public UserList(String username, String password, String name, Date DOB, String email, String phonenumber, String role, String scoutgroup){
+    public UserList(String username, String password, String name, String DOB, String email, String phonenumber, String role, String scoutgroup){
         this._username = username;
         this._password = password;
         this._name = name;
@@ -36,7 +35,7 @@ public class UserList {
     public String getName(){
         return this._name;
     }
-    public Date getDOB(){
+    public String getDOB(){
         return this._DOB;
     }
     public String getEmail(){
@@ -55,7 +54,7 @@ public class UserList {
     public void setUsername(String username){ this._username = username; }
     public void setPassword(String password){ this._password = password; }
     public void setName(String name){ this._name = name; }
-    public void setDOB(Date DOB){ this._DOB = DOB; }
+    public void setDOB(String DOB){ this._DOB = DOB; }
     public void setEmail(String email){ this._email = email; }
     public void setPhoneNumber(String phonenumber){ this._phonenumber = phonenumber; }
     public void setRole(String role){ this._role = role; }

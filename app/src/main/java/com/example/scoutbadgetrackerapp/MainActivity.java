@@ -29,13 +29,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
         //Test User
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date stringDate = format.parse("2004-06-07");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", stringDate, "Test@test.com", "0567438921", "Leader", null));
+//        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", "2004-06-07", "Test@test.com", "0567438921", "Leader", null));
 
 //        //Core Awards
 //        db.addBadge(new BadgeList("Membership","core",null,"membership_award"));
