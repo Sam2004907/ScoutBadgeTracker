@@ -110,8 +110,7 @@ public class Badges_Activity extends Activity{
         };
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // An item is selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos).
     }

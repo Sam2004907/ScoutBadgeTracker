@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
-    TextView txtTitle;
+    TextView txtTitle, txtBadgeInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +23,7 @@ public class SelectedBadges_Activity extends Activity{
         setContentView(R.layout.activity_selectedbadge);
         imgBadge = findViewById(R.id.imgBadge);
         txtTitle = findViewById(R.id.txtTitle);
+        txtBadgeInfo = findViewById(R.id.txtBadgeInfo);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String badgeName = extras.getString("key");
@@ -36,6 +37,7 @@ public class SelectedBadges_Activity extends Activity{
                     getResources().getIdentifier(iconName, "drawable", getPackageName())
             );
             txtTitle.setText(badgeName);
+            txtBadgeInfo.setText(badge[3]);
 
         }
     }

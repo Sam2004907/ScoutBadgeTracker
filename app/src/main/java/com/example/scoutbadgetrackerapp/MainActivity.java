@@ -13,24 +13,39 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends Activity{
     Button btnLogin, btnBadges, btnGroups, btnSelectedBadges;
     Intent activity;
+    Date stringDate;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
+        //Test User
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date stringDate = format.parse("2004-06-07");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", stringDate, "Test@test.com", "0567438921", "Leader", null));
 
 //        //Core Awards
 //        db.addBadge(new BadgeList("Membership","core",null,"membership_award"));
 //        db.addBadge(new BadgeList("Chief Scout Award Gold","core",null,"sc_chief_scout_award_gold"));
+//        db.updateBadge(new BadgeList("Chief Scout Award Gold","core","Complete all nine challenge awards.","sc_chief_scout_award_gold"));
 
 //        //Challenge Awards
 //        db.addBadge(new BadgeList("Adventure","challenge",null,"challenge_sc_adventure"));
+//        db.updateBadge(new BadgeList("Adventure","challenge","Take part in four different adventurous activities.","challenge_sc_adventure"));
+
 //        db.addBadge(new BadgeList("Creative","challenge",null,"challenge_sc_creative"));
 //        db.addBadge(new BadgeList("Expedition","challenge",null,"challenge_sc_expedition"));
 //        db.addBadge(new BadgeList("Outdoors","challenge",null,"challenge_sc_outdoors"));
@@ -124,6 +139,10 @@ public class MainActivity extends Activity{
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
         badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
         Log.d("Badges", badges.toString());
+
+        ArrayList<ArrayList<Object>> users = db.getAllUsers();
+        users.forEach(element -> Log.d("User", String.valueOf(element)));
+        Log.d("Users", badges.toString());
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
