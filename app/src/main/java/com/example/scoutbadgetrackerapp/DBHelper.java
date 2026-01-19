@@ -48,13 +48,22 @@ public class DBHelper extends SQLiteOpenHelper {
         String createEvidenceTable = "CREATE TABLE " + TABLE_EVIDENCE + "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "type Text, "
-                + "requirement_id TEXT, "
                 + "evidence TEXT, "
                 + "user_id INTEGER, "
                 + "badge_id INTEGER, "
+                + "requirement_id INTEGER, "
                 + "FOREIGN KEY (user_id) REFERENCES " + TABLE_USERS + "(id), "
-                + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
+                + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id), "
+                + "FOREIGN KEY (requirement_id) REFERENCES " + TABLE_REQUIREMENTS + "(id))";
         db.execSQL(createEvidenceTable);
+
+        //Requirements Table
+        String createRequirementsTable = "CREATE TABLE " + TABLE_REQUIREMENTS + "("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "details TEXT, "
+                + "badge_id INTEGER, "
+                + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
+        db.execSQL(createRequirementsTable);
     }
 
     @Override
@@ -119,13 +128,12 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return student list
+        // return Badges list
         return results;
     }
-
+    //Get Badge
     public String[] getBadge(String badgeName) {
         String[] results = new String[5];
-        int index = 0;
 
         // Select All Query
         String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE name = ? ";
@@ -141,11 +149,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[2] = cursor.getString(2); //Type
                 results[3] = cursor.getString(3); //Reqs
                 results[4] = cursor.getString(4); //Icon
-                index+=1;
             } while (cursor.moveToNext());
         }
 
-        // return student list
+        // return Badge list
         return results;
     }
 
@@ -195,7 +202,66 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return student list
+        // return Users list
+        return results;
+    }
+
+    //Add Requirements
+    void addRequirement(RequirementsList requirement) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("details", requirement.getDetails());
+        values.put("badge_id", requirement.getBadgeID());
+
+        db.insert(TABLE_REQUIREMENTS, null, values);
+
+        db.close(); // Closing database connection
+    }
+
+    //Get Requirements
+    public ArrayList<ArrayList<String>> getAllReqs() {
+
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        int index = 0;
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_REQUIREMENTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//Details
+                results.get(index).add(cursor.getString(2));//Badge_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        // return Reqs list
+        return results;
+    }
+    public ArrayList<String> getBadgeReqs(String badge_id) {
+
+        ArrayList<String> results = new ArrayList<String>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_REQUIREMENTS + " WHERE badge_id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {badge_id});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(1));//Details
+            } while (cursor.moveToNext());
+        }
+
+        // return Badge Reqs list
         return results;
     }
 }

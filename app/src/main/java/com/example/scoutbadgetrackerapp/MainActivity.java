@@ -31,10 +31,14 @@ public class MainActivity extends Activity{
         //Test User
 //        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", "2004-06-07", "Test@test.com", "0567438921", "Leader", null));
 
+
 //        //Core Awards
 //        db.addBadge(new BadgeList("Membership","core",null,"membership_award"));
 //        db.addBadge(new BadgeList("Chief Scout Award Gold","core",null,"sc_chief_scout_award_gold"));
 //        db.updateBadge(new BadgeList("Chief Scout Award Gold","core","Complete all nine challenge awards.","sc_chief_scout_award_gold"));
+
+        //Test Requirements
+//        db.addRequirement(new RequirementsList("Complete all nine challenge awards", 1));
 
 //        //Challenge Awards
 //        db.addBadge(new BadgeList("Adventure","challenge",null,"challenge_sc_adventure"));

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,6 +39,10 @@ public class SelectedBadges_Activity extends Activity{
             );
             txtTitle.setText(badgeName);
             txtBadgeInfo.setText(badge[3]);
+            //ArrayList<String> requirements = db.getBadgeReqs(badge[0]);
+            ArrayList<ArrayList<String>> requirements = db.getAllReqs();
+            Log.d("Reqs", String.valueOf(requirements));
+            //requirements.forEach(req -> Log.d("Req", req));
 
         }
     }
