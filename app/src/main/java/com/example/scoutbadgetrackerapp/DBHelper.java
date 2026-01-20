@@ -75,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Add Badge
     void addBadge(BadgeList badge) {
+        Log.d("DB run", "addBadge ran");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -107,6 +108,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Get Badges
     public ArrayList<ArrayList<String>> getAllBadges() {
+        Log.d("DB run", "getAllBadges ran");
 
         ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
         int index = 0;
@@ -159,6 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Add User
     void addUser(UserList user) {
+        Log.d("DB run", "addUser ran");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -177,6 +180,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     //Get Users
     public ArrayList<ArrayList<Object>> getAllUsers() {
+        Log.d("DB run", "getAllUsers ran");
 
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
         int index = 0;
@@ -209,6 +213,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Add Requirements
     void addRequirement(RequirementsList requirement) {
+        Log.d("DB run", "addRequirement ran");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

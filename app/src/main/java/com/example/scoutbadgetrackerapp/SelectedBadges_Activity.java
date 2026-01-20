@@ -1,10 +1,13 @@
 package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +20,8 @@ import java.util.Objects;
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
     TextView txtTitle, txtBadgeInfo;
+    Button btnEvidence;
+    Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,7 @@ public class SelectedBadges_Activity extends Activity{
         imgBadge = findViewById(R.id.imgBadge);
         txtTitle = findViewById(R.id.txtTitle);
         txtBadgeInfo = findViewById(R.id.txtBadgeInfo);
+        btnEvidence = findViewById(R.id.btnEvidence);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String badgeName = extras.getString("key");
@@ -38,13 +44,17 @@ public class SelectedBadges_Activity extends Activity{
                     getResources().getIdentifier(iconName, "drawable", getPackageName())
             );
             txtTitle.setText(badgeName);
-            txtBadgeInfo.setText(badge[3]);
             ArrayList<String> requirements = db.getBadgeReqs(badge[0]);
-//            ArrayList<ArrayList<String>> requirements = db.getAllReqs();
-//            Log.d("Reqs", String.valueOf(requirements));
-            requirements.forEach(req -> Log.d("Req", req));
+            requirements.forEach(req -> txtBadgeInfo.append(req + ". \n"));
 
         }
+        btnEvidence.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(SelectedBadges_Activity.this, Evidence_Activity.class);
+                startActivity(activity);
+            }
+        });
+
     }
 
     @Override

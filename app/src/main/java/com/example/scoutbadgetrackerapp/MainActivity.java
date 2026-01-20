@@ -39,6 +39,7 @@ public class MainActivity extends Activity{
 
         //Test Requirements
 //        db.addRequirement(new RequirementsList("Complete all nine challenge awards", 1));
+//        db.addRequirement(new RequirementsList("Complete 6 Activity Badges", 1));
 
 //        //Challenge Awards
 //        db.addBadge(new BadgeList("Adventure","challenge",null,"challenge_sc_adventure"));
@@ -140,7 +141,7 @@ public class MainActivity extends Activity{
 
         ArrayList<ArrayList<Object>> users = db.getAllUsers();
         users.forEach(element -> Log.d("User", String.valueOf(element)));
-        Log.d("Users", badges.toString());
+        Log.d("Users", users.toString());
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
@@ -148,15 +149,13 @@ public class MainActivity extends Activity{
         btnSelectedBadges = findViewById(R.id.btnSelectedBadges);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("BUTTONS", "User tapped the Supabutton");
                 activity = new Intent(MainActivity.this, LogIn_Activity.class);
                 startActivity(activity);
 
             }
         });
         btnBadges.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("BUTTONS", "User tapped the Supabutton");
+            public void onClick(View v) {;
                 activity = new Intent(MainActivity.this, Badges_Activity.class);
                 startActivity(activity);
 
@@ -164,7 +163,6 @@ public class MainActivity extends Activity{
         });
         btnGroups.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("BUTTONS", "User tapped the Supabutton");
                 activity = new Intent(MainActivity.this, Groups_Activity.class);
                 startActivity(activity);
 
@@ -172,7 +170,6 @@ public class MainActivity extends Activity{
         });
         btnSelectedBadges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("BUTTONS", "User tapped the Supabutton");
                 activity = new Intent(MainActivity.this, SelectedBadges_Activity.class);
                 startActivity(activity);
 
