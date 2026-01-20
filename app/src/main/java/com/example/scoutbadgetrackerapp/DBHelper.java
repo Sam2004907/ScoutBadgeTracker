@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,6 +248,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getBadgeReqs(String badge_id) {
 
         ArrayList<String> results = new ArrayList<String>();
+        Log.d("Badge_id", badge_id);
 
         // Select Badge_id Query
         String selectQuery = "SELECT * FROM " + TABLE_REQUIREMENTS + " WHERE badge_id = ? ";
@@ -257,7 +259,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                results.add(cursor.getString(1));//Details
+                results.add(cursor.getString(1));//Details;
             } while (cursor.moveToNext());
         }
 
