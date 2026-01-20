@@ -69,7 +69,7 @@ public class Badges_Activity extends Activity{
                 imgButton.setPadding(padding, padding, padding, padding);
                 imgButton.setContentDescription(badges.get(imgNum).get(1));
                 imgButton.setBackgroundResource(
-                        getResources().getIdentifier(badges.get(imgNum).get(4), "drawable", getPackageName())
+                        getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
                 );
                 imgButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 gridLayout.addView(imgButton);

@@ -29,7 +29,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "name TEXT, "
                 + "type TEXT, "
-                + "Requirements TEXT, "
                 + "Icon Text)";
         db.execSQL(createBadgeTable);
         // User Table
@@ -62,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String createRequirementsTable = "CREATE TABLE " + TABLE_REQUIREMENTS + "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "details TEXT, "
+                + "numOfEvidence INTEGER, "
                 + "badge_id INTEGER, "
                 + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
         db.execSQL(createRequirementsTable);
@@ -81,7 +81,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("name", badge.getName());
         values.put("type", badge.getType());
-        values.put("Requirements", badge.getReq());
         values.put("Icon", badge.getIcon());
 
         db.insert(TABLE_BADGES, null, values);
@@ -96,7 +95,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("name", badge.getName());
         values.put("type", badge.getType());
-        values.put("Requirements", badge.getReq());
         values.put("Icon", badge.getIcon());
 
         db.update(TABLE_BADGES, values, "name=?", new String[]{badge.getName()});
@@ -125,8 +123,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(0));//ID
                 results.get(index).add(cursor.getString(1));//Name
                 results.get(index).add(cursor.getString(2));//Type
-                results.get(index).add(cursor.getString(3));//Reqs
-                results.get(index).add(cursor.getString(4));//Icon
+                results.get(index).add(cursor.getString(3));//Icon
                 index+=1;
             } while (cursor.moveToNext());
         }
@@ -136,7 +133,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     //Get Badge
     public String[] getBadge(String badgeName) {
-        String[] results = new String[5];
+        String[] results = new String[4];
 
         // Select All Query
         String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE name = ? ";
@@ -150,8 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[0] = cursor.getString(0); //ID
                 results[1] = cursor.getString(1); //Name
                 results[2] = cursor.getString(2); //Type
-                results[3] = cursor.getString(3); //Reqs
-                results[4] = cursor.getString(4); //Icon
+                results[3] = cursor.getString(3); //Icon
             } while (cursor.moveToNext());
         }
 
@@ -218,6 +214,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("details", requirement.getDetails());
+        values.put("numOfEvidence", requirement.getnumOfEvidence());
         values.put("badge_id", requirement.getBadgeID());
 
         db.insert(TABLE_REQUIREMENTS, null, values);
@@ -242,7 +239,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.add(new ArrayList<String>());
                 results.get(index).add(cursor.getString(0));//ID
                 results.get(index).add(cursor.getString(1));//Details
-                results.get(index).add(cursor.getString(2));//Badge_id
+                results.get(index).add(cursor.getString(2));//numOfEvidence
+                results.get(index).add(cursor.getString(3));//Badge_id
                 index+=1;
             } while (cursor.moveToNext());
         }

@@ -39,7 +39,7 @@ public class SelectedBadges_Activity extends Activity{
 
             String[] badge = db.getBadge(badgeName);
             Log.d("Database Request", badge.toString());
-            String iconName = badge[4];
+            String iconName = badge[3];
             imgBadge.setImageResource(
                     getResources().getIdentifier(iconName, "drawable", getPackageName())
             );

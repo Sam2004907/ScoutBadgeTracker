@@ -2,14 +2,13 @@ package com.example.scoutbadgetrackerapp;
 
 public class BadgeList {
     int _id;
-    String _name, _type, _req, _icon;
+    String _name, _type, _icon;
 
     public BadgeList(){ }
 
-    public BadgeList(String name, String type, String req, String icon){
+    public BadgeList(String name, String type, String icon){
         this._name = name;
         this._type = type;
-        this._req = req;
         this._icon = icon;
     }
 
@@ -34,13 +33,6 @@ public class BadgeList {
 
     public void setType(String type){
         this._type = type;
-    }
-
-    public String getReq(){
-        return this._req;
-    }
-    public void setReq(String req){
-        this._req = req;
     }
 
     public String getIcon(){

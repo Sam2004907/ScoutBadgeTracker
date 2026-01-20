@@ -33,13 +33,12 @@ public class MainActivity extends Activity{
 
 
 //        //Core Awards
-//        db.addBadge(new BadgeList("Membership","core",null,"membership_award"));
-//        db.addBadge(new BadgeList("Chief Scout Award Gold","core",null,"sc_chief_scout_award_gold"));
-//        db.updateBadge(new BadgeList("Chief Scout Award Gold","core","Complete all nine challenge awards.","sc_chief_scout_award_gold"));
+//        db.addBadge(new BadgeList("Membership","core","membership_award"));
+//        db.addBadge(new BadgeList("Chief Scout Award Gold","core","sc_chief_scout_award_gold"));
 
         //Test Requirements
-//        db.addRequirement(new RequirementsList("Complete all nine challenge awards", 1));
-//        db.addRequirement(new RequirementsList("Complete 6 Activity Badges", 1));
+//        db.addRequirement(new RequirementsList("Complete all nine challenge awards",9, 2));
+//        db.addRequirement(new RequirementsList("Complete 6 Activity Badges",6, 2));
 
 //        //Challenge Awards
 //        db.addBadge(new BadgeList("Adventure","challenge",null,"challenge_sc_adventure"));
