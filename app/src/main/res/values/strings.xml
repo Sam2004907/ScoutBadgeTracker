@@ -6,4 +6,10 @@
         <item>core</item>
         <item>staged</item>
     </string-array>
+    <string-array name="userRoles">
+        <item>Select a Role</item>
+        <item>Scout</item>
+        <item>Leader</item>
+        <item>Parent/Guardian</item>
+    </string-array>
 </resources>

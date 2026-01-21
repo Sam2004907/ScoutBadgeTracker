@@ -3,11 +3,11 @@ package com.example.scoutbadgetrackerapp;
 import java.util.Date;
 
 public class UserList {
-    int _id;
-    String _name, _username, _password, _DOB, _email, _phonenumber, _role, _scoutgroup;
+    int _id, _scoutgroup;
+    String _name, _username, _password, _DOB, _email, _phonenumber, _role;
     public UserList(){ }
 
-    public UserList(String username, String password, String name, String DOB, String email, String phonenumber, String role, String scoutgroup){
+    public UserList(String username, String password, String name, String DOB, String email, String phonenumber, String role, int scoutgroup){
         this._username = username;
         this._password = password;
         this._name = name;
@@ -47,7 +47,7 @@ public class UserList {
     public String getRole(){
         return this._role;
     }
-    public String getScoutGroup(){
+    public int getScoutGroup(){
         return this._scoutgroup;
     }
 
@@ -58,6 +58,6 @@ public class UserList {
     public void setEmail(String email){ this._email = email; }
     public void setPhoneNumber(String phonenumber){ this._phonenumber = phonenumber; }
     public void setRole(String role){ this._role = role; }
-    public void setScoutGroup(String scoutgroup){ this._scoutgroup = scoutgroup; }
+    public void setScoutGroup(int scoutgroup){ this._scoutgroup = scoutgroup; }
 
 }

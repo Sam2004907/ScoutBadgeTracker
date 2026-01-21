@@ -18,6 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_EVIDENCE = "evidence";
     private static final String TABLE_USERS = "users";
     private static final String TABLE_REQUIREMENTS = "requirements";
+    private static final String TABLE_GROUPS = "groups";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +42,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "email TEXT, "
                 + "phone_number TEXT, "
                 + "role TEXT, "
-                + "scout_group TEXT)";
+                + "scout_group_id INTEGER, "
+                + "FOREIGN KEY (scout_group_id) REFERENCES " + TABLE_GROUPS + "(id))";
         db.execSQL(createUsersTable);
 
         //Evidence Table
@@ -65,6 +67,24 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "badge_id INTEGER, "
                 + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
         db.execSQL(createRequirementsTable);
+
+        //Groups Table
+        String createGroupsTable = "CREATE TABLE " + TABLE_GROUPS + "("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "groupName TEXT, "
+                + "district TEXT, "
+                + "county TEXT)";
+        db.execSQL(createGroupsTable);
+
+        //Completion Table
+        String createCompletionTable = "CREATE TABLE " + TABLE_COMPLETION + "("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "percentage FLOAT,"
+                + "user_id INTEGER, "
+                + "badge_id INTEGER, "
+                + "FOREIGN KEY (user_id) REFERENCES " + TABLE_USERS + "(id), "
+                + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
+        db.execSQL(createCompletionTable);
     }
 
     @Override
@@ -168,7 +188,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("email", user.getEmail());
         values.put("phone_number", user.getPhoneNumber());
         values.put("role", user.getRole());
-        values.put("scout_group", user.getScoutGroup());
+        values.put("scout_group_id", user.getScoutGroup());
 
         db.insert(TABLE_USERS, null, values);
 
@@ -268,5 +288,86 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // return Badge Reqs list
         return results;
+    }
+
+    //Add Group
+    void addGroup(GroupList group) {
+        Log.d("DB run", "addGroup ran");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("groupName", group.getGroupName());
+        values.put("district", group.getDistrict());
+        values.put("county", group.getCounty());
+
+        db.insert(TABLE_GROUPS, null, values);
+
+        db.close(); // Closing database connection
+    }
+
+    //Get Groups
+    public ArrayList<ArrayList<String>> getAllGroups() {
+
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        int index = 0;
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//groupName
+                results.get(index).add(cursor.getString(2));//district
+                results.get(index).add(cursor.getString(3));//county
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        // return Group list
+        return results;
+    }
+
+    public Object[] getGroup(String groupName) {
+
+        Object[] results = new Object[4];
+        Log.d("groupName", groupName);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE groupName = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupName});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //groupName
+                results[2] = cursor.getString(2); //district
+                results[3] = cursor.getString(3); //county
+            } while (cursor.moveToNext());
+        }
+        // return Group
+        return results;
+    }
+
+    //add Completion
+    void addCompletion(CompletionList completion) {
+        Log.d("DB run", "addCompletion ran");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("percentage", completion.getPercentage());
+        values.put("user_id", completion.getUser_ID());
+        values.put("badge_id", completion.getBadge_ID());
+
+        db.insert(TABLE_COMPLETION, null, values);
+
+        db.close(); // Closing database connection
     }
 }
