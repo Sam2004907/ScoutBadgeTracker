@@ -29,6 +29,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
 //        addData(db);
+        new currentUser("sam", "leader", 1);
 
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
         badges.forEach(element -> Log.d("Badge", String.valueOf(element)));

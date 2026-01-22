@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "type TEXT, "
                 + "Icon Text)";
         db.execSQL(createBadgeTable);
+
         // User Table
         String createUsersTable = "CREATE TABLE " + TABLE_USERS+ "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -50,7 +51,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String createEvidenceTable = "CREATE TABLE " + TABLE_EVIDENCE + "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "type Text, "
-                + "evidence TEXT, "
+                + "evidencePath TEXT, "
+                + "approved BOOLEAN, "
                 + "user_id INTEGER, "
                 + "badge_id INTEGER, "
                 + "requirement_id INTEGER, "
@@ -268,9 +270,9 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Reqs list
         return results;
     }
-    public ArrayList<String> getBadgeReqs(String badge_id) {
+    public ArrayList<ArrayList<String>> getBadgeReqs(String badge_id) {
 
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
         Log.d("Badge_id", badge_id);
 
         // Select Badge_id Query
@@ -281,8 +283,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
+            int index = 0;
             do {
-                results.add(cursor.getString(1));//Details;
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//id
+                results.get(index).add(cursor.getString(1));//Details
+                results.get(index).add(cursor.getString(2));//numofEvidence
+                index+=1;
             } while (cursor.moveToNext());
         }
 
@@ -356,7 +363,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return results;
     }
 
-    //add Completion
+    //Add Completion
     void addCompletion(CompletionList completion) {
         Log.d("DB run", "addCompletion ran");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -369,5 +376,52 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COMPLETION, null, values);
 
         db.close(); // Closing database connection
+    }
+
+    //Add Evidence
+    void addEvidence(EvidenceList evidence) {
+        Log.d("DB run", "addEvidence ran");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("type", evidence.getType());
+        values.put("evidencePath", evidence.getEvidencePath());
+        values.put("approved", false);
+        values.put("user_id", evidence.getUserID());
+        values.put("badge_id", evidence.getBadgeID());
+        values.put("requirement_id", evidence.getRequirementID());
+
+        db.insert(TABLE_EVIDENCE, null, values);
+
+        db.close(); // Closing database connection
+    }
+    public ArrayList<ArrayList<Object>> getUserBadgeEvidence(String userID, String badgeID) {
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        Log.d("badgeID, userID", badgeID +", "+userID);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND badge_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//type
+                results.get(index).add(cursor.getString(2));//EvidencePath
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+        // return Group
+        return results;
     }
 }
