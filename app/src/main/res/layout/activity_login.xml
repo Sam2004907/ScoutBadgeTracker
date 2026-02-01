@@ -33,12 +33,12 @@
         android:id="@+id/btnLogIn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Log In" />
+        android:text="@string/logIn" />
 
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Sign Up" />
+        android:text="@string/signUp" />
 
 </LinearLayout>

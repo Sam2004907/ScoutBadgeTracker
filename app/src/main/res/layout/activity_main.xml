@@ -18,21 +18,23 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="btnLogin" />
+        android:text="@string/logIn" />
     <Button
         android:id="@+id/btnBadges"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="btnBadges" />
+        android:text="@string/badges" />
     <Button
         android:id="@+id/btnGroups"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="btnGroups" />
+        android:text="@string/groups"
+        android:enabled="false"/>
     <Button
         android:id="@+id/btnSelectedBadges"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="btnSelectedBadges" />
+        android:text="@string/selectedBadges"
+        android:enabled="false"/>
 
 </LinearLayout>

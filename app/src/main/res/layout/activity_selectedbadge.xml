@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif-medium"
         android:textAlignment="center"
         android:textSize="34sp"
-        android:text="Upload Evidence"/>
+        android:text="@string/upload"/>
 
     <ImageView
         android:id="@+id/imgBadge"
@@ -35,7 +35,7 @@
         android:id="@+id/btnEvidence"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Upload Evidence" />
+        android:text="@string/upload" />
 
     <ProgressBar
         android:id="@+id/pgbCompletion"
