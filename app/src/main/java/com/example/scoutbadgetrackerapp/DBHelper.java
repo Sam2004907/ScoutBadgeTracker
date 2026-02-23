@@ -228,6 +228,34 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Users list
         return results;
     }
+    public Object[] getUser(String username) {
+
+        Object[] results = new Object[9];
+        Log.d("DB run", "getUser");
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE username = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {username});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //username
+                results[2] = cursor.getString(2); //password
+                results[3] = cursor.getString(3); //name
+                results[4] = cursor.getString(4); //DOB
+                results[5] = cursor.getString(5); //email
+                results[6] = cursor.getString(6); //phone_number
+                results[7] = cursor.getString(7); //role
+                results[8] = cursor.getString(8); //scout_group_id
+            } while (cursor.moveToNext());
+        }
+        // return User
+        return results;
+    }
 
     //Add Requirements
     void addRequirement(RequirementsList requirement) {

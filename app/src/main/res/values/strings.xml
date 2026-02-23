@@ -18,5 +18,7 @@
     <string name="selectedBadges">Selected Badges</string>
     <string name="upload">Upload Evidence</string>
     <string name="signUp">Sign Up</string>
-    <string name="scoutBadges">Scout</string>
+    <string name="scoutBadges">Scout Badges</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>
