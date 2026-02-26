@@ -42,7 +42,6 @@ public class LogIn_Activity extends Activity {
                 String givenUsername, givenPassword;
                 givenUsername = String.valueOf(etxtUsername.getText());
                 givenPassword = String.valueOf(etxtPassword.getText());
-                //Log.d("Encrypted password", encrypt.encode(givenPassword)); //Test for encryption
                 if(givenUsername.equals("") || givenPassword.equals("")){
                     alertDialog.setMessage("Please enter a username and password.");
                     alertDialog.show();
@@ -50,8 +49,8 @@ public class LogIn_Activity extends Activity {
                     attempts[0] -= 1;
                     if(attempts[0] > 0){
                         Object[] user = db.getUser(givenUsername);
-                        //Log.d("Encrypted DB password", encrypt.encode((String) user[2])); //Test for encryption
-                        if (givenUsername.equals(user[1]) && givenPassword.equals(user[2])) {
+                        if (givenUsername.equals(user[1]) && encrypt.encode(givenPassword).equals(user[2])) {
+                            new currentUser((String) user[3], (String) user[7], Integer.parseInt((String) user[0]));
                             activity = new Intent(LogIn_Activity.this, MainActivity.class);
                             startActivity(activity);
                         } else {

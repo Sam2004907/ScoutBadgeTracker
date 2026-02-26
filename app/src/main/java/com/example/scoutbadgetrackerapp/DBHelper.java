@@ -184,7 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("username", user.getUsername());
-        values.put("password", user.getPassword());
+        values.put("password", encrypt.encode(user.getPassword()));
         values.put("name", user.getName());
         values.put("DOB", user.getDOB());
         values.put("email", user.getEmail());

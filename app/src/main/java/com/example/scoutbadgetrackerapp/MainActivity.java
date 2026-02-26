@@ -29,7 +29,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
 //        addData(db);
-        new currentUser("sam", "leader", 1);
+//        new currentUser("sam", "leader", 1);
 
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
         badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
@@ -38,6 +38,7 @@ public class MainActivity extends Activity{
         ArrayList<ArrayList<Object>> users = db.getAllUsers();
         users.forEach(element -> Log.d("User", String.valueOf(element)));
         Log.d("Users", users.toString());
+        Log.d("Current User", String.valueOf(currentUser.getUserID()));
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
@@ -84,10 +85,6 @@ public class MainActivity extends Activity{
         db.addGroup(new GroupList("1st Thornton-Cleveleys Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("2nd Cleveleys Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("1st Thornton Scout Group", "Wyre", "West Lancashire"));
-
-        //User
-        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", "2004-06-07", "Test@test.com", "0567438921", "Leader", 1));
-
 
         //Core Awards
         db.addBadge(new BadgeList("Membership","core","membership_award"));

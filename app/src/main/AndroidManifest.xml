@@ -14,7 +14,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LogIn_Activity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
@@ -24,22 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".LogIn_Activity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Home" />
+
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Badges_Activity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Badges" />
             </intent-filter>
         </activity>
         <activity
@@ -48,7 +51,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Groups" />
             </intent-filter>
         </activity>
         <activity
@@ -57,7 +60,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.SelectedBadges" />
             </intent-filter>
         </activity>
         <activity
@@ -66,7 +69,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Evidence" />
             </intent-filter>
         </activity>
         <activity
@@ -75,7 +78,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.SignUp" />
             </intent-filter>
         </activity>
     </application>
