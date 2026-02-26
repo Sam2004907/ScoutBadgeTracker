@@ -11,7 +11,51 @@
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Groups Page"
-        />
+        android:text="Group Name"
+        android:textAlignment="center"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/txtLeaderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Leaders"/>
+
+    <TextView
+        android:id="@+id/txtLeaderList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:gravity="start|top" />
+
+    <Button
+        android:id="@+id/btnEditLeaders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Leaders" />
+
+    <TextView
+        android:id="@+id/txtMemberTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Members"/>
+
+    <TextView
+        android:id="@+id/txtMemberList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:gravity="start|top" />
+
+    <Button
+        android:id="@+id/btnEditMembers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Members" />
+
 
 </LinearLayout>

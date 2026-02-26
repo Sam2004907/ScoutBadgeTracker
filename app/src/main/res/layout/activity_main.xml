@@ -28,8 +28,7 @@
         android:id="@+id/btnGroups"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/groups"
-        android:enabled="false"/>
+        android:text="@string/groups" />
     <Button
         android:id="@+id/btnSelectedBadges"
         android:layout_width="match_parent"

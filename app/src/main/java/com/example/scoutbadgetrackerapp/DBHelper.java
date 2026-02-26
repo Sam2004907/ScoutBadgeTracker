@@ -256,6 +256,31 @@ public class DBHelper extends SQLiteOpenHelper {
         // return User
         return results;
     }
+    public ArrayList<ArrayList<Object>> getGroupMembers(String groupID) {
+        Log.d("DB run", "getGroupMembers ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        int index = 0;
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE scout_group_id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(3));//Name
+                results.get(index).add(cursor.getString(7));//Role
+                results.get(index).add(cursor.getString(8));//Group
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        // return groupMembers list
+        return results;
+    }
 
     //Add Requirements
     void addRequirement(RequirementsList requirement) {
@@ -367,16 +392,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return results;
     }
 
-    public Object[] getGroup(String groupName) {
+    public Object[] getGroup(String groupID) {
 
         Object[] results = new Object[4];
-        Log.d("groupName", groupName);
+        Log.d("DB Run", "getGroup");
+        Log.d("groupID", groupID);
 
         // Select Badge_id Query
-        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE groupName = ? ";
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE id = ? ";
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupName});
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {

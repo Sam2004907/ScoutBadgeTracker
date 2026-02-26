@@ -50,7 +50,7 @@ public class LogIn_Activity extends Activity {
                     if(attempts[0] > 0){
                         Object[] user = db.getUser(givenUsername);
                         if (givenUsername.equals(user[1]) && encrypt.encode(givenPassword).equals(user[2])) {
-                            new currentUser((String) user[3], (String) user[7], Integer.parseInt((String) user[0]));
+                            new currentUser((String) user[1], (String) user[3], (String) user[7], Integer.parseInt((String) user[0]));
                             activity = new Intent(LogIn_Activity.this, MainActivity.class);
                             startActivity(activity);
                         } else {
