@@ -81,6 +81,15 @@
                 <action android:name="android.intent.action.SignUp" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EditMembers_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.EditMembers" />
+            </intent-filter>
+        </activity>
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

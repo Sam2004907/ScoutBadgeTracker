@@ -28,7 +28,7 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
-//        addData(db);
+
 //        new currentUser("sam", "leader", 1);
 
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
@@ -79,7 +79,7 @@ public class MainActivity extends Activity{
         super.onStart();
     }
 
-    private void addData(DBHelper db){
+    public static void addData(DBHelper db){
         //Groups
         db.addGroup(new GroupList("Anchorsholme Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("1st Thornton-Cleveleys Scout Group", "Wyre", "West Lancashire"));

@@ -81,9 +81,10 @@ public class SignUp_Activity extends Activity {
 
                 }else {
                     String role, groupID;
-                    Object[] group = db.getGroup(spnGroup.getSelectedItem().toString());
+                    Object[] group = db.getGroupByName(spnGroup.getSelectedItem().toString());
                     role = spnRole.getSelectedItem().toString();
                     groupID = (String) group[0];
+                    Log.d("groupID", groupID);
                     db.addUser(new UserList(
                             etxtUsername.getText().toString(),
                             etxtPassword.getText().toString(),
@@ -94,7 +95,7 @@ public class SignUp_Activity extends Activity {
                             role,
                             Integer.parseInt(groupID)
                     ));
-                    activity = new Intent(SignUp_Activity.this, MainActivity.class);
+                    activity = new Intent(SignUp_Activity.this, LogIn_Activity.class);
                     startActivity(activity);
                 }
             }
