@@ -159,7 +159,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return results;
     }
     //Get Badge
-    public String[] getBadge(String badgeName) {
+    public String[] getBadgeByName(String badgeName) {
         String[] results = new String[4];
 
         // Select All Query
@@ -167,6 +167,27 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeName});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //Name
+                results[2] = cursor.getString(2); //Type
+                results[3] = cursor.getString(3); //Icon
+            } while (cursor.moveToNext());
+        }
+
+        // return Badge list
+        return results;
+    }public String[] getBadgeByID(String badgeID) {
+        String[] results = new String[4];
+
+        // Select All Query
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeID});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -283,6 +304,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(7));//Role
                 results.get(index).add(cursor.getString(8));//Group
                 results.get(index).add(cursor.getString(9));//group_join_date
+                results.get(index).add(cursor.getString(0));//userID
                 index+=1;
             } while (cursor.moveToNext());
         }
@@ -519,6 +541,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
     public ArrayList<ArrayList<Object>> getUserBadgeEvidence(String userID, String badgeID) {
+        Log.d("DB run", "getUserBadgeEvidence ran");
 
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
         Log.d("badgeID, userID", badgeID +", "+userID);
@@ -537,6 +560,33 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(0));//ID
                 results.get(index).add(cursor.getString(1));//type
                 results.get(index).add(cursor.getString(2));//EvidencePath
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+        // return Group
+        return results;
+    }public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
+        Log.d("DB run", "getUserEvidenceList ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        Log.d("userID",  userID);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
                 results.get(index).add(cursor.getString(3));//approved
                 results.get(index).add(cursor.getString(4));//user_id
                 results.get(index).add(cursor.getString(5));//badge_id

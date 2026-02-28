@@ -1,8 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 
 public class currentUser {
-    static String _username;
-    String _name, _role;
+    static String _username, _role, _name;
     static int _userID;
 
     currentUser(String username, String name, String role, int userID){
@@ -17,6 +16,9 @@ public class currentUser {
     }
     public static String getUsername(){
         return _username;
+    }
+    public static String getUserRole(){
+        return _role;
     }
 
 }

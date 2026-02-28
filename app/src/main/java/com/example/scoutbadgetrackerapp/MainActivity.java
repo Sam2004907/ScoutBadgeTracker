@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends Activity{
-    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges;
+    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges, btnViewEvidence;
     Intent activity;
     Date stringDate;
     @Override
@@ -44,6 +44,10 @@ public class MainActivity extends Activity{
         btnBadges = findViewById(R.id.btnBadges);
         btnGroups = findViewById(R.id.btnGroups);
         btnSelectedBadges = findViewById(R.id.btnSelectedBadges);
+        btnViewEvidence = findViewById(R.id.btnViewEvidence);
+        if(currentUser.getUserRole().equals("Leader")){
+            btnViewEvidence.setVisibility(View.VISIBLE);
+        }
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(MainActivity.this, LogIn_Activity.class);
@@ -68,6 +72,13 @@ public class MainActivity extends Activity{
         btnSelectedBadges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(MainActivity.this, SelectedBadges_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnViewEvidence.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(MainActivity.this, ViewEvidence_Activity.class);
                 startActivity(activity);
 
             }

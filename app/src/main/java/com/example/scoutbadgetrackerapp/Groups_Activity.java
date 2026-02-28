@@ -24,6 +24,10 @@ public class Groups_Activity extends Activity{
         txtMemberList = findViewById(R.id.txtMemberList);
         btnEditLeaders = findViewById(R.id.btnEditLeaders);
         btnEditMembers = findViewById(R.id.btnEditMembers);
+        if(currentUser.getUserRole().equals("Leader")){
+            btnEditLeaders.setVisibility(View.VISIBLE);
+            btnEditMembers.setVisibility(View.VISIBLE);
+        }
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
@@ -37,9 +41,9 @@ public class Groups_Activity extends Activity{
             memberName = (String) groupMembers.get(i).get(0);
             memberRole = (String) groupMembers.get(i).get(1);
             if(memberRole.equals("Leader")){
-                txtLeaderList.append(memberName+ "\n");
+                txtLeaderList.append("- "+memberName+ "\n");
             } else if (memberRole.equals("Scout")) {
-                txtMemberList.append(memberName+ "\n");
+                txtMemberList.append("- "+memberName+ "\n");
             }
         }
         for(int i = 0; i < unapprovedMembers.size(); i++){

@@ -30,6 +30,12 @@
         android:layout_height="50dp"
         android:text="@string/groups" />
     <Button
+        android:id="@+id/btnViewEvidence"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/viewEvidence"
+        android:visibility="invisible"/>
+    <Button
         android:id="@+id/btnSelectedBadges"
         android:layout_width="match_parent"
         android:layout_height="50dp"

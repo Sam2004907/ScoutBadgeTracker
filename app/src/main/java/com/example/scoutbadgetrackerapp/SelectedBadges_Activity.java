@@ -41,7 +41,7 @@ public class SelectedBadges_Activity extends Activity{
             String badgeName = extras.getString("key");
             //The key argument here must match that used in the other activity
             Log.d("Badge Name", badgeName);
-            String[] badge = db.getBadge(badgeName);
+            String[] badge = db.getBadgeByName(badgeName);
             Log.d("Database Request", badge.toString());
             badgeID = badge[0];
             String iconName = badge[3];

@@ -5,7 +5,8 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp">
 
     <TextView
         android:id="@+id/txtTitle"
@@ -34,6 +35,7 @@
         android:id="@+id/btnEditLeaders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="Edit Leaders" />
 
     <TextView
@@ -55,6 +57,7 @@
         android:id="@+id/btnEditMembers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="Edit Members" />
 
 

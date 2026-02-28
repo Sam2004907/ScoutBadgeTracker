@@ -104,7 +104,7 @@ public class Evidence_Activity extends Activity {
     {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1){
-            Log.d("select pivture", "passed her");
+            Log.d("select picture", "passed her");
             Uri selectedMediaUri = data.getData();
 
             Fpath = selectedMediaUri.getPath();
