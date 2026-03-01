@@ -569,7 +569,8 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         // return Group
         return results;
-    }public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
+    }
+    public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
         Log.d("DB run", "getUserEvidenceList ran");
 
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
@@ -587,6 +588,35 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 results.add(new ArrayList<Object>());
                 results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+        // return Group
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getSpecificUnapprovedEvidence(String userID, String reqID) {
+        Log.d("DB run", "getSpecificUnapprovedEvidence ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND requirement_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, reqID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//type
+                results.get(index).add(cursor.getString(2));//EvidencePath
                 results.get(index).add(cursor.getString(3));//approved
                 results.get(index).add(cursor.getString(4));//user_id
                 results.get(index).add(cursor.getString(5));//badge_id
