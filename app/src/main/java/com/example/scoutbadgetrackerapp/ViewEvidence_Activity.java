@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -165,29 +166,36 @@ public class ViewEvidence_Activity extends Activity {
                     Log.d("Selected Scout", selectedScoutID[0]);
                     Log.d("Selected Requirement", requirementIDList.get(position-1));
                     ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(selectedScoutID[0] ,requirementIDList.get(position-1));
-                    Log.d("Path", (String) reqEvidence.get(0).get(2));
-                    ImageView imgEvidence = new ImageView(ViewEvidence_Activity.this);
-                    //imgEvidence.setImageURI(evidencePath);
-                    String s ="/document/raw:/storage/emulated/0/Download/IMG_E4874.HEIC";
-                    String[] split = s.split("Download");
-                    Log.d("Test Substring", split[1]);
-                    File imgFile = new File(
-                            Environment.getExternalStorageDirectory().getPath(),
-                            "/Download/"+split[1]
-                    );
-                    if(imgFile.exists()){
-                        Log.d("Image exists", "True");
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        imgEvidence.setImageBitmap(myBitmap);
-                    }else{
-                        Log.d("Image exists", "False");
+
+                    for(int i=0; i < reqEvidence.size(); i++){
+                        ImageView imgEvidence = new ImageView(ViewEvidence_Activity.this);
+                        TextView txtEvidence = new TextView(ViewEvidence_Activity.this);
+                        Button btnApprove = new Button(ViewEvidence_Activity.this);
+                        Button btnDeny = new Button(ViewEvidence_Activity.this);
+                        GridLayout grdLayout = new GridLayout(ViewEvidence_Activity.this);
+
+                        //set Evidence linear layout component details
+                        imgEvidence = addEvidenceView(imgEvidence, (String) reqEvidence.get(i).get(2));
+                        txtEvidence.setText("Evidence ID: "+reqEvidence.get(i).get(0)+" Evidence Type: "+reqEvidence.get(i).get(1));
+                        btnApprove.setText("Approve");
+                        btnDeny.setText("Deny");
+                        txtEvidence.setTextSize(18);
+                        txtEvidence.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        grdLayout.setColumnCount(2);
+                        grdLayout.setRowCount(1);
+
+                        //add components to Evidence linear layout
+                        lnrEvidence.addView(txtEvidence);
+                        lnrEvidence.addView(imgEvidence, 1000,1000);
+                        grdLayout.addView(btnApprove);
+                        grdLayout.addView(btnDeny);
+                        lnrEvidence.addView(grdLayout);
                     }
 
-                    lnrEvidence.addView(txtTest);
-                    lnrEvidence.addView(imgEvidence);
                 }else{
                     lnrEvidence.removeAllViews();
                 }
+                //Add permissions detection to application to avoid no image display issues.
 
             }
             @Override
@@ -199,5 +207,19 @@ public class ViewEvidence_Activity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    private ImageView addEvidenceView(ImageView imgView, String path){
+        File imgFile = new File(path);
+        if(imgFile.exists()){
+            Log.d("Image exists", "True");
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imgView.setImageBitmap(myBitmap);
+        }else{
+            Log.d("Image exists", "False");
+            imgView.setImageResource(R.drawable.ic_launcher_foreground);
+        }
+
+        return imgView;
     }
 }
