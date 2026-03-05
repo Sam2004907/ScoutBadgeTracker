@@ -1,25 +1,31 @@
 package com.example.scoutbadgetrackerapp;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,9 +34,12 @@ import java.util.Date;
 import java.util.List;
 
 public class ViewEvidence_Activity extends Activity {
-    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges, btnViewEvidence;
+    Button btnShow;
     Spinner spnMember, spnBadge, spnRequirement;
     LinearLayout lnrEvidence;
+    private int progressStatus = 0;
+    private int requirementPosition = 0;
+    private Handler handler = new Handler();
     Intent activity;
 
     @Override
@@ -41,6 +50,7 @@ public class ViewEvidence_Activity extends Activity {
         spnBadge = findViewById(R.id.spnBadge);
         spnRequirement = findViewById(R.id.spnRequirement);
         lnrEvidence = findViewById(R.id.lnrEvidence);
+        btnShow = findViewById(R.id.btnShow);
         DBHelper db = new DBHelper(this);
 
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
@@ -81,6 +91,7 @@ public class ViewEvidence_Activity extends Activity {
         spnMember.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                badgeList.clear();
                 if(position>0) {
                     spnBadge.setVisibility(View.VISIBLE);
                     Log.d("Scout Name", scoutDetails.get(position-1).get(0));
@@ -89,7 +100,7 @@ public class ViewEvidence_Activity extends Activity {
                     ArrayList<ArrayList<Object>> userEvidenceList = db.getUserEvidenceList(selectedScoutID[0]);
                     badgeList.add("Select a Badge");
                     for(int i=0; i<userEvidenceList.size(); i++){
-                        if((((String) userEvidenceList.get(i).get(1))).equals("0")){
+                        if((((String) userEvidenceList.get(i).get(1))).equals("unapproved")){
                             String badgeName = db.getBadgeByID((String) userEvidenceList.get(i).get(3))[1];
                             Log.d("badgeID", (String) userEvidenceList.get(i).get(3));
                             Log.d("badgeName", (db.getBadgeByID((String) userEvidenceList.get(i).get(3))).toString());
@@ -104,9 +115,13 @@ public class ViewEvidence_Activity extends Activity {
                             R.layout.spinner_item,
                             badgeList
                     );
+                    Log.d("adaptersize", String.valueOf(badgeList.size()));
+                    if(badgeList.size()<=1){
+                        noEvidence();
+                        spnBadge.setVisibility(View.INVISIBLE);
+                    }
                     adapterBadges.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spnBadge.setAdapter(adapterBadges);
-
                 }else{
                     spnBadge.setVisibility(View.INVISIBLE);
                 }
@@ -114,6 +129,9 @@ public class ViewEvidence_Activity extends Activity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                spnBadge.setAdapter(null);
+                spnRequirement.setAdapter(null);
+                btnShow.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -129,7 +147,7 @@ public class ViewEvidence_Activity extends Activity {
                     ArrayList<String> unapprovedReqID = new ArrayList<String>();
                     for(int i=0; i < userBadgeEvidenceList.size(); i++){
                         Log.d("unapproved ReqID", (String) userBadgeEvidenceList.get(i).get(6));
-                        if(((String) userBadgeEvidenceList.get(i).get(3)).equals("0")){
+                        if(((String) userBadgeEvidenceList.get(i).get(3)).equals("unapproved")){
                             unapprovedReqID.add((String) userBadgeEvidenceList.get(i).get(6));
                         }
                     }
@@ -155,71 +173,124 @@ public class ViewEvidence_Activity extends Activity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                spnRequirement.setAdapter(null);
+                btnShow.setVisibility(View.INVISIBLE);
             }
         });
         spnRequirement.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(position>0) {
-                    TextView txtTest = new TextView(ViewEvidence_Activity.this);
-                    txtTest.setText("Test Line");
-                    Log.d("Selected Scout", selectedScoutID[0]);
-                    Log.d("Selected Requirement", requirementIDList.get(position-1));
-                    ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(selectedScoutID[0] ,requirementIDList.get(position-1));
-
-                    for(int i=0; i < reqEvidence.size(); i++){
-                        ImageView imgEvidence = new ImageView(ViewEvidence_Activity.this);
-                        TextView txtEvidence = new TextView(ViewEvidence_Activity.this);
-                        Button btnApprove = new Button(ViewEvidence_Activity.this);
-                        Button btnDeny = new Button(ViewEvidence_Activity.this);
-                        GridLayout grdLayout = new GridLayout(ViewEvidence_Activity.this);
-
-                        //set Evidence linear layout component details
-                        imgEvidence = addEvidenceView(imgEvidence, (String) reqEvidence.get(i).get(2));
-                        txtEvidence.setText("Evidence ID: "+reqEvidence.get(i).get(0)+" Evidence Type: "+reqEvidence.get(i).get(1));
-                        btnApprove.setText("Approve");
-                        btnDeny.setText("Deny");
-                        txtEvidence.setTextSize(18);
-                        txtEvidence.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                        grdLayout.setColumnCount(2);
-                        grdLayout.setRowCount(1);
-
-                        //add components to Evidence linear layout
-                        lnrEvidence.addView(txtEvidence);
-                        lnrEvidence.addView(imgEvidence, 1000,1000);
-                        grdLayout.addView(btnApprove);
-                        grdLayout.addView(btnDeny);
-                        lnrEvidence.addView(grdLayout);
-                    }
-
-                }else{
-                    lnrEvidence.removeAllViews();
-                }
-                //Add permissions detection to application to avoid no image display issues.
+                requirementPosition = position;
+                btnShow.setVisibility(View.VISIBLE);
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                lnrEvidence.removeAllViews();
+                if(requirementPosition>0) {
+                    TextView txtTest = new TextView(ViewEvidence_Activity.this);
+                    txtTest.setText("Test Line");
+                    Log.d("Selected Scout", selectedScoutID[0]);
+                    Log.d("Selected Requirement", requirementIDList.get(requirementPosition - 1));
+                    ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(selectedScoutID[0], requirementIDList.get(requirementPosition - 1));
+                    if(reqEvidence.size()>0) {
+                        ViewEvidence_Activity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int progressUpdate = 100 / reqEvidence.size();
+                                while (progressStatus < 100) {
+                                    try {
+                                        for (int i = 0; i < reqEvidence.size(); i++) {
+                                            addEvidenceView((String) reqEvidence.get(i).get(2), (String) reqEvidence.get(i).get(0), (String) reqEvidence.get(i).get(1));
+                                            progressStatus += progressUpdate;
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e("tag", e.getMessage());
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        noEvidence();
+                    }
+                }else{
+                    lnrEvidence.removeAllViews();
+                }
+
+            }
+        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
     }
+    private void noEvidence(){
+        TextView noEvidence = new TextView(ViewEvidence_Activity.this);
+        noEvidence.setText("No Unapproved Evidence");
+        noEvidence.setTextSize(24);
+        lnrEvidence.addView(noEvidence);
+    }
 
-    private ImageView addEvidenceView(ImageView imgView, String path){
+    private void addEvidenceView(String path, String evidenceID, String evidenceType){
+
+        ImageView imgEvidence = new ImageView(ViewEvidence_Activity.this);
+        TextView txtEvidence = new TextView(ViewEvidence_Activity.this);
+        Button btnApprove = new Button(ViewEvidence_Activity.this);
+        Button btnDeny = new Button(ViewEvidence_Activity.this);
+        GridLayout grdLayout = new GridLayout(ViewEvidence_Activity.this);
+
         File imgFile = new File(path);
         if(imgFile.exists()){
-            Log.d("Image exists", "True");
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            imgView.setImageBitmap(myBitmap);
+            imgEvidence.setImageURI(Uri.fromFile(imgFile));
         }else{
-            Log.d("Image exists", "False");
-            imgView.setImageResource(R.drawable.ic_launcher_foreground);
+            imgEvidence.setImageResource(R.drawable.ic_launcher_foreground);
         }
 
-        return imgView;
+        //set Evidence linear layout component details
+        txtEvidence.setText("Evidence ID: "+evidenceID+" Evidence Type: "+evidenceType);
+        btnApprove.setText("Approve");
+        btnApprove.setContentDescription((CharSequence) evidenceID);
+        btnDeny.setText("Deny");
+        btnDeny.setContentDescription((CharSequence) evidenceID);
+        txtEvidence.setTextSize(18);
+        txtEvidence.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        grdLayout.setColumnCount(2);
+        grdLayout.setRowCount(1);
+
+        //add button click calls
+        btnApprove.setOnClickListener(getOnApproveClick(btnApprove));
+        btnDeny.setOnClickListener(getOnDenyClick(btnDeny));
+
+        //add components to Evidence linear layout
+        lnrEvidence.addView(txtEvidence);
+        lnrEvidence.addView(imgEvidence, 1000,1000);
+        grdLayout.addView(btnApprove);
+        grdLayout.addView(btnDeny);
+        lnrEvidence.addView(grdLayout);
+    }
+
+    View.OnClickListener getOnApproveClick(final Button button)  {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Approve ButtonClick", (String) v.getContentDescription());
+                DBHelper db = new DBHelper(ViewEvidence_Activity.this);
+                db.updateEvidenceApproval((String) v.getContentDescription(), "approved");
+            }
+        };
+    }
+    View.OnClickListener getOnDenyClick(final Button button)  {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Deny Button Click", (String) v.getContentDescription());
+                DBHelper db = new DBHelper(ViewEvidence_Activity.this);
+                db.updateEvidenceApproval((String) v.getContentDescription(), "denied");
+            }
+        };
     }
 }

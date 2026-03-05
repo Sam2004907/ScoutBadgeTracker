@@ -57,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "type Text, "
                 + "evidencePath TEXT, "
-                + "approved BOOLEAN, "
+                + "approved TEXT, "
                 + "user_id INTEGER, "
                 + "badge_id INTEGER, "
                 + "requirement_id INTEGER, "
@@ -531,7 +531,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("type", evidence.getType());
         values.put("evidencePath", evidence.getEvidencePath());
-        values.put("approved", false);
+        values.put("approved", "unapproved");
         values.put("user_id", evidence.getUserID());
         values.put("badge_id", evidence.getBadgeID());
         values.put("requirement_id", evidence.getRequirementID());
@@ -604,10 +604,10 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
 
         // Select Badge_id Query
-        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND requirement_id = ?";
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND requirement_id = ? AND approved = ?";
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, reqID});
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, reqID, "unapproved"});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -626,5 +626,16 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         // return Group
         return results;
+    }
+    public void updateEvidenceApproval(String evidenceID, String approved){
+        Log.d("DB run", "updateEvidenceApproval ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("approved", approved);
+
+        db.update(TABLE_EVIDENCE, values, "id=?", new String[]{evidenceID});
+
+        db.close();
     }
 }

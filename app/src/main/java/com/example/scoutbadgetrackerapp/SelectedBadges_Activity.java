@@ -35,6 +35,10 @@ public class SelectedBadges_Activity extends Activity{
         txtBadgeInfo = findViewById(R.id.txtBadgeInfo);
         btnEvidence = findViewById(R.id.btnEvidence);
         pgbCompletion = findViewById(R.id.pgbCompletion);
+        if(currentUser._role.equals("Leader")){
+            btnEvidence.setVisibility(View.INVISIBLE);
+            pgbCompletion.setVisibility(View.INVISIBLE);
+        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -51,8 +55,9 @@ public class SelectedBadges_Activity extends Activity{
             txtTitle.setText(badgeName);
             ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badge[0]);
             int reqNumEvidence = 0;
+            txtBadgeInfo.append("\n");
             for(int i=0; i<requirements.size(); i++){
-                txtBadgeInfo.append(requirements.get(i).get(1) + ". \n");
+                txtBadgeInfo.append((i+1)+". "+requirements.get(i).get(1) + ". \n");
                 reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
             }
             Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));

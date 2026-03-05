@@ -28,6 +28,13 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:visibility="invisible"/>
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Show Evidence"
+        android:visibility="invisible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,6 +44,9 @@
             android:id="@+id/lnrEvidence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+
+
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
