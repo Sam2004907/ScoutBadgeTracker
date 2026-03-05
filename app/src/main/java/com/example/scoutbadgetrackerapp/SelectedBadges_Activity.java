@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
-    TextView txtTitle, txtBadgeInfo;
+    TextView txtTitle, txtBadgeInfo, txtComplete;
     Button btnEvidence;
     ProgressBar pgbCompletion;
     Intent activity;
@@ -35,6 +35,7 @@ public class SelectedBadges_Activity extends Activity{
         txtBadgeInfo = findViewById(R.id.txtBadgeInfo);
         btnEvidence = findViewById(R.id.btnEvidence);
         pgbCompletion = findViewById(R.id.pgbCompletion);
+        txtComplete = findViewById(R.id.txtComplete);
         if(currentUser._role.equals("Leader")){
             btnEvidence.setVisibility(View.INVISIBLE);
             pgbCompletion.setVisibility(View.INVISIBLE);
@@ -63,8 +64,25 @@ public class SelectedBadges_Activity extends Activity{
             Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
             int badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID).size();
             Log.d("badgeEvidence", String.valueOf(badgeEvidence));
-            pgbCompletion.setMax(reqNumEvidence);
-            pgbCompletion.setProgress(badgeEvidence);
+            String[] completionDetails = db.getCompletion(String.valueOf(currentUser.getUserID()),badge[0]);
+            float percentage = 0;
+            if(completionDetails[1]!=null){
+                percentage = Float.parseFloat(completionDetails[1])*100;
+            }
+            Log.d("percentage", String.valueOf(percentage));
+            if(percentage > 99){
+                pgbCompletion.setVisibility(View.INVISIBLE);
+                pgbCompletion.setEnabled(false);
+                btnEvidence.setVisibility(View.INVISIBLE);
+                btnEvidence.setEnabled(false);
+                txtComplete.setText(R.string.complete);
+                txtComplete.setTextSize(25);
+                txtComplete.setVisibility(View.VISIBLE);
+                txtComplete.setEnabled(true);
+            }else{
+                pgbCompletion.setMax(100);
+                pgbCompletion.setProgress((int) (percentage));
+            }
 
         }
         String finalBadgeID = badgeID;

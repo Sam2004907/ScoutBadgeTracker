@@ -550,6 +550,40 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
     }
+    public String[] getCompletion(String userID, String badgeID) {
+        String[] results = new String[4];
+        Log.d("DB run", "getCompletion ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT * FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND badge_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //percentage
+                results[2] = cursor.getString(2); //user_ID
+                results[3] = cursor.getString(3); //badge_ID
+            } while (cursor.moveToNext());
+        }
+
+        // return Group
+        return results;
+    }
+    public void updateCompletion(String completionID, float percentage){
+        Log.d("DB run", "updateCompletion ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("percentage", percentage);
+
+        db.update(TABLE_COMPLETION, values, "id=?", new String[]{completionID});
+
+        db.close();
+    }
 
     //Add Evidence
     void addEvidence(EvidenceList evidence) {

@@ -41,6 +41,7 @@ public class ViewEvidence_Activity extends Activity {
     private int requirementPosition = 0;
     private Handler handler = new Handler();
     Intent activity;
+    private String userID, badgeID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +62,6 @@ public class ViewEvidence_Activity extends Activity {
         ArrayList<String> badgeList = new ArrayList<String>();
         ArrayList<String> requirementList = new ArrayList<String>();
         ArrayList<String> requirementIDList = new ArrayList<String>();
-        final String[] selectedScoutID = new String[1];
 
         int count=0;
         for(int i=0; i<groupMembers.size(); i++){
@@ -96,8 +96,8 @@ public class ViewEvidence_Activity extends Activity {
                     spnBadge.setVisibility(View.VISIBLE);
                     Log.d("Scout Name", scoutDetails.get(position-1).get(0));
                     Log.d("Scout userID", scoutDetails.get(position-1).get(1));
-                    selectedScoutID[0] = scoutDetails.get(position-1).get(1);
-                    ArrayList<ArrayList<Object>> userEvidenceList = db.getUserEvidenceList(selectedScoutID[0]);
+                    userID = scoutDetails.get(position-1).get(1);
+                    ArrayList<ArrayList<Object>> userEvidenceList = db.getUserEvidenceList(userID);
                     badgeList.add("Select a Badge");
                     for(int i=0; i<userEvidenceList.size(); i++){
                         if((((String) userEvidenceList.get(i).get(1))).equals("unapproved")){
@@ -124,11 +124,17 @@ public class ViewEvidence_Activity extends Activity {
                     spnBadge.setAdapter(adapterBadges);
                 }else{
                     spnBadge.setVisibility(View.INVISIBLE);
+                    spnRequirement.setVisibility(View.INVISIBLE);
+                    spnBadge.setAdapter(null);
+                    spnRequirement.setAdapter(null);
+                    btnShow.setVisibility(View.INVISIBLE);
                 }
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                spnBadge.setVisibility(View.INVISIBLE);
+                spnRequirement.setVisibility(View.INVISIBLE);
                 spnBadge.setAdapter(null);
                 spnRequirement.setAdapter(null);
                 btnShow.setVisibility(View.INVISIBLE);
@@ -138,11 +144,12 @@ public class ViewEvidence_Activity extends Activity {
         spnBadge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                requirementList.clear();
                 if(position>0) {
                     spnRequirement.setVisibility(View.VISIBLE);
-                    String badgeID = db.getBadgeByName(badgeList.get(position))[0];
+                    badgeID = db.getBadgeByName(badgeList.get(position))[0];
                     ArrayList<ArrayList<String>> badgeRequirementList = db.getBadgeReqs(badgeID);
-                    ArrayList<ArrayList<Object>> userBadgeEvidenceList = db.getUserBadgeEvidence(selectedScoutID[0], badgeID);
+                    ArrayList<ArrayList<Object>> userBadgeEvidenceList = db.getUserBadgeEvidence(userID, badgeID);
                     requirementList.add("Select a Requirement");
                     ArrayList<String> unapprovedReqID = new ArrayList<String>();
                     for(int i=0; i < userBadgeEvidenceList.size(); i++){
@@ -168,11 +175,14 @@ public class ViewEvidence_Activity extends Activity {
 
                 }else{
                     spnRequirement.setVisibility(View.INVISIBLE);
+                    spnRequirement.setAdapter(null);
+                    btnShow.setVisibility(View.INVISIBLE);
                 }
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                spnRequirement.setVisibility(View.INVISIBLE);
                 spnRequirement.setAdapter(null);
                 btnShow.setVisibility(View.INVISIBLE);
             }
@@ -194,10 +204,11 @@ public class ViewEvidence_Activity extends Activity {
                 if(requirementPosition>0) {
                     TextView txtTest = new TextView(ViewEvidence_Activity.this);
                     txtTest.setText("Test Line");
-                    Log.d("Selected Scout", selectedScoutID[0]);
+                    Log.d("Selected Scout", userID);
                     Log.d("Selected Requirement", requirementIDList.get(requirementPosition - 1));
-                    ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(selectedScoutID[0], requirementIDList.get(requirementPosition - 1));
+                    ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(userID, requirementIDList.get(requirementPosition - 1));
                     if(reqEvidence.size()>0) {
+                        progressStatus=0;
                         ViewEvidence_Activity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -281,6 +292,30 @@ public class ViewEvidence_Activity extends Activity {
                 Log.d("Approve ButtonClick", (String) v.getContentDescription());
                 DBHelper db = new DBHelper(ViewEvidence_Activity.this);
                 db.updateEvidenceApproval((String) v.getContentDescription(), "approved");
+                String[] completionDetails = db.getCompletion(userID, badgeID);
+
+                ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badgeID);
+                int reqNumEvidence = 0;
+                float percentage = 0;
+                for(int i=0; i<requirements.size(); i++){
+                    reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
+                }
+                Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
+                int badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID).size();
+                Log.d("badgeEvidence", String.valueOf(badgeEvidence));
+
+                if(completionDetails[0]==null){
+                    //Add new completion
+                    Log.d("CompletionDetails", "Empty");
+                    db.addCompletion(new CompletionList(percentage, Integer.parseInt(userID), Integer.parseInt(badgeID)));
+                    completionDetails = db.getCompletion(userID, badgeID);
+                }else{
+                    percentage = Float.parseFloat(completionDetails[1]);
+                }
+                //Add one evidence piece worth to percentage value.
+                percentage += (double) 1/ (double )reqNumEvidence;
+                Log.d("percentage", String.valueOf(percentage));
+                db.updateCompletion(completionDetails[0], percentage);
             }
         };
     }
@@ -289,7 +324,7 @@ public class ViewEvidence_Activity extends Activity {
             public void onClick(View v) {
                 Log.d("Deny Button Click", (String) v.getContentDescription());
                 DBHelper db = new DBHelper(ViewEvidence_Activity.this);
-                db.updateEvidenceApproval((String) v.getContentDescription(), "denied");
+                //db.updateEvidenceApproval((String) v.getContentDescription(), "denied");
             }
         };
     }
