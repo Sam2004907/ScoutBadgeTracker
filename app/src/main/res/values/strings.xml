@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">ScoutBadgeTrackerApp</string>
     <string-array name="badgeTypes">
-        <item>activity</item>
-        <item>challenge</item>
-        <item>core</item>
-        <item>staged</item>
+        <item>All Badges</item>
+        <item>Activity</item>
+        <item>Challenge</item>
+        <item>Core</item>
+        <item>Staged</item>
     </string-array>
     <string-array name="userRoles">
         <item>Select a Role</item>

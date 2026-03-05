@@ -180,7 +180,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // return Badge list
         return results;
-    }public String[] getBadgeByID(String badgeID) {
+    }
+    public String[] getBadgeByID(String badgeID) {
         String[] results = new String[4];
 
         // Select All Query
@@ -200,6 +201,33 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         // return Badge list
+        return results;
+    }
+    public ArrayList<ArrayList<String>> getBadgeByType(String badgeType) {
+        Log.d("DB run", "getAllBadgesgetBadgeByType ran");
+
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        int index = 0;
+
+        // Select All Query
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE type = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeType});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//Name
+                results.get(index).add(cursor.getString(2));//Type
+                results.get(index).add(cursor.getString(3));//Icon
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        // return Badges list
         return results;
     }
 
