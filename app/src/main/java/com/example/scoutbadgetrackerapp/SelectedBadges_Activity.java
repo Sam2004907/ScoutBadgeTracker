@@ -55,15 +55,15 @@ public class SelectedBadges_Activity extends Activity{
             );
             txtTitle.setText(badgeName);
             ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badge[0]);
-            int reqNumEvidence = 0;
+            //int reqNumEvidence = 0;
             txtBadgeInfo.append("\n");
             for(int i=0; i<requirements.size(); i++){
                 txtBadgeInfo.append((i+1)+". "+requirements.get(i).get(1) + ". \n");
-                reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
+                //reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
             }
-            Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
+            //Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
             int badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID).size();
-            Log.d("badgeEvidence", String.valueOf(badgeEvidence));
+            //Log.d("badgeEvidence", String.valueOf(badgeEvidence));
             String[] completionDetails = db.getCompletion(String.valueOf(currentUser.getUserID()),badge[0]);
             float percentage = 0;
             if(completionDetails[1]!=null){

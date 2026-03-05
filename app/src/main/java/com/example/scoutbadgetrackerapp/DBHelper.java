@@ -155,6 +155,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badges list
         return results;
     }
@@ -178,6 +180,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badge list
         return results;
     }
@@ -200,6 +204,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badge list
         return results;
     }
@@ -227,6 +233,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badges list
         return results;
     }
@@ -281,6 +289,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Users list
         return results;
     }
@@ -310,6 +320,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[9] = cursor.getString(9);//group_join_date
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return User
         return results;
     }
@@ -337,6 +350,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return groupMembers list
         return results;
     }
@@ -364,6 +379,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return groupMembers list
         return results;
     }
@@ -417,6 +434,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Reqs list
         return results;
     }
@@ -443,6 +462,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badge Reqs list
         return results;
     }
@@ -485,6 +506,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Group list
         return results;
     }
@@ -509,6 +532,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[3] = cursor.getString(3); //county
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }
@@ -532,6 +558,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[3] = cursor.getString(3); //county
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }
@@ -570,6 +599,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }
@@ -629,6 +660,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 index+=1;
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }
@@ -657,6 +691,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 index+=1;
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }
@@ -686,6 +723,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 index+=1;
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
         // return Group
         return results;
     }

@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -133,7 +135,25 @@ public class Badges_Activity extends Activity{
                                         getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
                                 );
                                 imgButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                gridLayout.addView(imgButton);
+
+                                DBHelper db = new DBHelper(Badges_Activity.this);
+                                String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
+                                if(completion[0]!=null) {
+                                    if ((Float.parseFloat(completion[1]) * 100) > 99) {
+                                        RelativeLayout relLayout = new RelativeLayout(Badges_Activity.this);
+                                        ImageView imgComplete = new ImageView(Badges_Activity.this);
+                                        imgComplete.setBackgroundResource(R.drawable.accept_icon);
+                                        imgComplete.setMaxHeight(30);
+                                        imgComplete.setMaxWidth(30);
+                                        relLayout.addView(imgButton);
+                                        relLayout.addView(imgComplete);
+                                        gridLayout.addView(relLayout);
+                                    } else {
+                                        gridLayout.addView(imgButton);
+                                    }
+                                }else{
+                                    gridLayout.addView(imgButton);
+                                }
                                 imgButton.setOnClickListener(getOnClickDoSomething(imgButton));
                                 imgNum += 1;
                             }
