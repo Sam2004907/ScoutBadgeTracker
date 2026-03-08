@@ -45,9 +45,9 @@ public class SelectedBadges_Activity extends Activity{
         if (extras != null) {
             String badgeName = extras.getString("key");
             //The key argument here must match that used in the other activity
-            Log.d("Badge Name", badgeName);
+
             String[] badge = db.getBadgeByName(badgeName);
-            Log.d("Database Request", badge.toString());
+
             badgeID = badge[0];
             String iconName = badge[3];
             imgBadge.setImageResource(
@@ -69,7 +69,7 @@ public class SelectedBadges_Activity extends Activity{
             if(completionDetails[1]!=null){
                 percentage = Float.parseFloat(completionDetails[1])*100;
             }
-            Log.d("percentage", String.valueOf(percentage));
+            //Log.d("percentage", String.valueOf(percentage));
             if(percentage > 99){
                 pgbCompletion.setVisibility(View.INVISIBLE);
                 pgbCompletion.setEnabled(false);

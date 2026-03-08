@@ -581,7 +581,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public String[] getCompletion(String userID, String badgeID) {
         String[] results = new String[4];
-        Log.d("DB run", "getCompletion ran");
+        //Log.d("DB run", "getCompletion ran");
 
         //Select userID and badgeID query
         String selectQuery = "SELECT * FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND badge_id = ?";

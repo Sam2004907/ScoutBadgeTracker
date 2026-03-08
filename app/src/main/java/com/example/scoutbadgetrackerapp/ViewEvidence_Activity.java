@@ -242,6 +242,7 @@ public class ViewEvidence_Activity extends Activity {
         super.onStart();
     }
     private void noEvidence(){
+        lnrEvidence.removeAllViews();
         TextView noEvidence = new TextView(ViewEvidence_Activity.this);
         noEvidence.setText("No Unapproved Evidence");
         noEvidence.setTextSize(24);
@@ -316,6 +317,10 @@ public class ViewEvidence_Activity extends Activity {
                 percentage += (double) 1/ (double )reqNumEvidence;
                 Log.d("percentage", String.valueOf(percentage));
                 db.updateCompletion(completionDetails[0], percentage);
+
+                lnrEvidence.removeAllViews();
+                btnShow.performClick();
+
             }
         };
     }

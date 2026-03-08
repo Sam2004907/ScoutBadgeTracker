@@ -45,23 +45,23 @@ public class Badges_Activity extends Activity{
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ArrayList<ArrayList<String>> badges = new ArrayList<ArrayList<String>>();
                 if(position==1) { //Activity
-                    Log.d("Activity Filter", (String) spnFilter.getSelectedItem());
+                    //Log.d("Activity Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getBadgeByType("activity");
                 }else if(position==2){ //Challenge
-                    Log.d("Challenge Filter", (String) spnFilter.getSelectedItem());
+                    //Log.d("Challenge Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getBadgeByType("challenge");
                 }else if(position==3){ //Core
-                    Log.d("Core Filter", (String) spnFilter.getSelectedItem());
+                    //Log.d("Core Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getBadgeByType("core");
                 }else if(position==4){ //Staged
-                    Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
+                    //Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getBadgeByType("staged");
                 }else{ //All Badges
-                    Log.d("All Filter", (String) spnFilter.getSelectedItem());
+                    //Log.d("All Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getAllBadges();
 
@@ -75,11 +75,6 @@ public class Badges_Activity extends Activity{
 
             }
         });
-
-
-
-
-
 
     }
 
@@ -120,7 +115,7 @@ public class Badges_Activity extends Activity{
                         gridLayout.setRowCount(ROWS);
                         gridLayout.setColumnCount(COLUMNS);
 
-                        Log.d("Rows", String.valueOf(ROWS));
+                        //Log.d("Rows", String.valueOf(ROWS));
                         int padding = (int) (90*getResources().getDisplayMetrics().density + 0.5f);
 
                         for (int i = 0; i < ROWS; i++) {
