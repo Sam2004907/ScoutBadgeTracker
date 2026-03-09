@@ -43,8 +43,7 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
-                == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
             Log.d("Permission", "Already Granted");
         }else{
             String[] permissions = {Manifest.permission.READ_MEDIA_IMAGES};
@@ -58,12 +57,12 @@ public class MainActivity extends Activity {
 
         ArrayList<ArrayList<String>> badges = db.getAllBadges();
         badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
-        Log.d("Badges", badges.toString());
+//        Log.d("Badges", badges.toString());
 
         ArrayList<ArrayList<Object>> users = db.getAllUsers();
         users.forEach(element -> Log.d("User", String.valueOf(element)));
-        Log.d("Users", users.toString());
-        Log.d("Current User", String.valueOf(currentUser.getUserID()));
+//        Log.d("Users", users.toString());
+//        Log.d("Current User", String.valueOf(currentUser.getUserID()));
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
@@ -116,13 +115,15 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
     }
-
-    public static void addData(DBHelper db) {
+    public static void addGroups(DBHelper db){
         //Groups
         db.addGroup(new GroupList("Anchorsholme Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("1st Thornton-Cleveleys Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("2nd Cleveleys Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("1st Thornton Scout Group", "Wyre", "West Lancashire"));
+    }
+
+    public static void addBadges(DBHelper db) {
 
         //Core Awards
         db.addBadge(new BadgeList("Membership", "core", "membership_award"));
@@ -234,7 +235,7 @@ public class MainActivity extends Activity {
                 "b. Show you know the general history and family of Scouts and Scouting around the world. Learn about Scouts history.\n" +
                 "c. Learn and understand the Scout Promise and Law and the rules of the Troop. See versions of the Scout Promise.\n" +
                 "d. Learn what to do at Investiture.", 1, 2));
-        db.addRequirement(new RequirementsList("Become a Scout by making the Promise.", 1, 3));
+        db.addRequirement(new RequirementsList("Become a Scout by making the Promise.", 1, 1));
 
         //Chief Scout's Gold Award
         db.addRequirement(new RequirementsList("Complete all nine challenge awards", 9, 2));
@@ -521,6 +522,32 @@ public class MainActivity extends Activity {
 //    "Water Activities"
 //    "World Faiths"
 //    "Writer"
+
+    }
+    public static void addUsers(DBHelper db){
+        db.addUser(new UserList("JoanneG", "password", "Joanne Gould", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
+        db.addUser(new UserList("TayaR", "password", "Taya Rollins", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
+        db.addUser(new UserList("GeogriaT", "password", "Georgia Trujillo", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
+        db.addUser(new UserList("KurtisC", "password", "Kurtis Conway", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
+        db.addUser(new UserList("CeliaH", "password", "Celia Hatfield", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
+        db.addUser(new UserList("MacauleyS", "password", "Macauley Shaw", "01/01/1990", "test@test.com", "01234567891", "Leader", 2));
+        db.addUser(new UserList("KamalH", "password", "Kamal Horn", "01/01/1990", "test@test.com", "01234567891", "Leader", 2));
+        db.addUser(new UserList("RitaS", "password", "Rita Spence", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
+        db.addUser(new UserList("RobertaH", "password", "Roberta Hayden", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
+        db.addUser(new UserList("JazmineL", "password", "Jazmine Leach", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
+        db.addUser(new UserList("GeorgianaH", "password", "Georgiana Horne", "01/01/1990", "test@test.com", "01234567891", "Leader", 3));
+        db.addUser(new UserList("JamieC", "password", "Jamie Cochran", "01/01/1990", "test@test.com", "01234567891", "Leader", 3));
+        db.addUser(new UserList("BethanyH", "password", "Bethany Hahn", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
+        db.addUser(new UserList("JosieY", "password", "Josie Yates", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
+        db.addUser(new UserList("InesF", "password", "Ines Frederick", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
+        db.addUser(new UserList("MeredithR", "password", "Meredith Rosario", "01/01/1990", "test@test.com", "01234567891", "Leader", 4));
+        db.addUser(new UserList("CoreyR", "password", "Corey Randolph", "01/01/1990", "test@test.com", "01234567891", "Leader", 4));
+        db.addUser(new UserList("LyraH", "password", "Lyra Hood", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
+        db.addUser(new UserList("SufyaanC", "password", "Sufyaan Collier", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
+        db.addUser(new UserList("AshleyT", "password", "Ashley Tapia", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
+        db.addUser(new UserList("SamW", "password", "Sam Wilmer", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
+        db.addUser(new UserList("BobS", "password", "Bob Smith", "01/01/2015", "test@test.com", "01234567891", "Leader", 1));
+
 
     }
 }

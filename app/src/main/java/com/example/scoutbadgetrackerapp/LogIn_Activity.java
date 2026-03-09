@@ -29,10 +29,12 @@ public class LogIn_Activity extends Activity {
         etxtPassword = findViewById(R.id.etxtPassword);
         txtTimer = findViewById(R.id.txtTimer);
         DBHelper db = new DBHelper(this);
-        //MainActivity.addData(db);
-        //MainActivity.addCoreRequirements(db);
-        //MainActivity.addStagedRequirements(db);
-        //MainActivity.addActivityRequirements(db);
+//        MainActivity.addBadges(db);
+//        MainActivity.addGroups(db);
+//        MainActivity.addCoreRequirements(db);
+//        MainActivity.addStagedRequirements(db);
+//        MainActivity.addActivityRequirements(db);
+//        MainActivity.addUsers(db);
         AlertDialog alertDialog = new AlertDialog.Builder(LogIn_Activity.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
