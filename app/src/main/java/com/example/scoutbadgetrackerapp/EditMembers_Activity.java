@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class EditMembers_Activity extends Activity{
     TextView txtEditTitle, txtGroupName;
-    Button btnApprove, btnDeny;
+    Button btnApprove, btnDeny, btnMemberBack;
     GridLayout grdLayout;
     Intent activity;
     @Override
@@ -37,6 +37,7 @@ public class EditMembers_Activity extends Activity{
         txtGroupName = findViewById(R.id.txtGroupName);
         btnApprove = findViewById(R.id.btnApprove);
         btnDeny = findViewById(R.id.btnDeny);
+        btnMemberBack = findViewById(R.id.btnMemberBack);
         String editMembers = getIntent().getExtras().getString("key");
         txtEditTitle.setText("Edit "+editMembers);
 
@@ -86,6 +87,14 @@ public class EditMembers_Activity extends Activity{
                 updateStatus(db, "Denied");
                 activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
                 startActivity(activity);
+            }
+        });
+        btnMemberBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ;
+                activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
+                startActivity(activity);
+
             }
         });
     }

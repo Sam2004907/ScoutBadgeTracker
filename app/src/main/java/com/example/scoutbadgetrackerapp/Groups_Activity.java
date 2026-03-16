@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Groups_Activity extends Activity{
     TextView txtTitle, txtLeaderList, txtMemberList;
-    Button btnEditLeaders, btnEditMembers;
+    Button btnEditLeaders, btnEditMembers, btnGroupBack;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class Groups_Activity extends Activity{
         txtMemberList = findViewById(R.id.txtMemberList);
         btnEditLeaders = findViewById(R.id.btnEditLeaders);
         btnEditMembers = findViewById(R.id.btnEditMembers);
+        btnGroupBack = findViewById(R.id.btnGroupBack);
         if(currentUser.getUserRole().equals("Leader")){
             btnEditLeaders.setVisibility(View.VISIBLE);
             btnEditMembers.setVisibility(View.VISIBLE);
@@ -62,6 +63,14 @@ public class Groups_Activity extends Activity{
                 activity = new Intent(Groups_Activity.this, EditMembers_Activity.class);
                 activity.putExtra("key", "Members");
                 startActivity(activity);
+            }
+        });
+        btnGroupBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ;
+                activity = new Intent(Groups_Activity.this, MainActivity.class);
+                startActivity(activity);
+
             }
         });
 

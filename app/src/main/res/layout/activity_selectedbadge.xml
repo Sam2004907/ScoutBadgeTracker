@@ -5,7 +5,14 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#7413dc">
+
+    <Button
+        android:id="@+id/btnSelectedBack"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/back" />
 
     <TextView
         android:id="@+id/txtTitle"
@@ -24,7 +31,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="340dp">
+        android:layout_height="290dp">
 
         <TextView
             android:id="@+id/txtBadgeInfo"
@@ -58,7 +65,12 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:scaleY="5"/>
+        android:scaleY="5"
+        android:progressTint="#23A950"
+        android:secondaryProgressTint="#FFE627"
+        android:secondaryProgressTintMode="add"
+        android:progressBackgroundTint="#E22E12"
+        android:progressBackgroundTintMode="add"/>
 
 
 

@@ -21,7 +21,7 @@ import java.util.Objects;
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
     TextView txtTitle, txtBadgeInfo, txtComplete;
-    Button btnEvidence;
+    Button btnEvidence, btnSelectedBack;
     ProgressBar pgbCompletion;
     Intent activity;
     @Override
@@ -40,6 +40,7 @@ public class SelectedBadges_Activity extends Activity{
             btnEvidence.setVisibility(View.INVISIBLE);
             pgbCompletion.setVisibility(View.INVISIBLE);
         }
+        btnSelectedBack = findViewById(R.id.btnSelectedBack);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -55,17 +56,26 @@ public class SelectedBadges_Activity extends Activity{
             );
             txtTitle.setText(badgeName);
             ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badge[0]);
-            //int reqNumEvidence = 0;
+            double reqNumEvidence = 0;
             txtBadgeInfo.append("\n");
             for(int i=0; i<requirements.size(); i++){
                 txtBadgeInfo.append((i+1)+". "+requirements.get(i).get(1) + ". \n");
-                //reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
+                reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
             }
-            //Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
-            int badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID).size();
-            //Log.d("badgeEvidence", String.valueOf(badgeEvidence));
+            Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
+            ArrayList<ArrayList<Object>> badgeEvidence = new ArrayList<ArrayList<Object>>();
+            badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID);
+            double unapprovedCount = 0;
+            for(int i=0; i<badgeEvidence.size(); i++){
+                if(badgeEvidence.get(i).get(3).equals("unapproved")){
+                    unapprovedCount += 1;
+                }
+            }
+            Log.d("unapprovedCount", String.valueOf(unapprovedCount));
             String[] completionDetails = db.getCompletion(String.valueOf(currentUser.getUserID()),badge[0]);
             float percentage = 0;
+            double secondPercentage = (unapprovedCount/reqNumEvidence)*100;
+            Log.d("secondPercentage", String.valueOf(secondPercentage));
             if(completionDetails[1]!=null){
                 percentage = Float.parseFloat(completionDetails[1])*100;
             }
@@ -81,7 +91,9 @@ public class SelectedBadges_Activity extends Activity{
                 txtComplete.setEnabled(true);
             }else{
                 pgbCompletion.setMax(100);
-                pgbCompletion.setProgress((int) (percentage));
+                pgbCompletion.setProgress((int) percentage);
+                pgbCompletion.setSecondaryProgress((int) (secondPercentage+percentage));
+
             }
 
         }
@@ -92,6 +104,14 @@ public class SelectedBadges_Activity extends Activity{
                 activity.putExtra("key", finalBadgeID);
                 activity.putExtra("desc", extras.getString("key"));
                 startActivity(activity);
+            }
+        });
+        btnSelectedBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ;
+                activity = new Intent(SelectedBadges_Activity.this, Badges_Activity.class);
+                startActivity(activity);
+
             }
         });
 

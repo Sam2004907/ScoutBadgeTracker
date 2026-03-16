@@ -24,4 +24,5 @@
     <string name="password">Password</string>
     <string name="viewEvidence">View Evidence</string>
     <string name="complete">Complete</string>
+    <string name="back">Back</string>
 </resources>

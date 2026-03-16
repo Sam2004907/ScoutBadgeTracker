@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class Badges_Activity extends Activity{
     Intent activity;
+    Button btnBadgesBack;
     private int progressStatus = 0;
 
     @Override
@@ -31,6 +33,7 @@ public class Badges_Activity extends Activity{
         setContentView(R.layout.activity_badges);
         Spinner spnFilter = findViewById(R.id.spnFilter);
         ScrollView parentLayout = findViewById(R.id.srvBadges);
+        btnBadgesBack = findViewById(R.id.btnBadgesBack);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -75,6 +78,14 @@ public class Badges_Activity extends Activity{
 
             }
         });
+        btnBadgesBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ;
+                activity = new Intent(Badges_Activity.this, MainActivity.class);
+                startActivity(activity);
+
+            }
+        });
 
     }
 
@@ -115,14 +126,13 @@ public class Badges_Activity extends Activity{
                         gridLayout.setRowCount(ROWS);
                         gridLayout.setColumnCount(COLUMNS);
 
-                        //Log.d("Rows", String.valueOf(ROWS));
                         int padding = (int) (90*getResources().getDisplayMetrics().density + 0.5f);
+                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(350,350);
 
                         for (int i = 0; i < ROWS; i++) {
 
                             for (int j = 0; j < COLUMNS; j++) {
                                 ImageButton imgButton = new ImageButton(Badges_Activity.this);
-                                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(350,350) ;
                                 imgButton.setLayoutParams(params);
                                 imgButton.setPadding(padding, padding, padding, padding);
                                 imgButton.setContentDescription(badges.get(imgNum).get(1));
@@ -154,9 +164,7 @@ public class Badges_Activity extends Activity{
                             }
                         }
                         if(oddBadgeSize){
-
                             ImageButton imgButton = new ImageButton(Badges_Activity.this);
-                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(350,350) ;
                             imgButton.setLayoutParams(params);
                             imgButton.setPadding(padding, padding, padding, padding);
                             imgButton.setContentDescription(badges.get(imgNum).get(1));
@@ -164,13 +172,31 @@ public class Badges_Activity extends Activity{
                                     getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
                             );
                             imgButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            gridLayout.addView(imgButton);
+                            DBHelper db = new DBHelper(Badges_Activity.this);
+                            String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
+                            if(completion[0]!=null) {
+                                if ((Float.parseFloat(completion[1]) * 100) > 99) {
+                                    RelativeLayout relLayout = new RelativeLayout(Badges_Activity.this);
+                                    ImageView imgComplete = new ImageView(Badges_Activity.this);
+                                    imgComplete.setBackgroundResource(R.drawable.accept_icon);
+                                    imgComplete.setMaxHeight(30);
+                                    imgComplete.setMaxWidth(30);
+                                    relLayout.addView(imgButton);
+                                    relLayout.addView(imgComplete);
+                                    gridLayout.addView(relLayout);
+                                } else {
+                                    gridLayout.addView(imgButton);
+                                }
+                            }else{
+                                gridLayout.addView(imgButton);
+                            }
                             imgButton.setOnClickListener(getOnClickDoSomething(imgButton));
                         }
                         parentLayout.addView(gridLayout);
                         progressStatus = 100;
                     } catch (Exception e) {
                         Log.e("tag", e.getMessage());
+                        progressStatus = 100;
                     }
                 }
             }

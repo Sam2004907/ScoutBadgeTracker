@@ -530,24 +530,41 @@ public class MainActivity extends Activity {
         db.addUser(new UserList("GeogriaT", "password", "Georgia Trujillo", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
         db.addUser(new UserList("KurtisC", "password", "Kurtis Conway", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
         db.addUser(new UserList("CeliaH", "password", "Celia Hatfield", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
+
         db.addUser(new UserList("MacauleyS", "password", "Macauley Shaw", "01/01/1990", "test@test.com", "01234567891", "Leader", 2));
         db.addUser(new UserList("KamalH", "password", "Kamal Horn", "01/01/1990", "test@test.com", "01234567891", "Leader", 2));
         db.addUser(new UserList("RitaS", "password", "Rita Spence", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
         db.addUser(new UserList("RobertaH", "password", "Roberta Hayden", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
         db.addUser(new UserList("JazmineL", "password", "Jazmine Leach", "01/01/2015", "test@test.com", "01234567891", "Scout", 2));
+
         db.addUser(new UserList("GeorgianaH", "password", "Georgiana Horne", "01/01/1990", "test@test.com", "01234567891", "Leader", 3));
         db.addUser(new UserList("JamieC", "password", "Jamie Cochran", "01/01/1990", "test@test.com", "01234567891", "Leader", 3));
         db.addUser(new UserList("BethanyH", "password", "Bethany Hahn", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
         db.addUser(new UserList("JosieY", "password", "Josie Yates", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
         db.addUser(new UserList("InesF", "password", "Ines Frederick", "01/01/2015", "test@test.com", "01234567891", "Scout", 3));
+
         db.addUser(new UserList("MeredithR", "password", "Meredith Rosario", "01/01/1990", "test@test.com", "01234567891", "Leader", 4));
         db.addUser(new UserList("CoreyR", "password", "Corey Randolph", "01/01/1990", "test@test.com", "01234567891", "Leader", 4));
         db.addUser(new UserList("LyraH", "password", "Lyra Hood", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
         db.addUser(new UserList("SufyaanC", "password", "Sufyaan Collier", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
         db.addUser(new UserList("AshleyT", "password", "Ashley Tapia", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
+
         db.addUser(new UserList("SamW", "password", "Sam Wilmer", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
         db.addUser(new UserList("BobS", "password", "Bob Smith", "01/01/2015", "test@test.com", "01234567891", "Leader", 1));
 
 
     }
+    public static void updateUsersStatus(DBHelper db){
+        db.updateGroupMemberStatus( "1",  "approved");
+        db.updateGroupMemberStatus( "3",  "approved");
+        db.updateGroupMemberStatus( "6",  "approved");
+        db.updateGroupMemberStatus( "8",  "approved");
+        db.updateGroupMemberStatus( "11",  "approved");
+        db.updateGroupMemberStatus( "13",  "approved");
+        db.updateGroupMemberStatus( "16",  "approved");
+        db.updateGroupMemberStatus( "18",  "approved");
+        db.updateGroupMemberStatus( "21",  "approved");
+        db.updateGroupMemberStatus( "22",  "approved");
+    }
+
 }

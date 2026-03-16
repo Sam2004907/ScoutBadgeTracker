@@ -34,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ViewEvidence_Activity extends Activity {
-    Button btnShow;
+    Button btnShow, btnViewBack;
     Spinner spnMember, spnBadge, spnRequirement;
     LinearLayout lnrEvidence;
     private int progressStatus = 0;
@@ -52,6 +52,17 @@ public class ViewEvidence_Activity extends Activity {
         spnRequirement = findViewById(R.id.spnRequirement);
         lnrEvidence = findViewById(R.id.lnrEvidence);
         btnShow = findViewById(R.id.btnShow);
+        btnViewBack = findViewById(R.id.btnViewBack);
+
+        btnViewBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ;
+                activity = new Intent(ViewEvidence_Activity.this, MainActivity.class);
+                startActivity(activity);
+
+            }
+        });
+
         DBHelper db = new DBHelper(this);
 
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
