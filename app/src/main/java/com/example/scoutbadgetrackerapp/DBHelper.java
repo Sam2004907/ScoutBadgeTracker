@@ -441,6 +441,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    public void deleteUser(String userID){
+        Log.d("DB run", "removeUser ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        db.delete(TABLE_USERS, "id=?", new String[]{userID});
+        db.delete(TABLE_EVIDENCE , "user_id=?", new String[]{userID});
+        db.delete(TABLE_COMPLETION , "user_id=?", new String[]{userID});
+
+        db.close();
+    }
 
     //Add Requirements
     void addRequirement(RequirementsList requirement) {

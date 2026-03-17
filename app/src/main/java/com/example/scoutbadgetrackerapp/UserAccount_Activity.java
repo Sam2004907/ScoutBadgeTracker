@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 public class UserAccount_Activity extends Activity {
     EditText etxtUsername2, etxtPassword2, etxtEmail2, etxtPhone2;
     TextView txtName2, txtDOB2, txtRole2, txtGroup2, txtGroupJoinDate;
-    Button btnAccountBack, btnUpdateDetails;
+    Button btnAccountBack, btnUpdateDetails, btnDeleteUser;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class UserAccount_Activity extends Activity {
         txtGroupJoinDate = findViewById(R.id.txtGroupJoinDate);
         btnAccountBack = findViewById(R.id.btnAccountBack);
         btnUpdateDetails = findViewById(R.id.btnUpdateDetails);
+        btnDeleteUser = findViewById(R.id.btnDeleteUser);
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
@@ -87,6 +88,30 @@ public class UserAccount_Activity extends Activity {
                 etxtPassword2.setText("");
                 alertDialog.show();
 
+            }
+        });
+        btnDeleteUser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("Delete User", "Yes");
+                                db.deleteUser((String) userDetails[0]);
+                                activity = new Intent(UserAccount_Activity.this, LogIn_Activity.class);
+                                startActivity(activity);
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setMessage("Are you sure you wish to delete your account.\n This Action Cannot Be Undone");
+                alertDialog.show();
             }
         });
     }
