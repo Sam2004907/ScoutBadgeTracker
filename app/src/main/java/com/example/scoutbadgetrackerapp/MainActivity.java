@@ -28,14 +28,16 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
-    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges, btnViewEvidence;
+    Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence;
     Intent activity;
     Date stringDate;
 
@@ -67,7 +69,7 @@ public class MainActivity extends Activity {
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
         btnGroups = findViewById(R.id.btnGroups);
-        btnSelectedBadges = findViewById(R.id.btnSelectedBadges);
+        btnUserAccount = findViewById(R.id.btnUserAccount);
         btnViewEvidence = findViewById(R.id.btnViewEvidence);
         if (currentUser.getUserRole().equals("Leader")) {
             btnViewEvidence.setVisibility(View.VISIBLE);
@@ -94,9 +96,9 @@ public class MainActivity extends Activity {
 
             }
         });
-        btnSelectedBadges.setOnClickListener(new View.OnClickListener() {
+        btnUserAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                activity = new Intent(MainActivity.this, SelectedBadges_Activity.class);
+                activity = new Intent(MainActivity.this, UserAccount_Activity.class);
                 startActivity(activity);
 
             }
@@ -555,16 +557,18 @@ public class MainActivity extends Activity {
 
     }
     public static void updateUsersStatus(DBHelper db){
-        db.updateGroupMemberStatus( "1",  "approved");
-        db.updateGroupMemberStatus( "3",  "approved");
-        db.updateGroupMemberStatus( "6",  "approved");
-        db.updateGroupMemberStatus( "8",  "approved");
-        db.updateGroupMemberStatus( "11",  "approved");
-        db.updateGroupMemberStatus( "13",  "approved");
-        db.updateGroupMemberStatus( "16",  "approved");
-        db.updateGroupMemberStatus( "18",  "approved");
-        db.updateGroupMemberStatus( "21",  "approved");
-        db.updateGroupMemberStatus( "22",  "approved");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        String currentDateString = dateFormat.format(new Date());
+        db.updateGroupMemberStatus( "1",  currentDateString);
+        db.updateGroupMemberStatus( "3",  currentDateString);
+        db.updateGroupMemberStatus( "6",  currentDateString);
+        db.updateGroupMemberStatus( "8",  currentDateString);
+        db.updateGroupMemberStatus( "11",  currentDateString);
+        db.updateGroupMemberStatus( "13",  currentDateString);
+        db.updateGroupMemberStatus( "16",  currentDateString);
+        db.updateGroupMemberStatus( "18",  currentDateString);
+        db.updateGroupMemberStatus( "21",  currentDateString);
+        db.updateGroupMemberStatus( "22",  currentDateString);
     }
 
 }

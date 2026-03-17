@@ -36,10 +36,9 @@
         android:text="@string/viewEvidence"
         android:visibility="invisible"/>
     <Button
-        android:id="@+id/btnSelectedBadges"
+        android:id="@+id/btnUserAccount"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/selectedBadges"
-        android:enabled="false"/>
+        android:text="User Account" />
 
 </LinearLayout>

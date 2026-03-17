@@ -80,7 +80,6 @@ public class Badges_Activity extends Activity{
         });
         btnBadgesBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ;
                 activity = new Intent(Badges_Activity.this, MainActivity.class);
                 startActivity(activity);
 

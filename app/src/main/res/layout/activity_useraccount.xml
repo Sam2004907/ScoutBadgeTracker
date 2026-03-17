@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:rowCount="11">
+    <Button
+        android:id="@+id/btnAccountBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_columnSpan="2"/>
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:text="Username:" />
+    <EditText
+        android:id="@+id/etxtUsername2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:inputType="text"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:text="Password:" />
+    <EditText
+        android:id="@+id/etxtPassword2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:text="Name:" />
+    <TextView
+        android:id="@+id/txtName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/txtDOB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:text="Date of Brith:" />
+    <TextView
+        android:id="@+id/txtDOB2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="1"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="5"
+        android:layout_column="0"
+        android:text="Email:" />
+    <EditText
+        android:id="@+id/etxtEmail2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="1"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:id="@+id/txtPhoneNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:text="Phone Number:" />
+    <EditText
+        android:id="@+id/etxtPhone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="6"
+        android:layout_column="1"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:id="@+id/txtRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="7"
+        android:layout_column="0"
+        android:text="Role:" />
+    <TextView
+        android:id="@+id/txtRole2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="7"
+        android:layout_column="1"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/txtGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="8"
+        android:layout_column="0"
+        android:text="Group:" />
+    <TextView
+        android:id="@+id/txtGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="8"
+        android:layout_column="1"
+        android:textSize="25dp"
+        android:maxLines="2"
+        android:singleLine="false"/>
+
+    <TextView
+        android:id="@+id/txtGroupJoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_row="9"
+        android:layout_column="0"
+        android:text="Group Join Date:" />
+    <TextView
+        android:id="@+id/txtGroupJoinDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="9"
+        android:layout_column="1"
+        android:textSize="25dp"/>
+    <Button
+        android:id="@+id/btnUpdateDetails"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Update Details"
+        android:layout_column="0"
+        android:layout_row="10"
+        android:layout_columnSpan="2"/>
+
+</GridLayout>

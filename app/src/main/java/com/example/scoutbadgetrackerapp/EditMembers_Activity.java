@@ -91,7 +91,6 @@ public class EditMembers_Activity extends Activity{
         });
         btnMemberBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ;
                 activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
                 startActivity(activity);
 

@@ -104,6 +104,15 @@
                 <action android:name="android.intent.action.ViewEvidence" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".UserAccount_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.UserAccount" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
