@@ -378,6 +378,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(8));//Group
                 results.get(index).add(cursor.getString(9));//group_join_date
                 results.get(index).add(cursor.getString(0));//userID
+
                 index+=1;
             } while (cursor.moveToNext());
         }
@@ -436,6 +437,8 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("password", (String) userDetails[2]);
         values.put("email", (String) userDetails[5]);
         values.put("phone_number", (String) userDetails[6]);
+        values.put("scout_group_id", (String) userDetails[8]);
+        values.put("group_join_date", (String) userDetails[9]);
 
         db.update(TABLE_USERS, values, "id=?", new String[]{(String) userDetails[0]});
 

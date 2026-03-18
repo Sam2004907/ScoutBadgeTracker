@@ -59,12 +59,35 @@
         android:textSize="20sp"
         android:gravity="start|top" />
 
+    <TextView
+        android:id="@+id/txtParentTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        android:text="Parents/Guardians"/>
+
+    <TextView
+        android:id="@+id/txtParentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        android:gravity="start|top" />
+
     <Button
         android:id="@+id/btnEditMembers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:text="Edit Members" />
+
+    <Button
+        android:id="@+id/btnLeaveGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leave Group" />
 
 
 </LinearLayout>

@@ -4,19 +4,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class UserAccount_Activity extends Activity {
     EditText etxtUsername2, etxtPassword2, etxtEmail2, etxtPhone2;
-    TextView txtName2, txtDOB2, txtRole2, txtGroup2, txtGroupJoinDate;
+    TextView txtName2, txtDOB2, txtRole2, txtGroupJoinDate;
     Button btnAccountBack, btnUpdateDetails, btnDeleteUser;
+    Spinner spnGroup2;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,11 +37,14 @@ public class UserAccount_Activity extends Activity {
         etxtEmail2 = findViewById(R.id.etxtEmail2);
         etxtPhone2 = findViewById(R.id.etxtPhone2);
         txtRole2 = findViewById(R.id.txtRole2);
-        txtGroup2 = findViewById(R.id.txtGroup2);
+        spnGroup2 = findViewById(R.id.spnGroup2);
         txtGroupJoinDate = findViewById(R.id.txtGroupJoinDate);
+
         btnAccountBack = findViewById(R.id.btnAccountBack);
         btnUpdateDetails = findViewById(R.id.btnUpdateDetails);
         btnDeleteUser = findViewById(R.id.btnDeleteUser);
+
+        setGridSize();
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
@@ -47,8 +57,31 @@ public class UserAccount_Activity extends Activity {
         etxtEmail2.setText((CharSequence) userDetails[5]);
         etxtPhone2.setText((CharSequence) userDetails[6]);
         txtRole2.setText((CharSequence) userDetails[7]);
-        txtGroup2.setText((CharSequence) groupDetails[1]);
         txtGroupJoinDate.setText((CharSequence) userDetails[9]);
+
+        ArrayList<ArrayList<String>> groups = db.getAllGroups();
+        String[] groupNames = new String[groups.size()+1];
+        groupNames[0] = "Select a Group";
+        for(int i = 0; i < groups.size(); i++){
+            groupNames[i+1]=groups.get(i).get(1);//groupNames
+        }
+        ArrayAdapter<String> adapterGroups = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                groupNames
+        );
+        adapterGroups.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnGroup2.setAdapter(adapterGroups);
+
+        if(((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")){
+            spnGroup2.setClickable(true);
+            spnGroup2.setEnabled(true);
+            spnGroup2.setSelection(0);
+        }else{
+            spnGroup2.setEnabled(false);
+            spnGroup2.setClickable(false);
+            spnGroup2.setSelection(Integer.parseInt((String) userDetails[8]));
+        }
 
         btnAccountBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -65,6 +98,14 @@ public class UserAccount_Activity extends Activity {
                 userDetails[1] = String.valueOf(etxtUsername2.getText());
                 userDetails[5] = String.valueOf(etxtEmail2.getText());
                 userDetails[6] = String.valueOf(etxtPhone2.getText());
+                if(((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
+                    if(spnGroup2.getSelectedItemPosition() !=0 ) {
+                        Log.d("test", "test");
+                        Object[] group = db.getGroupByName(spnGroup2.getSelectedItem().toString());
+                        userDetails[8] = (String) group[0];
+                        userDetails[9] = "unapproved";
+                    }
+                }
                 boolean successful = false;
                 try{
                     db.updateUserDetails(userDetails);
@@ -120,4 +161,21 @@ public class UserAccount_Activity extends Activity {
     protected void onStart() {
         super.onStart();
     }
+
+    private void setGridSize(){
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int screenWidth = size.x;
+        int halfScreenWidth = (int)(screenWidth *0.5);
+        etxtUsername2.setWidth(halfScreenWidth);
+        etxtPassword2.setWidth(halfScreenWidth);
+        txtName2.setWidth(halfScreenWidth);
+        txtDOB2.setWidth(halfScreenWidth);
+        etxtEmail2.setWidth(halfScreenWidth);
+        etxtPhone2.setWidth(halfScreenWidth);
+        txtRole2.setWidth(halfScreenWidth);
+        spnGroup2.setDropDownWidth(halfScreenWidth);
+        txtGroupJoinDate.setWidth(halfScreenWidth);
+    }
+
 }
