@@ -63,6 +63,10 @@ public class Badges_Activity extends Activity{
                     //Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();
                     badges = db.getBadgeByType("staged");
+                }else if(position==5){ //external
+                    //Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
+                    parentLayout.removeAllViews();
+                    badges = db.getBadgeByType("external");
                 }else{ //All Badges
                     //Log.d("All Filter", (String) spnFilter.getSelectedItem());
                     parentLayout.removeAllViews();

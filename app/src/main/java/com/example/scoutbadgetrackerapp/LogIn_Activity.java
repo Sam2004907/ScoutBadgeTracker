@@ -34,6 +34,7 @@ public class LogIn_Activity extends Activity {
 //        MainActivity.addCoreRequirements(db);
 //        MainActivity.addStagedRequirements(db);
 //        MainActivity.addActivityRequirements(db);
+//        MainActivity.addExternalRequirements(db);
 //        MainActivity.addUsers(db);
 //        MainActivity.updateUsersStatus(db);
         AlertDialog alertDialog = new AlertDialog.Builder(LogIn_Activity.this).create();

@@ -6,6 +6,7 @@
         <item>Challenge</item>
         <item>Core</item>
         <item>Staged</item>
+        <item>External</item>
     </string-array>
     <string-array name="userRoles">
         <item>Select a Role</item>
