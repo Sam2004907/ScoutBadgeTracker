@@ -2,6 +2,7 @@ package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,6 +65,7 @@ public class Evidence_Activity extends Activity {
 
         spnReq.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 if(position > 0){
                     btnFile.setEnabled(true);
                     btnFile.setClickable(true);

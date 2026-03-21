@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/Scout_purple"
     tools:context=".MainActivity">
 
     <!--Button to pick pdf-->
@@ -36,13 +37,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="file name"/>
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/txtFileType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="file name"/>
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/btnUpload"

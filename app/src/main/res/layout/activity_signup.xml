@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
 
     <EditText
         android:id="@+id/etxtUsername"
@@ -10,7 +11,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="Username" />
+        android:hint="Username"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtPassword"
@@ -18,7 +21,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="Password"/>
+        android:hint="Password"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtName"
@@ -26,7 +31,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="Name" />
+        android:hint="Name"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtDOB"
@@ -34,7 +41,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="date"
-        android:hint="Date Of Birth"/>
+        android:hint="Date Of Birth"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtEmail"
@@ -42,7 +51,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:hint="Email"/>
+        android:hint="Email"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtPhone"
@@ -50,7 +61,9 @@
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="phone"
-        android:hint="Phone Number"/>
+        android:hint="Phone Number"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <Spinner
         android:id="@+id/spnRole"

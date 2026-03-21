@@ -5,7 +5,8 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
 
     <Button
         android:id="@+id/btnMemberBack"
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:enabled="true"
         android:textSize="34sp" />
 
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:enabled="true" />
 
     <ScrollView

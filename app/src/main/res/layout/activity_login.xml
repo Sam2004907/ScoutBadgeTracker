@@ -5,13 +5,15 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
 
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LogIn Page" />
+        android:text="LogIn Page"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtUsername"
@@ -19,7 +21,9 @@
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="@string/username" />
+        android:hint="@string/username"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/etxtPassword"
@@ -27,14 +31,17 @@
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="@string/password" />
+        android:hint="@string/password"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/txtTimer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="19dp"
-        android:enabled="false" />
+        android:enabled="false"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/btnLogIn"

@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -46,6 +48,7 @@ public class Badges_Activity extends Activity{
         spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 ArrayList<ArrayList<String>> badges = new ArrayList<ArrayList<String>>();
                 if(position==1) { //Activity
                     //Log.d("Activity Filter", (String) spnFilter.getSelectedItem());

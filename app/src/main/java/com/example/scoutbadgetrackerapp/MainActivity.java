@@ -38,6 +38,7 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
     Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence;
+    TextView txtTitle;
     Intent activity;
     Date stringDate;
 
@@ -71,6 +72,9 @@ public class MainActivity extends Activity {
         btnGroups = findViewById(R.id.btnGroups);
         btnUserAccount = findViewById(R.id.btnUserAccount);
         btnViewEvidence = findViewById(R.id.btnViewEvidence);
+        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle.setText("Welcome "+currentUser.getUsername());
+
         if (currentUser.getUserRole().equals("Leader")) {
             btnViewEvidence.setVisibility(View.VISIBLE);
         }

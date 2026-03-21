@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -102,6 +103,7 @@ public class ViewEvidence_Activity extends Activity {
         spnMember.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 badgeList.clear();
                 if(position>0) {
                     spnBadge.setVisibility(View.VISIBLE);
@@ -155,6 +157,7 @@ public class ViewEvidence_Activity extends Activity {
         spnBadge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 requirementList.clear();
                 if(position>0) {
                     spnRequirement.setVisibility(View.VISIBLE);
@@ -201,6 +204,7 @@ public class ViewEvidence_Activity extends Activity {
         spnRequirement.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 requirementPosition = position;
                 btnShow.setVisibility(View.VISIBLE);
 
@@ -213,8 +217,6 @@ public class ViewEvidence_Activity extends Activity {
             public void onClick(View v) {
                 lnrEvidence.removeAllViews();
                 if(requirementPosition>0) {
-                    TextView txtTest = new TextView(ViewEvidence_Activity.this);
-                    txtTest.setText("Test Line");
 //                    Log.d("Selected Scout", userID);
 //                    Log.d("Selected Requirement", requirementIDList.get(requirementPosition - 1));
                     ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(userID, requirementIDList.get(requirementPosition - 1));
@@ -257,6 +259,7 @@ public class ViewEvidence_Activity extends Activity {
         TextView noEvidence = new TextView(ViewEvidence_Activity.this);
         noEvidence.setText("No Unapproved Evidence");
         noEvidence.setTextSize(24);
+        noEvidence.setTextColor(Color.WHITE);
         lnrEvidence.addView(noEvidence);
     }
 
@@ -277,6 +280,7 @@ public class ViewEvidence_Activity extends Activity {
 
         //set Evidence linear layout component details
         txtEvidence.setText("Evidence ID: "+evidenceID+" Evidence Type: "+evidenceType);
+        txtEvidence.setTextColor(Color.WHITE);
         btnApprove.setText("Approve");
         btnApprove.setContentDescription((CharSequence) evidenceID);
         btnDeny.setText("Deny");

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,6 +84,16 @@ public class UserAccount_Activity extends Activity {
             spnGroup2.setClickable(false);
             spnGroup2.setSelection(Integer.parseInt((String) userDetails[8]));
         }
+        spnGroup2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnAccountBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

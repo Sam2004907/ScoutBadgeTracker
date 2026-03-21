@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/Scout_purple">
 
     <Button
         android:id="@+id/btnBadgesBack"
@@ -18,7 +19,8 @@
         android:fontFamily="sans-serif-medium"
         android:text="@string/scoutBadges"
         android:textAlignment="center"
-        android:textSize="45sp" />
+        android:textSize="45sp"
+        android:textColor="@color/white"/>
 
     <Spinner
         android:id="@+id/spnFilter"

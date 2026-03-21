@@ -5,7 +5,8 @@
     android:weightSum="2"
     android:layout_height="match_parent"
     android:columnCount="2"
-    android:rowCount="12">
+    android:rowCount="12"
+    android:background="@color/Scout_purple">
     <Button
         android:id="@+id/btnAccountBack"
         android:layout_width="match_parent"
@@ -21,7 +22,8 @@
         android:textSize="25dp"
         android:text="Username:"
         android:layout_row="1"
-        android:layout_column="0" />
+        android:layout_column="0"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/etxtUsername2"
         android:layout_height="wrap_content"
@@ -29,7 +31,9 @@
         android:layout_row="1"
         android:layout_column="1"
         android:inputType="text"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <TextView
         android:id="@+id/txtPassword"
@@ -37,7 +41,8 @@
         android:textSize="25dp"
         android:layout_row="2"
         android:layout_column="0"
-        android:text="Password:"/>
+        android:text="Password:"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/etxtPassword2"
         android:layout_height="wrap_content"
@@ -45,7 +50,9 @@
         android:layout_column="1"
         android:ems="10"
         android:inputType="text"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <TextView
         android:id="@+id/txtName"
@@ -53,13 +60,15 @@
         android:textSize="25dp"
         android:layout_row="3"
         android:layout_column="0"
-        android:text="Name:" />
+        android:text="Name:"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/txtName2"
         android:layout_height="wrap_content"
         android:layout_row="3"
         android:layout_column="1"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/txtDOB"
@@ -67,13 +76,15 @@
         android:textSize="25dp"
         android:layout_row="4"
         android:layout_column="0"
-        android:text="Date of Brith:" />
+        android:text="Date of Brith:"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/txtDOB2"
         android:layout_height="wrap_content"
         android:layout_row="4"
         android:layout_column="1"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/txtEmail"
@@ -81,7 +92,8 @@
         android:textSize="25dp"
         android:layout_row="5"
         android:layout_column="0"
-        android:text="Email:" />
+        android:text="Email:"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/etxtEmail2"
         android:layout_height="wrap_content"
@@ -89,7 +101,9 @@
         android:layout_column="1"
         android:ems="10"
         android:inputType="text"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <TextView
         android:id="@+id/txtPhoneNum"
@@ -97,7 +111,8 @@
         android:textSize="25dp"
         android:layout_row="6"
         android:layout_column="0"
-        android:text="Phone Number:" />
+        android:text="Phone Number:"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/etxtPhone2"
         android:layout_height="wrap_content"
@@ -105,7 +120,9 @@
         android:layout_column="1"
         android:ems="10"
         android:inputType="text"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <TextView
         android:id="@+id/txtRole"
@@ -113,13 +130,15 @@
         android:textSize="25dp"
         android:layout_row="7"
         android:layout_column="0"
-        android:text="Role:" />
+        android:text="Role:"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/txtRole2"
         android:layout_height="wrap_content"
         android:layout_row="7"
         android:layout_column="1"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/txtGroup"
@@ -127,7 +146,8 @@
         android:textSize="25dp"
         android:layout_row="8"
         android:layout_column="0"
-        android:text="Group:" />
+        android:text="Group:"
+        android:textColor="@color/white"/>
     <Spinner
         android:id="@+id/spnGroup2"
         android:layout_height="wrap_content"
@@ -143,13 +163,15 @@
         android:textSize="25dp"
         android:layout_row="9"
         android:layout_column="0"
-        android:text="Group Join Date:" />
+        android:text="Group Join Date:"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/txtGroupJoinDate"
         android:layout_height="wrap_content"
         android:layout_row="9"
         android:layout_column="1"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/btnUpdateDetails"

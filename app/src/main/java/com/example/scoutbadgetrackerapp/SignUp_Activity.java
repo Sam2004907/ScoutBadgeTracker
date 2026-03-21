@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +50,16 @@ public class SignUp_Activity extends Activity {
         );
         adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnRole.setAdapter(adapterRoles);
+        spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         ArrayList<ArrayList<String>> groups = db.getAllGroups();
         String[] groupNames = new String[groups.size()+1];
@@ -62,6 +74,17 @@ public class SignUp_Activity extends Activity {
         );
         adapterGroups.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnGroup.setAdapter(adapterGroups);
+
+        spnGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {

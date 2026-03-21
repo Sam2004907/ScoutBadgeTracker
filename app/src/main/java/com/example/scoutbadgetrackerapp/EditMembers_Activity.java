@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +59,7 @@ public class EditMembers_Activity extends Activity{
             memberRole = (String) unapprovedMembers.get(i).get(1);
             memberID = (String) unapprovedMembers.get(i).get(4);
             CheckBox checkBox = new CheckBox(this);
+
             TextView txtID = new TextView(this);
 
             if(memberRole.equals("Leader") && editMembers.equals("Leaders")) {
@@ -106,6 +108,8 @@ public class EditMembers_Activity extends Activity{
         CheckBox checkBox = new CheckBox(this);
         checkBox.setTextSize(20);
         checkBox.setText("Name: " + memberName + " Role: " + memberRole);
+        checkBox.setTextColor(Color.WHITE);
+        checkBox.setDrawingCacheBackgroundColor(Color.WHITE);
         checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
         return checkBox;
     }
