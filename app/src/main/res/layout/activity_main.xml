@@ -11,35 +11,93 @@
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="30dp"
+        android:layout_height="100dp"
+        android:textSize="40dp"
         android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btnLogin"
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/logIn" />
-    <Button
-        android:id="@+id/btnBadges"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnBadges"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/badges"
+            android:padding="15dp"/>
+        <Button
+            android:id="@+id/btnGroups"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/groups"
+            android:padding="15dp"/>
+    </GridLayout>
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/badges" />
-    <Button
-        android:id="@+id/btnGroups"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnEvents"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="Events"
+            android:padding="15dp"/>
+        <Button
+            android:id="@+id/btnUserAccount"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="User Account"
+            android:padding="15dp"/>
+
+    </GridLayout>
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/groups" />
-    <Button
-        android:id="@+id/btnViewEvidence"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/logIn" />
+
+        <Button
+            android:id="@+id/btnViewEvidence"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/viewEvidence"
+            android:visibility="invisible"
+            android:padding="15dp"/>
+
+    </GridLayout>
+
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/viewEvidence"
-        android:visibility="invisible"/>
-    <Button
-        android:id="@+id/btnUserAccount"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="User Account" />
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+            <org.eazegraph.lib.charts.PieChart
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/badgeCompletionChart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp" />
+        </LinearLayout>
+    </GridLayout>
 
 </LinearLayout>

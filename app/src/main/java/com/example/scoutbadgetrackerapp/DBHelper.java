@@ -569,7 +569,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group list
         return results;
     }
 
@@ -622,7 +621,70 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group
+        return results;
+    }
+    public ArrayList<String> getAllCounty(){
+        ArrayList<String> results = new ArrayList<String>();
+        Log.d("DB Run", "getAllCounty");
+
+        String selectQuery = "SELECT county FROM " + TABLE_GROUPS + " GROUP BY county";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0)); //county
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<String> getCountyDistricts(String county){
+        ArrayList<String> results = new ArrayList<String>();
+        Log.d("DB Run", "getCountyDistricts");
+
+        String selectQuery = "SELECT district FROM " + TABLE_GROUPS + " WHERE county = ? GROUP BY district";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {county});
+
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0)); //district
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<String>> getDistrictGroups(String district){
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        Log.d("DB Run", "getDistrictGroups");
+        int index = 0;
+
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE district = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {district});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//groupName
+                results.get(index).add(cursor.getString(2));//district
+                results.get(index).add(cursor.getString(3));//county
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
         return results;
     }
 
@@ -662,7 +724,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group
         return results;
     }
     public void updateCompletion(String completionID, float percentage){
@@ -724,7 +785,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group
         return results;
     }
     public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
@@ -755,7 +815,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group
         return results;
     }
     public ArrayList<ArrayList<Object>> getSpecificUnapprovedEvidence(String userID, String reqID) {
@@ -787,7 +846,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
-        // return Group
         return results;
     }
     public void updateEvidenceApproval(String evidenceID, String approved){

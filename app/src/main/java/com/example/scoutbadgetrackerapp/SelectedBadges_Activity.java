@@ -86,14 +86,15 @@ public class SelectedBadges_Activity extends Activity{
                 btnEvidence.setVisibility(View.INVISIBLE);
                 btnEvidence.setEnabled(false);
                 txtComplete.setText(R.string.complete);
-                txtComplete.setTextSize(25);
                 txtComplete.setVisibility(View.VISIBLE);
                 txtComplete.setEnabled(true);
             }else{
                 pgbCompletion.setMax(100);
                 pgbCompletion.setProgress((int) percentage);
                 pgbCompletion.setSecondaryProgress((int) (secondPercentage+percentage));
-
+                txtComplete.setText(((int) percentage)+"% Complete");
+                txtComplete.setVisibility(View.VISIBLE);
+                txtComplete.setEnabled(true);
             }
 
         }

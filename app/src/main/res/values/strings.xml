@@ -1,19 +1,5 @@
 <resources>
     <string name="app_name">ScoutBadgeTrackerApp</string>
-    <string-array name="badgeTypes">
-        <item>All Badges</item>
-        <item>Activity</item>
-        <item>Challenge</item>
-        <item>Core</item>
-        <item>Staged</item>
-        <item>External</item>
-    </string-array>
-    <string-array name="userRoles">
-        <item>Select a Role</item>
-        <item>Scout</item>
-        <item>Leader</item>
-        <item>Parent/Guardian</item>
-    </string-array>
     <string name="logIn">Log In</string>
     <string name="badges">Badges</string>
     <string name="groups">Groups</string>
@@ -26,4 +12,23 @@
     <string name="viewEvidence">View Evidence</string>
     <string name="complete">Complete</string>
     <string name="back">Back</string>
+
+<!--    String Arrays -->
+<!--    Badge Types -->
+    <string-array name="badgeTypes">
+        <item>All Badges</item>
+        <item>Activity</item>
+        <item>Challenge</item>
+        <item>Core</item>
+        <item>Staged</item>
+        <item>External</item>
+    </string-array>
+<!--    Roles -->
+    <string-array name="userRoles">
+        <item>Select a Role</item>
+        <item>Scout</item>
+        <item>Leader</item>
+        <item>Parent/Guardian</item>
+    </string-array>
+<!--    -->
 </resources>

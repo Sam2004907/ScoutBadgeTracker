@@ -69,11 +69,22 @@
         android:id="@+id/spnRole"
         android:layout_width="match_parent"
         android:layout_height="60dp" />
-
+    <Spinner
+        android:id="@+id/spnCounty"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+    <Spinner
+        android:id="@+id/spnDistrict"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="invisible"
+        android:clickable="false"/>
     <Spinner
         android:id="@+id/spnGroup"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:visibility="invisible"
+        android:clickable="false"/>
 
     <Button
         android:id="@+id/btnSignUp"

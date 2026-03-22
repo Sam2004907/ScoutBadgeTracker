@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:textAlignment="center"
+        android:textSize="25dp"
         android:textColor="@color/white"
         android:visibility="invisible"
         android:enabled="false" />
