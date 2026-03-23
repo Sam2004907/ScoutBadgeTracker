@@ -7,13 +7,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Scout_purple">
-
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LogIn Page"
-        android:textColor="@color/white"/>
+        android:layout_height="55dp"
+        android:textSize="40dp"
+        android:text="Scout Badge Tracker"
+        android:textAlignment="center"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:src="@drawable/membership_award" />
 
     <EditText
         android:id="@+id/etxtUsername"

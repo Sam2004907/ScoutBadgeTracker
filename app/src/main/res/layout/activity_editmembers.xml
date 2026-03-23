@@ -30,6 +30,7 @@
         android:ems="10"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:textAlignment="center"
         android:enabled="true" />
 
     <ScrollView

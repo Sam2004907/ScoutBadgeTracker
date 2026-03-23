@@ -78,6 +78,76 @@
             android:padding="15dp"/>
 
     </GridLayout>
+    <TextView
+        android:id="@+id/txtBadgeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:textSize="25dp"
+        android:text="Badge Progress Overview"
+        android:textColor="@color/white" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_green"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+        </LinearLayout>
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_yellow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not Started"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+    </GridLayout>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -99,5 +169,6 @@
                 android:layout_marginBottom="15dp" />
         </LinearLayout>
     </GridLayout>
+
 
 </LinearLayout>

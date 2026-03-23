@@ -81,16 +81,8 @@ public class MainActivity extends Activity {
         txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("Welcome "+currentUser.getUsername());
 
-        badgeCompletionChart.addPieSlice(
-                new PieModel(10.0F, getColor(R.color.Scout_green))
-        );
-        badgeCompletionChart.addPieSlice(
-                new PieModel(20.0F, getColor(R.color.Scout_yellow))
-        );
-        badgeCompletionChart.addPieSlice(
-                new PieModel(70.0F, getColor(R.color.Scout_red))
-        );
-        badgeCompletionChart.startAnimation();
+
+        setScoutPieChartData();
 
         if (currentUser.getUserRole().equals("Leader")) {
             btnViewEvidence.setVisibility(View.VISIBLE);
@@ -137,6 +129,27 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    private void setScoutPieChartData(){
+        DBHelper db = new DBHelper(this);
+        int badgeTotal = 85;
+        String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));
+        String inProgress = db.getUserInprogressBadges(String.valueOf(currentUser.getUserID()));
+        Log.d("completed", completed);
+        Log.d("inProgress", inProgress);
+        badgeTotal -= (Integer.parseInt(completed) + Integer.parseInt(inProgress));
+        Log.d("badgeRemaining", String.valueOf(badgeTotal));
+        badgeCompletionChart.addPieSlice(
+                new PieModel(Float.parseFloat(completed), getColor(R.color.Scout_green))
+        );
+        badgeCompletionChart.addPieSlice(
+                new PieModel(Float.parseFloat(inProgress), getColor(R.color.Scout_yellow))
+        );
+        badgeCompletionChart.addPieSlice(
+                new PieModel(badgeTotal, getColor(R.color.Scout_red))
+        );
+        badgeCompletionChart.startAnimation();
     }
 
 }

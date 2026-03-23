@@ -23,7 +23,8 @@
         android:text="Username:"
         android:layout_row="1"
         android:layout_column="0"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <EditText
         android:id="@+id/etxtUsername2"
         android:layout_height="wrap_content"
@@ -42,7 +43,8 @@
         android:layout_row="2"
         android:layout_column="0"
         android:text="Password:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <EditText
         android:id="@+id/etxtPassword2"
         android:layout_height="wrap_content"
@@ -61,7 +63,8 @@
         android:layout_row="3"
         android:layout_column="0"
         android:text="Name:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <TextView
         android:id="@+id/txtName2"
         android:layout_height="wrap_content"
@@ -77,7 +80,8 @@
         android:layout_row="4"
         android:layout_column="0"
         android:text="Date of Brith:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <TextView
         android:id="@+id/txtDOB2"
         android:layout_height="wrap_content"
@@ -93,7 +97,8 @@
         android:layout_row="5"
         android:layout_column="0"
         android:text="Email:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <EditText
         android:id="@+id/etxtEmail2"
         android:layout_height="wrap_content"
@@ -112,7 +117,8 @@
         android:layout_row="6"
         android:layout_column="0"
         android:text="Phone Number:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <EditText
         android:id="@+id/etxtPhone2"
         android:layout_height="wrap_content"
@@ -131,7 +137,8 @@
         android:layout_row="7"
         android:layout_column="0"
         android:text="Role:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <TextView
         android:id="@+id/txtRole2"
         android:layout_height="wrap_content"
@@ -147,7 +154,8 @@
         android:layout_row="8"
         android:layout_column="0"
         android:text="Group:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <Spinner
         android:id="@+id/spnGroup2"
         android:layout_height="wrap_content"
@@ -164,7 +172,8 @@
         android:layout_row="9"
         android:layout_column="0"
         android:text="Group Join Date:"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"/>
     <TextView
         android:id="@+id/txtGroupJoinDate"
         android:layout_height="wrap_content"

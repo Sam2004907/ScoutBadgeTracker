@@ -35,12 +35,13 @@ public class addData {
 
     }
 
-    public static void addBadges(DBHelper db) {
+    public static void addCoreBadges(DBHelper db) {
 
         //Core Awards
         db.addBadge(new BadgeList("Membership", "core", "membership_award"));
         db.addBadge(new BadgeList("Chief Scout Award Gold", "core", "sc_chief_scout_award_gold"));
-
+    }
+    public static void addChallengeBadges(DBHelper db) {
         //Challenge Awards
         db.addBadge(new BadgeList("Adventure", "challenge", "challenge_sc_adventure"));
         db.addBadge(new BadgeList("Creative", "challenge", "challenge_sc_creative"));
@@ -51,6 +52,8 @@ public class addData {
         db.addBadge(new BadgeList("Team Leader", "challenge", "challenge_sc_team_leader"));
         db.addBadge(new BadgeList("Teamwork", "challenge", "challenge_sc_teamwork"));
         db.addBadge(new BadgeList("World", "challenge", "challenge_sc_world"));//11
+    }
+    public static void addStagedBadges(DBHelper db) {
 
         //Staged Awards
         db.addBadge(new BadgeList("Air Activities", "staged", "staged_air_activities"));//12
@@ -68,7 +71,8 @@ public class addData {
         db.addBadge(new BadgeList("Snowsports", "staged", "staged_snowsports"));
         db.addBadge(new BadgeList("Swimmer", "staged", "staged_swimmer"));
         db.addBadge(new BadgeList("Time On The Water", "staged", "staged_time_on_the_water"));//26
-
+    }
+    public static void addActivityBadges(DBHelper db) {
         //Activity Awards
         db.addBadge(new BadgeList("Activity Center Service", "activity", "activity_sc_activitycenterservice"));//27
         db.addBadge(new BadgeList("Air or Sea Navigation", "activity", "activity_sc_air_or_sea_nav"));
@@ -134,7 +138,8 @@ public class addData {
         db.addBadge(new BadgeList("Water Activities", "activity", "activity_sc_wateractivities"));
         db.addBadge(new BadgeList("World Faiths", "activity", "activity_sc_world_faiths"));
         db.addBadge(new BadgeList("Writer", "activity", "activity_sc_writer"));//85
-
+    }
+    public static void addExternalBadges(DBHelper db) {
         //External Awards
         db.addBadge(new BadgeList("Duke Of Edinburgh: Bronze", "external", "dofe_bronze"));
         db.addBadge(new BadgeList("Duke Of Edinburgh: Silver", "external", "dofe_silver"));

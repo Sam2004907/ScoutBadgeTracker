@@ -29,7 +29,11 @@ public class LogIn_Activity extends Activity {
         etxtPassword = findViewById(R.id.etxtPassword);
         txtTimer = findViewById(R.id.txtTimer);
         DBHelper db = new DBHelper(this);
-//        addData.addBadges(db);
+//        addData.addCoreBadges(db);
+//        addData.addChallengeBadges(db);
+//        addData.addStagedBadges(db);
+//        addData.addActivityBadges(db);
+//        addData.addExternalBadges(db);
 //        addData.addGroups(db);
 //        addData.addCoreRequirements(db);
 //        addData.addStagedRequirements(db);

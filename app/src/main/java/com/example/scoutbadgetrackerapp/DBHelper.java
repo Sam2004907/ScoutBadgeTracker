@@ -726,6 +726,46 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    public String getUserCompletedBadges(String userID) {
+        String results;
+        Log.d("DB run", "getUserCompletedBadges ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT count(user_id) FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND percentage > ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "0.9"});
+
+        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
+            results = "0";
+        }else{
+            results = cursor.getString(0);
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String getUserInprogressBadges(String userID) {
+        String results;
+        Log.d("DB run", "getUserInprogressBadges ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT count(user_id) FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND percentage <= ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "0.9"});
+
+        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
+            results = "0";
+        }else{
+            results = cursor.getString(0);
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
     public void updateCompletion(String completionID, float percentage){
         Log.d("DB run", "updateCompletion ran");
 
@@ -842,6 +882,28 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(6));//requirement_id
                 index+=1;
             } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String getUserUnapprovedEvidenceCount(String userID) {
+        Log.d("DB run", "getUserUnapprovedEvidenceCount ran");
+
+        String results;
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT count(badge_id) FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND approved = ? GROUP BY badge_id";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "unapproved"});
+
+        // looping through all rows and adding to list
+        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
+            results = "0";
+        }else{
+            results = String.valueOf(cursor.getCount());
         }
 
         cursor.close();
