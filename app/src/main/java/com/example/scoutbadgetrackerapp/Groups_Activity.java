@@ -111,6 +111,7 @@ public class Groups_Activity extends Activity{
                                 Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
                                 userDetails[8] = "0"; //groupID
                                 userDetails[9] = "unapproved"; //groupStatus
+                                currentUser.setUserApproval("unapproved");
                                 db.updateUserDetails(userDetails);
                                 activity = new Intent(Groups_Activity.this, MainActivity.class);
                                 startActivity(activity);

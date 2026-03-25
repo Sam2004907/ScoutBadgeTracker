@@ -24,5 +24,8 @@ public class currentUser {
     public static String getUserApproval(){
         return _approval;
     }
+    public static void setUserApproval(String approval){
+        _approval = approval;
+    }
 
 }

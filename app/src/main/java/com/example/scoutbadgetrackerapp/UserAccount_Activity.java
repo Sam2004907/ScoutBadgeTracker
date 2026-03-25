@@ -22,8 +22,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class UserAccount_Activity extends Activity {
-    EditText etxtUsername2, etxtPassword2, etxtEmail2, etxtPhone2;
-    TextView txtName2, txtDOB2, txtRole2, txtGroupJoinDate;
+    EditText etxtPassword2, etxtEmail2, etxtPhone2;
+    TextView txtName2, txtDOB2, txtRole2, txtGroupJoinDate, txtUsername2;
     Button btnAccountBack, btnUpdateDetails, btnDeleteUser;
     Spinner spnGroup2;
     Intent activity;
@@ -32,7 +32,7 @@ public class UserAccount_Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_useraccount);
 
-        etxtUsername2 = findViewById(R.id.etxtUsername2);
+        txtUsername2 = findViewById(R.id.txtUsername2);
         etxtPassword2 = findViewById(R.id.etxtPassword2);
         txtName2 = findViewById(R.id.txtName2);
         txtDOB2 = findViewById(R.id.txtDOB2);
@@ -52,7 +52,7 @@ public class UserAccount_Activity extends Activity {
         Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
         Object[] groupDetails = db.getGroupByID((String) userDetails[8]);
 
-        etxtUsername2.setText((CharSequence) userDetails[1]);
+        txtUsername2.setText((CharSequence) userDetails[1]);
         etxtPassword2.setHint("Change Password");
         txtName2.setText((CharSequence) userDetails[3]);
         txtDOB2.setText((CharSequence) userDetails[4]);
@@ -107,7 +107,6 @@ public class UserAccount_Activity extends Activity {
                 if (!(String.valueOf(etxtPassword2.getText()).equals(""))){
                     userDetails[2] = encrypt.encode(String.valueOf(etxtPassword2.getText()));
                 }
-                userDetails[1] = String.valueOf(etxtUsername2.getText());
                 userDetails[5] = String.valueOf(etxtEmail2.getText());
                 userDetails[6] = String.valueOf(etxtPhone2.getText());
                 if(((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
@@ -179,7 +178,7 @@ public class UserAccount_Activity extends Activity {
         getWindowManager().getDefaultDisplay().getSize(size);
         int screenWidth = size.x;
         int halfScreenWidth = (int)(screenWidth *0.5);
-        etxtUsername2.setWidth(halfScreenWidth);
+        txtUsername2.setWidth(halfScreenWidth);
         etxtPassword2.setWidth(halfScreenWidth);
         txtName2.setWidth(halfScreenWidth);
         txtDOB2.setWidth(halfScreenWidth);
