@@ -131,21 +131,20 @@ public class Badges_Activity extends Activity{
 
                         gridLayout.setRowCount(ROWS);
                         gridLayout.setColumnCount(COLUMNS);
+                        int halfWidth = (parentLayout.getWidth()/2) - 100;
 
-                        int padding = (int) (90*getResources().getDisplayMetrics().density + 0.5f);
-                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(350,350);
+                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(halfWidth,halfWidth);
 
                         for (int i = 0; i < ROWS; i++) {
 
                             for (int j = 0; j < COLUMNS; j++) {
                                 ImageButton imgButton = new ImageButton(Badges_Activity.this);
                                 imgButton.setLayoutParams(params);
-                                imgButton.setPadding(padding, padding, padding, padding);
+                                imgButton.setPaddingRelative(100,100,100,100);
                                 imgButton.setContentDescription(badges.get(imgNum).get(1));
                                 imgButton.setBackgroundResource(
                                         getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
                                 );
-                                imgButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                                 DBHelper db = new DBHelper(Badges_Activity.this);
                                 String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
@@ -172,12 +171,12 @@ public class Badges_Activity extends Activity{
                         if(oddBadgeSize){
                             ImageButton imgButton = new ImageButton(Badges_Activity.this);
                             imgButton.setLayoutParams(params);
-                            imgButton.setPadding(padding, padding, padding, padding);
+                            imgButton.setPaddingRelative(100,100,100,100);
                             imgButton.setContentDescription(badges.get(imgNum).get(1));
                             imgButton.setBackgroundResource(
                                     getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
                             );
-                            imgButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
                             DBHelper db = new DBHelper(Badges_Activity.this);
                             String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
                             if(completion[0]!=null) {
