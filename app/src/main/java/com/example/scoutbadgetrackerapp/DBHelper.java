@@ -23,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_REQUIREMENTS = "requirements";
     private static final String TABLE_GROUPS = "groups";
+    private static final String TABLE_EVENTS = "events";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -92,6 +93,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (user_id) REFERENCES " + TABLE_USERS + "(id), "
                 + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
         db.execSQL(createCompletionTable);
+
+        //Events Table
+        String createEventsTable = "CREATE TABLE " + TABLE_EVENTS + "("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "event_name TEXT,"
+                + "start_date_time TEXT,"
+                + "end_date_time TEXT,"
+                + "location TEXT, "
+                + "group_id INTEGER, "
+                + "FOREIGN KEY (group_id) REFERENCES " + TABLE_GROUPS + "(id))";
+        db.execSQL(createEventsTable);
     }
 
     @Override
@@ -921,4 +933,78 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    void addEvent(EventList event) {
+        Log.d("DB run", "addEvent ran");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("event_name", event.getEventName());
+        values.put("start_date_time", event.getStartDateTime());
+        values.put("end_date_time", event.getEndDateTime());
+        values.put("location", event.getLocation());
+        values.put("group_id", event.getGroupID());
+
+        db.insert(TABLE_EVENTS, null, values);
+
+        db.close(); // Closing database connection
+    }
+    public ArrayList<ArrayList<Object>> getGroupEvents(String groupID) {
+        Log.d("DB run", "getGroupEventsByDate ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//event_name
+                results.get(index).add(cursor.getString(2));//start_date_time
+                results.get(index).add(cursor.getString(3));//end_date_time
+                results.get(index).add(cursor.getString(4));//location
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getGroupEventsByDate(String groupID, String date) {
+        Log.d("DB run", "getGroupEventsByDate ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ? AND start_date_time = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID, date});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//event_name
+                results.get(index).add(cursor.getString(2));//start_date_time
+                results.get(index).add(cursor.getString(3));//end_date_time
+                results.get(index).add(cursor.getString(4));//location
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+
 }

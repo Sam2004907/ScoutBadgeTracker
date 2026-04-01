@@ -1169,7 +1169,7 @@ public class addData {
     public static void addUsers(DBHelper db){
         db.addUser(new UserList("JoanneG", "password", "Joanne Gould", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
         db.addUser(new UserList("TayaR", "password", "Taya Rollins", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
-        db.addUser(new UserList("GeogriaT", "password", "Georgia Trujillo", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
+        db.addUser(new UserList("GeorgiaT", "password", "Georgia Trujillo", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
         db.addUser(new UserList("KurtisC", "password", "Kurtis Conway", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
         db.addUser(new UserList("CeliaH", "password", "Celia Hatfield", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
 
@@ -1192,8 +1192,23 @@ public class addData {
         db.addUser(new UserList("AshleyT", "password", "Ashley Tapia", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
 
         db.addUser(new UserList("SamW", "password", "Sam Wilmer", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
-        db.addUser(new UserList("BobS", "password", "Bob Smith", "01/01/2015", "test@test.com", "01234567891", "Leader", 1));
+        db.addUser(new UserList("BobS", "password", "Bob Smith", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
 
+        db.addUser(new UserList("VinnieS", "password", "Vinnie Small", "01/01/2015", "test@test.com", "01234567891", "Leader", 5));
+        db.addUser(new UserList("YaseenW", "password", "Yaseen Watts", "01/01/2015", "test@test.com", "01234567891", "Scout", 5));
+        db.addUser(new UserList("StaceyS", "password", "Stacey Sanford", "01/01/2015", "test@test.com", "01234567891", "Scout", 5));
+
+        db.addUser(new UserList("AnastasiaG", "password", "Anastasia Gibbons", "01/01/2015", "test@test.com", "01234567891", "Leader", 9));
+        db.addUser(new UserList("BarnabyE", "password", "Barnaby Edwards", "01/01/2015", "test@test.com", "01234567891", "Scout", 9));
+        db.addUser(new UserList("DamianA", "password", "Damian Allison", "01/01/2015", "test@test.com", "01234567891", "Scout", 9));
+
+        db.addUser(new UserList("HannaB", "password", "Hanna Ball", "01/01/2015", "test@test.com", "01234567891", "Leader", 13));
+        db.addUser(new UserList("MasonH", "password", "Mason Hunter", "01/01/2015", "test@test.com", "01234567891", "Scout", 13));
+        db.addUser(new UserList("PhoneixW", "password", "Phoenix Walters", "01/01/2015", "test@test.com", "01234567891", "Scout", 13));
+
+        db.addUser(new UserList("YasminB", "password", "Yasmin Barton", "01/01/2015", "test@test.com", "01234567891", "Leader", 17));
+        db.addUser(new UserList("BryonyN", "password", "Bryony Norman", "01/01/2015", "test@test.com", "01234567891", "Scout", 17));
+        db.addUser(new UserList("ClydeH", "password", "Clyde Harmon", "01/01/2015", "test@test.com", "01234567891", "Scout", 17));
 
     }
 
@@ -1210,5 +1225,19 @@ public class addData {
         db.updateGroupMemberStatus( "18",  currentDateString);
         db.updateGroupMemberStatus( "21",  currentDateString);
         db.updateGroupMemberStatus( "22",  currentDateString);
+        db.updateGroupMemberStatus( "24",  currentDateString);
+        db.updateGroupMemberStatus( "25",  currentDateString);
+        db.updateGroupMemberStatus( "27",  currentDateString);
+        db.updateGroupMemberStatus( "28",  currentDateString);
+        db.updateGroupMemberStatus( "30",  currentDateString);
+        db.updateGroupMemberStatus( "31",  currentDateString);
+        db.updateGroupMemberStatus( "33",  currentDateString);
+        db.updateGroupMemberStatus( "34",  currentDateString);
+    }
+
+    public static void addEvents(DBHelper db){
+        //Date Time string = "YYYY-MM-DD HH:MM:SS.SSS"
+        db.addEvent(new EventList("Scout camp", "2026-08-06 15:00:00.000", "2026-08-09 15:00:00.000", "Waddecar", 1));
+//        db.addEvent(new EventList("", "", "", "", ));
     }
 }

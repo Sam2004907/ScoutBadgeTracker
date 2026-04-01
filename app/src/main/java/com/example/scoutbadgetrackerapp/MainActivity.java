@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
-    Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence;
+    Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence, btnEvents;
     TextView txtTitle;
     Intent activity;
     Date stringDate;
@@ -76,6 +76,7 @@ public class MainActivity extends Activity {
         btnGroups = findViewById(R.id.btnGroups);
         btnUserAccount = findViewById(R.id.btnUserAccount);
         btnViewEvidence = findViewById(R.id.btnViewEvidence);
+        btnEvents = findViewById(R.id.btnEvents);
         badgeCompletionChart = findViewById(R.id.badgeCompletionChart);
 
         txtTitle = findViewById(R.id.txtTitle);
@@ -119,6 +120,13 @@ public class MainActivity extends Activity {
         btnViewEvidence.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(MainActivity.this, ViewEvidence_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnEvents.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(MainActivity.this, Event_Activity.class);
                 startActivity(activity);
 
             }

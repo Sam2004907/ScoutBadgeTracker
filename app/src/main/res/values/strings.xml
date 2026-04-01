@@ -12,6 +12,8 @@
     <string name="viewEvidence">View Evidence</string>
     <string name="complete">Complete</string>
     <string name="back">Back</string>
+    <string name="calendarBack"><![CDATA[<-]]></string>
+    <string name="calendarForward"><![CDATA[->]]></string>
 
 <!--    String Arrays -->
 <!--    Badge Types -->

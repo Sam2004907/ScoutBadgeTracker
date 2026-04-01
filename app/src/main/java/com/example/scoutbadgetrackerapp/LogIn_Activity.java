@@ -41,6 +41,7 @@ public class LogIn_Activity extends Activity {
 //        addData.addExternalRequirements(db);
 //        addData.addUsers(db);
 //        addData.updateUsersStatus(db);
+//        addData.addEvents(db);
         AlertDialog alertDialog = new AlertDialog.Builder(LogIn_Activity.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
