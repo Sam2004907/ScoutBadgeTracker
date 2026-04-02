@@ -983,7 +983,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
 
         // Select Badge_id Query
-        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ? AND start_date_time = ?";
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ? AND start_date_time LIKE '%' || ? || '%'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID, date});

@@ -21,32 +21,30 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Event_Activity extends Activity implements CalendarAdapter.OnItemListener{
-    Button btnEventBack;
+    Button btnEventBack, btnEditEvent;
     TextView txtDateTitle, txtEventList;
     Intent activity;
 
     static ArrayList<ArrayList<Object>> events = new ArrayList<ArrayList<Object>>();
 
-    private TextView monthYearText;
+    private TextView monthYearText, txtEventDetails;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     private static String month;
+    String groupID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         btnEventBack = findViewById(R.id.btnEventBack);
         txtDateTitle = findViewById(R.id.txtDateTitle);
-        txtEventList = findViewById(R.id.txtEventList);
+        txtEventDetails = findViewById(R.id.txtEventDetails);
+        btnEditEvent = findViewById(R.id.btnEditEvent);
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-        Log.d("group", (String) userDetails[8]);
-        events = db.getGroupEvents((String) userDetails[8]);
-        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        for(int i=0; i < events.size(); i++){
-            Log.d("event_name", (String) events.get(i).get(1));
-        }
+        groupID = (String) userDetails[8];
+        events = db.getGroupEvents(groupID);
 
         initWidgets();
         selectedDate = LocalDate.now();
@@ -57,6 +55,13 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
         btnEventBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(Event_Activity.this, MainActivity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnEditEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
                 startActivity(activity);
 
             }
@@ -136,8 +141,22 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
     {
         if(!dayText.equals(""))
         {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            txtEventDetails.setText("");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+            if(Integer.parseInt(dayText) < 10){
+                dayText = 0 + dayText;
+            }
+            String searchDate = selectedDate.format(formatter) +"-"+dayText;
+
+            DBHelper db = new DBHelper(this);
+            ArrayList<ArrayList<Object>> dateEvents = db.getGroupEventsByDate(groupID, searchDate);
+            for(int i=0; i<dateEvents.size(); i++){
+                txtEventDetails.append("Event Name: "+(String) dateEvents.get(i).get(1)+"\n");
+                txtEventDetails.append("Start Date: "+(String) dateEvents.get(i).get(2)+"\n");
+                txtEventDetails.append("End Date: "+(String) dateEvents.get(i).get(3)+"\n");
+                txtEventDetails.append("Location: "+(String) dateEvents.get(i).get(4)+"\n");
+            }
+
         }
     }
 

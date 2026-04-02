@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:textSize="30dp"
+        android:textColor="@color/white" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/txtEventname"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:text="Event Name:"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"/>
+        <EditText
+            android:id="@+id/etxtEventname"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:hint="Event Name"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+    </GridLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:text="Location:"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"/>
+        <EditText
+            android:id="@+id/etxtLocation"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:hint="Location"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+    </GridLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnStartDate"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:text="Start Date"
+            android:textSize="25dp"
+            android:padding="15dp"/>
+
+        <Button
+            android:id="@+id/btnEndDate"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="70dp"
+            android:text="End Date"
+            android:textSize="25dp"
+            android:padding="15dp"/>
+
+
+
+    </GridLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:text="Start Date:"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:text="End Date:"/>
+    </GridLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtStartDate"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="150dp"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/txtEndDate"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="150dp"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"/>
+    </GridLayout>
+    <Button
+        android:id="@+id/btnAddEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Event" />
+
+</LinearLayout>

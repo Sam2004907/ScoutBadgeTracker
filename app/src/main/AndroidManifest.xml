@@ -122,6 +122,15 @@
                 <action android:name="android.intent.action.Event" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EditEvent_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.EditEvent" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
