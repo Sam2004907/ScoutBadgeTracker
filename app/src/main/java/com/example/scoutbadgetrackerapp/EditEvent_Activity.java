@@ -26,14 +26,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditEvent_Activity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-    Button btnStartDate, btnEndDate, btnAddEvent;
+    Button btnStartDate, btnEndDate, btnAddEvent, btnUpdateEvent, btnDeleteEvent, btnEditEventBack;
     TextView txtStartDate, txtEndDate;
     EditText etxtEventname, etxtLocation;
     int day, month, year, hour, minute;
     int tempDay, tempMonth, tempYear, tempHour, tempMinute;
     int startDay, startMonth, startYear, startHour, startMinute;
     int endDay, endMonth, endYear, endHour, endMinute;
-    String startOrEnd;
+    String startOrEnd, eventID;
+    String[] eventDetails;
     Intent activity;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,14 +47,28 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
         btnAddEvent = findViewById(R.id.btnAddEvent);
         etxtEventname = findViewById(R.id.etxtEventname);
         etxtLocation = findViewById(R.id.etxtLocation);
+        btnUpdateEvent = findViewById(R.id.btnUpdateEvent);
+        btnDeleteEvent = findViewById(R.id.btnDeleteEvent);
+        btnEditEventBack = findViewById(R.id.btnEditEventBack);
 
         DBHelper db = new DBHelper(this);
 
         Bundle extras = getIntent().getExtras();
-        String eventID = extras.getString("key");
+        eventID = extras.getString("key");
         if(!(eventID.equals("new"))){
-            String[] eventDetails = db.getEventByID(eventID);
-            Log.d("eventID", (String) eventDetails[0]);
+            eventDetails = db.getEventByID(eventID);
+            btnUpdateEvent.setEnabled(true);
+            btnUpdateEvent.setVisibility(View.VISIBLE);
+            btnDeleteEvent.setEnabled(true);
+            btnDeleteEvent.setVisibility(View.VISIBLE);
+
+            etxtEventname.setText(eventDetails[1]);
+            etxtLocation.setText(eventDetails[4]);
+            txtStartDate.setText(eventDetails[2]);
+            txtEndDate.setText(eventDetails[3]);
+        }else{
+            btnAddEvent.setEnabled(true);
+            btnAddEvent.setVisibility(View.VISIBLE);
         }
 
         btnStartDate.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +128,37 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
                     startActivity(activity);
 
                 }
+
+            }
+        });
+        btnEditEventBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnDeleteEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                db.deleteEvent(eventID);
+                activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnUpdateEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(startDay != 0){
+                    eventDetails[2] = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
+                }
+                if(endDay != 0){
+                    eventDetails[3] = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
+                }
+                eventDetails[1] = String.valueOf(etxtEventname.getText());
+                eventDetails[4] = String.valueOf(etxtLocation.getText());
+                db.updateEventDetails(eventDetails);
+                activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+                startActivity(activity);
 
             }
         });

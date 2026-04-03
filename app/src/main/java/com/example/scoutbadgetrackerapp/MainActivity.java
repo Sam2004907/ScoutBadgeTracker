@@ -6,6 +6,10 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -26,6 +30,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import org.eazegraph.lib.charts.PieChart;
@@ -45,29 +51,57 @@ public class MainActivity extends Activity {
     Intent activity;
     Date stringDate;
     PieChart badgeCompletionChart;
+    private final String channelId = "i.apps.notifications"; // Unique channel ID for notifications
+    private final String description = "Test notification";  // Description for the notification channel
+    private final int notificationId = 1234; // Unique identifier for the notification
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DBHelper db = new DBHelper(this);
+
+        //Check Permissions
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
-            Log.d("Permission", "Already Granted");
+            Log.d("Images Permission", "Already Granted");
         }else{
             String[] permissions = {Manifest.permission.READ_MEDIA_IMAGES};
             ActivityCompat.requestPermissions(this, permissions, 0);
-            Log.d("Permission", "Granted");
+            Log.d("Images Permission", "Granted");
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Notification Permission", "Already Granted");
+        }else{
+            String[] permissions = {Manifest.permission.POST_NOTIFICATIONS};
+            ActivityCompat.requestPermissions(this, permissions, 0);
+            Log.d("Notification Permission", "Granted");
+        }
+        if(currentUser.getUserRole().equals("Leader")){
+            Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
+            ArrayList<ArrayList<Object>> groupMembers = db.getApprovedGroupMembers((String) userDetails[8]);
 
-        DBHelper db = new DBHelper(this);
+            int count=0;
+            for(int i=0; i<groupMembers.size(); i++){
+                if(groupMembers.get(i).get(1).equals("Scout")){
+                    Log.d("userID", (String) groupMembers.get(i).get(4));
+                    Log.d("count", db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
+                    //count += Integer.parseInt(db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
+                }
+            }
+            if(count > 0){
+                createNotificationChannel();
+                sendNotification("Evidence To Approve", "There is "+count+" pieces evidence to approve.");
+            }
+        }
 
 //        new currentUser("sam", "leader", 1);
 
-        ArrayList<ArrayList<String>> badges = db.getAllBadges();
-        badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
+//        ArrayList<ArrayList<String>> badges = db.getAllBadges();
+//        badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
 //        Log.d("Badges", badges.toString());
 
-        ArrayList<ArrayList<Object>> users = db.getAllUsers();
-        users.forEach(element -> Log.d("User", String.valueOf(element)));
+//        ArrayList<ArrayList<Object>> users = db.getAllUsers();
+//        users.forEach(element -> Log.d("User", String.valueOf(element)));
 //        Log.d("Users", users.toString());
 //        Log.d("Current User", String.valueOf(currentUser.getUserID()));
 
@@ -144,10 +178,7 @@ public class MainActivity extends Activity {
         int badgeTotal = 85;
         String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));
         String inProgress = db.getUserInprogressBadges(String.valueOf(currentUser.getUserID()));
-        Log.d("completed", completed);
-        Log.d("inProgress", inProgress);
         badgeTotal -= (Integer.parseInt(completed) + Integer.parseInt(inProgress));
-        Log.d("badgeRemaining", String.valueOf(badgeTotal));
         badgeCompletionChart.addPieSlice(
                 new PieModel(Float.parseFloat(completed), getColor(R.color.Scout_green))
         );
@@ -158,6 +189,45 @@ public class MainActivity extends Activity {
                 new PieModel(badgeTotal, getColor(R.color.Scout_red))
         );
         badgeCompletionChart.startAnimation();
+    }
+
+    public void sendNotification(String title, String content) {
+        // Intent that triggers when the notification is tapped
+        Intent intent = new Intent(this, ViewEvidence_Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.membership_award) // Notification icon
+                .setContentTitle(title) // Title displayed in the notification
+                .setContentText(content) // Text displayed in the notification
+                .setContentIntent(pendingIntent) // Pending intent triggered when tapped
+                .setAutoCancel(true) // Dismiss notification when tapped
+                .setPriority(NotificationCompat.PRIORITY_HIGH); // Notification priority for better visibility
+
+        // Display the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, builder.build());
+    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    channelId,
+                    description,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationChannel.enableLights(true); // Turn on notification light
+            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.enableVibration(true); // Allow vibration for notifications
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
     }
 
 }

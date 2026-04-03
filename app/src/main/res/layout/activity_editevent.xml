@@ -8,6 +8,11 @@
     android:layout_height="match_parent"
     android:background="@color/Scout_purple">
 
+    <Button
+        android:id="@+id/btnEditEventBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back" />
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
@@ -141,6 +146,28 @@
         android:id="@+id/btnAddEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Event" />
+        android:text="Add Event"
+        android:visibility="invisible"
+        android:enabled="false"/>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnUpdateEvent"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:text="Update"
+            android:visibility="invisible"
+            android:enabled="false"/>
+        <Button
+            android:id="@+id/btnDeleteEvent"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:text="Delete"
+            android:visibility="invisible"
+            android:enabled="false"/>
+    </GridLayout>
 
 </LinearLayout>

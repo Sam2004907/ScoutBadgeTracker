@@ -903,18 +903,16 @@ public class DBHelper extends SQLiteOpenHelper {
     public String getUserUnapprovedEvidenceCount(String userID) {
         Log.d("DB run", "getUserUnapprovedEvidenceCount ran");
 
-        String results;
+        String results = "0";
 
         // Select Badge_id Query
-        String selectQuery = "SELECT count(badge_id) FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND approved = ? GROUP BY badge_id";
+        String selectQuery = "SELECT count(*) FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND approved = ? ";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "unapproved"});
 
         // looping through all rows and adding to list
-        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
-            results = "0";
-        }else{
+        if (cursor.moveToFirst()) {
             results = String.valueOf(cursor.getCount());
         }
 
@@ -1029,6 +1027,30 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return results;
+    }
+    public void updateEventDetails(String[] eventDetails){
+        Log.d("DB run", "updateEventDetails ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("event_name", (String) eventDetails[1]);
+        values.put("start_date_time", (String) eventDetails[2]);
+        values.put("end_date_time", (String) eventDetails[3]);
+        values.put("location", (String) eventDetails[4]);
+
+        db.update(TABLE_EVENTS, values, "id=?", new String[]{(String) eventDetails[0]});
+
+        db.close();
+    }
+    public void deleteEvent(String eventID){
+        Log.d("DB run", "deleteEvent ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        db.delete(TABLE_EVENTS, "id=?", new String[]{eventID});
+
+        db.close();
     }
 
 }

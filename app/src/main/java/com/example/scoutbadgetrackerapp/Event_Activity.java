@@ -16,11 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Event_Activity extends Activity implements CalendarAdapter.OnItemListener{
     LinearLayout eventLayout;
@@ -53,6 +55,10 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
         selectedDate = LocalDate.now();
         month = String.valueOf(selectedDate).substring(0, 8);
         setMonthView();
+
+        if(!(currentUser.getUserRole().equals("Leader"))){
+            btnNewEvent.setVisibility(View.INVISIBLE);
+        }
 
 
         btnEventBack.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +160,7 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
             DBHelper db = new DBHelper(this);
             ArrayList<ArrayList<Object>> dateEvents = db.getGroupEventsByDate(groupID, searchDate);
             eventLayout.removeAllViews();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for(int i=0; i<dateEvents.size(); i++){
                 TextView txtEventDetails = new TextView(this);
                 txtEventDetails.setTextColor(Color.WHITE);
@@ -162,12 +169,28 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
                 txtEventDetails.append("Start Date: "+(String) dateEvents.get(i).get(2)+"\n");
                 txtEventDetails.append("End Date: "+(String) dateEvents.get(i).get(3)+"\n");
                 txtEventDetails.append("Location: "+(String) dateEvents.get(i).get(4));
-                Button btnEditEvent = new Button(this);
-                btnEditEvent.setText("Edit Event");
-                btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
-                btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
+
                 eventLayout.addView(txtEventDetails);
-                eventLayout.addView(btnEditEvent);
+                try{
+                    Date endDate = format.parse((String) dateEvents.get(i).get(3));
+                    Log.d("endDate", String.valueOf(endDate));
+                    if(currentUser.getUserRole().equals("Leader") && !(new Date().after(endDate))){
+                        Button btnEditEvent = new Button(this);
+                        btnEditEvent.setText("Edit Event");
+                        btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
+                        btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
+                        eventLayout.addView(btnEditEvent);
+                    }
+                    if(new Date().after(endDate)){
+                        TextView txtArchived = new TextView(this);
+                        txtArchived.setTextColor(Color.WHITE);
+                        txtArchived.setTextSize(25f);
+                        txtArchived.setText("Archived");
+                        eventLayout.addView(txtArchived);
+                    }
+                }catch(ParseException e){
+                    e.printStackTrace();
+                }
             }
         }
     }
