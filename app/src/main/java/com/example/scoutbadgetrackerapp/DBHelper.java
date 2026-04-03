@@ -1006,5 +1006,29 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    public String[] getEventByID(String eventID) {
+        Log.d("DB run", "getEventByID ran");
+
+        String[] results = new String[5];
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {eventID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0);//ID
+                results[1] = cursor.getString(1);//event_name
+                results[2] = cursor.getString(2);//start_date_time
+                results[3] = cursor.getString(3);//end_date_time
+                results[4] = cursor.getString(4);//location
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return results;
+    }
 
 }

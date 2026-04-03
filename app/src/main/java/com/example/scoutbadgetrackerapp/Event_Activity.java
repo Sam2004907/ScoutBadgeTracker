@@ -2,11 +2,13 @@ package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +23,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Event_Activity extends Activity implements CalendarAdapter.OnItemListener{
-    Button btnEventBack, btnEditEvent;
+    LinearLayout eventLayout;
+    Button btnEventBack, btnNewEvent;
     TextView txtDateTitle, txtEventList;
     Intent activity;
 
     static ArrayList<ArrayList<Object>> events = new ArrayList<ArrayList<Object>>();
 
-    private TextView monthYearText, txtEventDetails;
+    private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     private static String month;
@@ -36,10 +39,10 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        eventLayout = findViewById(R.id.eventLayout);
         btnEventBack = findViewById(R.id.btnEventBack);
         txtDateTitle = findViewById(R.id.txtDateTitle);
-        txtEventDetails = findViewById(R.id.txtEventDetails);
-        btnEditEvent = findViewById(R.id.btnEditEvent);
+        btnNewEvent = findViewById(R.id.btnNewEvent);
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
@@ -59,9 +62,10 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
 
             }
         });
-        btnEditEvent.setOnClickListener(new View.OnClickListener() {
+        btnNewEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
+                activity.putExtra("key", "new");
                 startActivity(activity);
 
             }
@@ -141,7 +145,6 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
     {
         if(!dayText.equals(""))
         {
-            txtEventDetails.setText("");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
             if(Integer.parseInt(dayText) < 10){
                 dayText = 0 + dayText;
@@ -150,13 +153,22 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
 
             DBHelper db = new DBHelper(this);
             ArrayList<ArrayList<Object>> dateEvents = db.getGroupEventsByDate(groupID, searchDate);
+            eventLayout.removeAllViews();
             for(int i=0; i<dateEvents.size(); i++){
+                TextView txtEventDetails = new TextView(this);
+                txtEventDetails.setTextColor(Color.WHITE);
+                txtEventDetails.setTextSize(25f);
                 txtEventDetails.append("Event Name: "+(String) dateEvents.get(i).get(1)+"\n");
                 txtEventDetails.append("Start Date: "+(String) dateEvents.get(i).get(2)+"\n");
                 txtEventDetails.append("End Date: "+(String) dateEvents.get(i).get(3)+"\n");
-                txtEventDetails.append("Location: "+(String) dateEvents.get(i).get(4)+"\n");
+                txtEventDetails.append("Location: "+(String) dateEvents.get(i).get(4));
+                Button btnEditEvent = new Button(this);
+                btnEditEvent.setText("Edit Event");
+                btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
+                btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
+                eventLayout.addView(txtEventDetails);
+                eventLayout.addView(btnEditEvent);
             }
-
         }
     }
 
@@ -177,5 +189,16 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
             }
         }
         return dateEvent;
+    }
+
+    View.OnClickListener editEventButton(final Button button){
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                String eventID = (String) button.getContentDescription();
+                activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
+                activity.putExtra("key", eventID);
+                startActivity(activity);
+            }
+        };
     }
 }

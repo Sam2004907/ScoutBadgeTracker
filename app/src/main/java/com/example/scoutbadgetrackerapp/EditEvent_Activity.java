@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import androidx.annotation.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditEvent_Activity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -47,6 +48,13 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
         etxtLocation = findViewById(R.id.etxtLocation);
 
         DBHelper db = new DBHelper(this);
+
+        Bundle extras = getIntent().getExtras();
+        String eventID = extras.getString("key");
+        if(!(eventID.equals("new"))){
+            String[] eventDetails = db.getEventByID(eventID);
+            Log.d("eventID", (String) eventDetails[0]);
+        }
 
         btnStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
