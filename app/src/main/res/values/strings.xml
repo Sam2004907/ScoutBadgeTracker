@@ -32,5 +32,12 @@
         <item>Leader</item>
         <item>Parent/Guardian</item>
     </string-array>
-<!--    -->
+<!--   Patrol Position -->
+    <string-array name="scoutPosition">
+        <item>Select a Position</item>
+        <item>Patrol Member</item>
+        <item>Assistant Patrol Leader</item>
+        <item>Patrol Leader</item>
+        <item>Senior Patrol Leader</item>
+    </string-array>
 </resources>

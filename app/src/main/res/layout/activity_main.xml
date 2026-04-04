@@ -79,11 +79,11 @@
 
     </GridLayout>
     <TextView
-        android:id="@+id/txtBadgeTitle"
+        android:id="@+id/txtBadgeOverview"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:textSize="25dp"
-        android:text="Badge Progress Overview"
+        android:text="Badge Progress Overview:"
         android:textColor="@color/white" />
     <GridLayout
         android:layout_width="match_parent"

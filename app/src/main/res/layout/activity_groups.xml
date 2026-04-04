@@ -31,14 +31,15 @@
         android:text="Leaders"
         android:textColor="@color/white"/>
 
-    <TextView
-        android:id="@+id/txtLeaderList"
+    <LinearLayout
+        android:id="@+id/lytLeaderList"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20sp"
-        android:gravity="start|top"
-        android:textColor="@color/white"/>
+        android:paddingLeft="5dp"
+        android:background="@color/Scout_purple">
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnEditLeaders"
@@ -55,14 +56,15 @@
         android:text="Members"
         android:textColor="@color/white"/>
 
-    <TextView
-        android:id="@+id/txtMemberList"
+    <LinearLayout
+        android:id="@+id/lytMemberList"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:gravity="start|top" />
+        android:paddingLeft="5dp"
+        android:background="@color/Scout_purple">
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtParentTitle"
@@ -95,6 +97,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Leave Group" />
+
+    <LinearLayout
+        android:id="@+id/lytScoutDetails"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:background="@color/Scout_purple">
+
+        <TextView
+            android:id="@+id/txtScoutName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:gravity="start|top"
+            android:textColor="@color/white"/>
+        <Spinner
+            android:id="@+id/spnPatrol"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+        <Spinner
+            android:id="@+id/spnPosition"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+        <Button
+            android:id="@+id/btnUpdateDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

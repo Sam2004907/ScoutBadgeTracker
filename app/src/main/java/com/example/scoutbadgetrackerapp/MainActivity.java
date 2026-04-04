@@ -47,7 +47,7 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
     Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence, btnEvents;
-    TextView txtTitle;
+    TextView txtTitle, txtBadgeOverview;
     Intent activity;
     Date stringDate;
     PieChart badgeCompletionChart;
@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
         badgeCompletionChart = findViewById(R.id.badgeCompletionChart);
 
         txtTitle = findViewById(R.id.txtTitle);
+        txtBadgeOverview = findViewById(R.id.txtBadgeOverview);
         txtTitle.setText("Welcome "+currentUser.getUsername());
 
 
@@ -179,6 +180,7 @@ public class MainActivity extends Activity {
         String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));
         String inProgress = db.getUserInprogressBadges(String.valueOf(currentUser.getUserID()));
         badgeTotal -= (Integer.parseInt(completed) + Integer.parseInt(inProgress));
+        txtBadgeOverview.append(" "+completed+"/85");
         badgeCompletionChart.addPieSlice(
                 new PieModel(Float.parseFloat(completed), getColor(R.color.Scout_green))
         );

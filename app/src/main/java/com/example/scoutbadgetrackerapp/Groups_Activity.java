@@ -3,10 +3,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,8 +20,10 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Groups_Activity extends Activity{
-    TextView txtTitle, txtLeaderList, txtMemberList, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle;
-    Button btnEditLeaders, btnEditMembers, btnGroupBack, btnLeaveGroup;
+    TextView txtTitle, txtLeaderList, txtMemberList, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle, txtScoutName;
+    Button btnEditLeaders, btnEditMembers, btnGroupBack, btnLeaveGroup, btnUpdateDetails;
+    LinearLayout lytLeaderList, lytMemberList;
+    Spinner spnPatrol, spnPosition;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,15 +31,20 @@ public class Groups_Activity extends Activity{
         setContentView(R.layout.activity_groups);
         txtTitle = findViewById(R.id.txtTitle);
         txtLeaderTitle = findViewById(R.id.txtLeaderTitle);
-        txtLeaderList = findViewById(R.id.txtLeaderList);
+        lytLeaderList = findViewById(R.id.lytLeaderList);
         txtMemberTitle = findViewById(R.id.txtMemberTitle);
-        txtMemberList = findViewById(R.id.txtMemberList);
+        lytMemberList = findViewById(R.id.lytMemberList);
         txtParentTitle = findViewById(R.id.txtParentTitle);
         txtParentList = findViewById(R.id.txtParentList);
         btnEditLeaders = findViewById(R.id.btnEditLeaders);
         btnEditMembers = findViewById(R.id.btnEditMembers);
         btnGroupBack = findViewById(R.id.btnGroupBack);
         btnLeaveGroup = findViewById(R.id.btnLeaveGroup);
+
+        txtScoutName = findViewById(R.id.txtScoutName);
+        spnPatrol = findViewById(R.id.spnPatrol);
+        spnPosition = findViewById(R.id.spnPosition);
+        btnUpdateDetails = findViewById(R.id.btnUpdateDetails);
 
         DBHelper db = new DBHelper(this);
 
@@ -70,9 +83,20 @@ public class Groups_Activity extends Activity{
                 memberName = (String) groupMembers.get(i).get(0);
                 memberRole = (String) groupMembers.get(i).get(1);
                 if (memberRole.equals("Leader")) {
-                    txtLeaderList.append(" - " + memberName + "\n");
+                    TextView txtLeader = new TextView(this);
+                    txtLeader.setTextColor(Color.WHITE);
+                    txtLeader.setTextSize(20f);
+                    txtLeader.setText(" - " + memberName);
+                    lytLeaderList.addView(txtLeader);
                 } else if (memberRole.equals("Scout")) {
-                    txtMemberList.append(" - " + memberName + "\n");
+                    TextView txtScout = new TextView(this);
+                    txtScout.setTextColor(Color.WHITE);
+                    txtScout.setTextSize(20f);
+                    txtScout.setText(" - " + memberName);
+                    txtScout.setContentDescription((String) groupMembers.get(i).get(4));
+                    txtScout.setClickable(true);
+                    txtScout.setOnClickListener(editScoutMember(txtScout));
+                    lytMemberList.addView(txtScout);
                 } else if (memberRole.equals("Parent/Guardian")) {
                     txtParentList.append(" - " + memberName + "\n");
                 }
@@ -135,5 +159,51 @@ public class Groups_Activity extends Activity{
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    private View.OnClickListener editScoutMember(final TextView textview){
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+//                activity = new Intent(Badges_Activity.this, SelectedBadges_Activity.class);
+//                activity.putExtra("key", (String) v.getContentDescription());
+//                startActivity(activity);
+                Log.d("id", (String) textview.getContentDescription());
+                showUpdateScout((String) textview.getContentDescription());
+
+            }
+        };
+    }
+    private void showUpdateScout(String scoutID){
+        DBHelper db = new DBHelper(this);
+        Object[] scoutDetails = db.getUserByID(scoutID);
+        txtScoutName.setText("Name: " +(String) scoutDetails[3]);
+        ArrayAdapter<CharSequence> adapterRoles = ArrayAdapter.createFromResource(
+                this,
+                R.array.scoutPosition,
+                android.R.layout.simple_spinner_item
+        );
+        adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnPatrol.setAdapter(adapterRoles);
+        spnPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spnPosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+//        btnUpdateDetails
     }
 }
