@@ -21,7 +21,7 @@ import java.util.Objects;
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
     TextView txtTitle, txtBadgeInfo, txtComplete;
-    Button btnEvidence, btnSelectedBack;
+    Button btnEvidence, btnSelectedBack, btnAward;
     ProgressBar pgbCompletion;
     Intent activity;
     @Override
@@ -36,9 +36,13 @@ public class SelectedBadges_Activity extends Activity{
         btnEvidence = findViewById(R.id.btnEvidence);
         pgbCompletion = findViewById(R.id.pgbCompletion);
         txtComplete = findViewById(R.id.txtComplete);
-        if(currentUser._role.equals("Leader")){
+        btnAward = findViewById(R.id.btnAward);
+
+        if(currentUser.getUserRole().equals("Leader")){
             btnEvidence.setVisibility(View.INVISIBLE);
             pgbCompletion.setVisibility(View.INVISIBLE);
+            txtComplete.setVisibility(View.INVISIBLE);
+            btnAward.setVisibility(View.VISIBLE);
         }
         btnSelectedBack = findViewById(R.id.btnSelectedBack);
 
@@ -86,15 +90,11 @@ public class SelectedBadges_Activity extends Activity{
                 btnEvidence.setVisibility(View.INVISIBLE);
                 btnEvidence.setEnabled(false);
                 txtComplete.setText(R.string.complete);
-                txtComplete.setVisibility(View.VISIBLE);
-                txtComplete.setEnabled(true);
             }else{
                 pgbCompletion.setMax(100);
                 pgbCompletion.setProgress((int) percentage);
                 pgbCompletion.setSecondaryProgress((int) (secondPercentage+percentage));
                 txtComplete.setText(((int) percentage)+"% Complete");
-                txtComplete.setVisibility(View.VISIBLE);
-                txtComplete.setEnabled(true);
             }
 
         }

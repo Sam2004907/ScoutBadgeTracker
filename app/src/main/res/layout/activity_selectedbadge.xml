@@ -32,7 +32,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="290dp">
+        android:layout_height="275dp">
 
         <TextView
             android:id="@+id/txtBadgeInfo"
@@ -54,9 +54,7 @@
         android:fontFamily="sans-serif-medium"
         android:textAlignment="center"
         android:textSize="25dp"
-        android:textColor="@color/white"
-        android:visibility="invisible"
-        android:enabled="false" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btnEvidence"
@@ -75,5 +73,12 @@
         android:secondaryProgressTintMode="add"
         android:progressBackgroundTint="@color/Scout_red"
         android:progressBackgroundTintMode="add"/>
+    <Button
+        android:id="@+id/btnAward"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:text="Award Badge" />
 
 </LinearLayout>

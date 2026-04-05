@@ -34,12 +34,14 @@ public class addData {
         db.addGroup(new GroupList("21st St Helens","St Helens","Merseyside"));
 
     }
-
     public static void addCoreBadges(DBHelper db) {
 
         //Core Awards
-        db.addBadge(new BadgeList("Membership", "core", "membership_award"));
-        db.addBadge(new BadgeList("Chief Scout Award Gold", "core", "sc_chief_scout_award_gold"));
+        db.addBadge(new BadgeList("Membership", "core", "membership_award"));//1
+        db.addBadge(new BadgeList("Chief Scout Award Gold", "core", "sc_chief_scout_award_gold"));//2
+        db.addBadge(new BadgeList("Assistant Patrol Leader", "core", "leadership_sc_assistant_patrol_leader"));//89
+        db.addBadge(new BadgeList("Patrol Leader", "core", "leadership_sc_patrol_leader"));//90
+        db.addBadge(new BadgeList("Senior Patrol Leader", "core", "leadership_sc_senior_patrol_leader"));//91
     }
     public static void addChallengeBadges(DBHelper db) {
         //Challenge Awards
@@ -162,6 +164,15 @@ public class addData {
         //Chief Scout's Gold Award
         db.addRequirement(new RequirementsList("Complete all nine challenge awards", 9, 2));
         db.addRequirement(new RequirementsList("Complete 6 Activity or Staged Badges", 6, 2));
+
+        //Assistant PL
+        db.addRequirement(new RequirementsList("This badge can only be awarded by a leader", 1, 89));
+
+        //PL
+        db.addRequirement(new RequirementsList("This badge can only be awarded by a leader", 1, 90));
+
+        //Senior PL
+        db.addRequirement(new RequirementsList("This badge can only be awarded by a leader", 1, 91));
 
         //Scouts Adventure Challenge Award
         db.addRequirement(new RequirementsList("Take part in four different adventurous activities", 4, 3));

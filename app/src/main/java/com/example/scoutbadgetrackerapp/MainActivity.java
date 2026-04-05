@@ -176,11 +176,11 @@ public class MainActivity extends Activity {
 
     private void setScoutPieChartData(){
         DBHelper db = new DBHelper(this);
-        int badgeTotal = 85;
+        int badgeTotal = 91;
         String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));
         String inProgress = db.getUserInprogressBadges(String.valueOf(currentUser.getUserID()));
         badgeTotal -= (Integer.parseInt(completed) + Integer.parseInt(inProgress));
-        txtBadgeOverview.append(" "+completed+"/85");
+        txtBadgeOverview.append(" "+completed+"/91");
         badgeCompletionChart.addPieSlice(
                 new PieModel(Float.parseFloat(completed), getColor(R.color.Scout_green))
         );

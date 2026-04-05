@@ -23,7 +23,7 @@ public class Groups_Activity extends Activity{
     TextView txtTitle, txtLeaderList, txtMemberList, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle, txtScoutName;
     Button btnEditLeaders, btnEditMembers, btnGroupBack, btnLeaveGroup, btnUpdateDetails;
     LinearLayout lytLeaderList, lytMemberList;
-    Spinner spnPatrol, spnPosition;
+    Spinner spnPosition;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class Groups_Activity extends Activity{
         btnLeaveGroup = findViewById(R.id.btnLeaveGroup);
 
         txtScoutName = findViewById(R.id.txtScoutName);
-        spnPatrol = findViewById(R.id.spnPatrol);
         spnPosition = findViewById(R.id.spnPosition);
         btnUpdateDetails = findViewById(R.id.btnUpdateDetails);
 
@@ -183,17 +182,7 @@ public class Groups_Activity extends Activity{
                 android.R.layout.simple_spinner_item
         );
         adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnPatrol.setAdapter(adapterRoles);
-        spnPatrol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        spnPosition.setAdapter(adapterRoles);
         spnPosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -204,6 +193,18 @@ public class Groups_Activity extends Activity{
 
             }
         });
-//        btnUpdateDetails
+        btnUpdateDetails.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int position = spnPosition.getSelectedItemPosition();
+                if(position == 2){
+                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 89));
+                }else if(position == 3){
+                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 90));
+                }else if(position == 4){
+                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 91));
+                }
+
+            }
+        });
     }
 }

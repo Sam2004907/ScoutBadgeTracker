@@ -116,10 +116,6 @@
             android:gravity="start|top"
             android:textColor="@color/white"/>
         <Spinner
-            android:id="@+id/spnPatrol"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-        <Spinner
             android:id="@+id/spnPosition"
             android:layout_width="match_parent"
             android:layout_height="60dp" />

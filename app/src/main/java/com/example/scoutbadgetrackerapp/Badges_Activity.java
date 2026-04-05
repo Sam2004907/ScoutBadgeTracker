@@ -128,6 +128,7 @@ public class Badges_Activity extends Activity{
                                 GridLayout.LayoutParams.WRAP_CONTENT,
                                 GridLayout.LayoutParams.WRAP_CONTENT
                         ));
+                        gridLayout.setPadding(50,10,50,10);
 
                         gridLayout.setRowCount(ROWS);
                         gridLayout.setColumnCount(COLUMNS);
