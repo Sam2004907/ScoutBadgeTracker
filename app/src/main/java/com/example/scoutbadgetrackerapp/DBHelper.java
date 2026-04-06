@@ -798,7 +798,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("type", evidence.getType());
         values.put("evidencePath", evidence.getEvidencePath());
-        values.put("approved", "unapproved");
+        values.put("approved", evidence.getApproval());
         values.put("user_id", evidence.getUserID());
         values.put("badge_id", evidence.getBadgeID());
         values.put("requirement_id", evidence.getRequirementID());
@@ -818,6 +818,38 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//type
+                results.get(index).add(cursor.getString(2));//EvidencePath
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getUserBadgeReqEvidence(String userID, String badgeID, String reqID) {
+        Log.d("DB run", "getUserBadgeEvidencegetUserBadgeReqEvidence ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        Log.d("badgeID, userID", badgeID +", "+userID);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND badge_id = ? AND requirement_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID, reqID});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {

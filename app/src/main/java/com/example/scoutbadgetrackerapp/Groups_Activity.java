@@ -175,7 +175,11 @@ public class Groups_Activity extends Activity{
     private void showUpdateScout(String scoutID){
         DBHelper db = new DBHelper(this);
         Object[] scoutDetails = db.getUserByID(scoutID);
-        txtScoutName.setText("Name: " +(String) scoutDetails[3]);
+        String[] completion = db.getCompletion((String) scoutDetails[0], String.valueOf(91));
+        txtScoutName.setText("Name: " + scoutDetails[3]);
+        txtScoutName.setVisibility(View.VISIBLE);
+        spnPosition.setVisibility(View.VISIBLE);
+        btnUpdateDetails.setVisibility(View.VISIBLE);
         ArrayAdapter<CharSequence> adapterRoles = ArrayAdapter.createFromResource(
                 this,
                 R.array.scoutPosition,
@@ -183,6 +187,24 @@ public class Groups_Activity extends Activity{
         );
         adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPosition.setAdapter(adapterRoles);
+        Log.d("completion", String.valueOf(completion[1]));
+        if(completion[1]!= null){
+            spnPosition.setSelection(4);
+        }else{
+            completion = db.getCompletion((String) scoutDetails[0], String.valueOf(90));
+
+            if(completion[1]!= null){
+                spnPosition.setSelection(3);
+            }else{
+                completion = db.getCompletion((String) scoutDetails[0], String.valueOf(89));
+
+                if(completion[1]!= null){
+                    spnPosition.setSelection(2);
+                }else{
+                    spnPosition.setSelection(1);
+                }
+            }
+        }
         spnPosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -203,6 +225,10 @@ public class Groups_Activity extends Activity{
                 }else if(position == 4){
                     db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 91));
                 }
+                txtScoutName.setText("");
+                txtScoutName.setVisibility(View.INVISIBLE);
+                spnPosition.setVisibility(View.INVISIBLE);
+                btnUpdateDetails.setVisibility(View.INVISIBLE);
 
             }
         });

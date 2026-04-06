@@ -94,7 +94,7 @@ public class Evidence_Activity extends Activity {
                 String FilePath = txtFileName.getText().toString();
                 int reqID = Integer.parseInt(reqs.get(spnReq.getSelectedItemPosition() - 1).get(0));
                 String type = txtFileType.getText().toString();
-                db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID));
+                db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID, "unapproved"));
                 activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
                 activity.putExtra("key", extras.getString("desc"));
                 startActivity(activity);

@@ -27,7 +27,7 @@
     <ImageView
         android:id="@+id/imgBadge"
         android:layout_width="match_parent"
-        android:layout_height="278dp"
+        android:layout_height="260dp"
         android:src="@drawable/ic_launcher_foreground"/>
 
     <ScrollView
@@ -73,12 +73,26 @@
         android:secondaryProgressTintMode="add"
         android:progressBackgroundTint="@color/Scout_red"
         android:progressBackgroundTintMode="add"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/spnAward"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scvAward">
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lnrMembers">
+
+        </GridLayout>
+    </ScrollView>
     <Button
         android:id="@+id/btnAward"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:visibility="invisible"
-        android:enabled="false"
-        android:text="Award Badge" />
+        android:layout_height="50dp"/>
 
 </LinearLayout>
