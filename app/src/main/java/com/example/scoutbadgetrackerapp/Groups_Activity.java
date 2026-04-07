@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Groups_Activity extends Activity{
-    TextView txtTitle, txtLeaderList, txtMemberList, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle, txtScoutName;
+    TextView txtTitle, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle, txtScoutName;
     Button btnEditLeaders, btnEditMembers, btnGroupBack, btnLeaveGroup, btnUpdateDetails;
     LinearLayout lytLeaderList, lytMemberList;
     Spinner spnPosition;
@@ -48,9 +48,7 @@ public class Groups_Activity extends Activity{
         DBHelper db = new DBHelper(this);
 
         if(currentUser.getUserApproval().equals("unapproved") || currentUser.getUserApproval().equals("Denied")){
-            txtLeaderList.setVisibility(View.INVISIBLE);
             txtMemberTitle.setVisibility(View.INVISIBLE);
-            txtMemberList.setVisibility(View.INVISIBLE);
             txtParentTitle.setVisibility(View.INVISIBLE);
             txtParentList.setVisibility(View.INVISIBLE);
             btnEditLeaders.setVisibility(View.INVISIBLE);

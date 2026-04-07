@@ -83,18 +83,15 @@ public class MainActivity extends Activity {
             int count=0;
             for(int i=0; i<groupMembers.size(); i++){
                 if(groupMembers.get(i).get(1).equals("Scout")){
-                    Log.d("userID", (String) groupMembers.get(i).get(4));
-                    Log.d("count", db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
-                    //count += Integer.parseInt(db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
+                    count += Integer.parseInt(db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
                 }
             }
             if(count > 0){
                 createNotificationChannel();
-                sendNotification("Evidence To Approve", "There is "+count+" pieces evidence to approve.");
+                sendNotification("Evidence To Approve", "There are "+count+" pieces evidence to approve.");
             }
 
         }
-
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);

@@ -39,9 +39,6 @@ public class addData {
         //Core Awards
         db.addBadge(new BadgeList("Membership", "core", "membership_award"));//1
         db.addBadge(new BadgeList("Chief Scout Award Gold", "core", "sc_chief_scout_award_gold"));//2
-        db.addBadge(new BadgeList("Assistant Patrol Leader", "core", "leadership_sc_assistant_patrol_leader"));//89
-        db.addBadge(new BadgeList("Patrol Leader", "core", "leadership_sc_patrol_leader"));//90
-        db.addBadge(new BadgeList("Senior Patrol Leader", "core", "leadership_sc_senior_patrol_leader"));//91
     }
     public static void addChallengeBadges(DBHelper db) {
         //Challenge Awards
@@ -146,6 +143,10 @@ public class addData {
         db.addBadge(new BadgeList("Duke Of Edinburgh: Bronze", "external", "dofe_bronze"));
         db.addBadge(new BadgeList("Duke Of Edinburgh: Silver", "external", "dofe_silver"));
         db.addBadge(new BadgeList("Duke Of Edinburgh: Gold", "external", "dofe_gold"));//88
+
+        db.addBadge(new BadgeList("Assistant Patrol Leader", "core", "leadership_sc_assistant_patrol_leader"));//89
+        db.addBadge(new BadgeList("Patrol Leader", "core", "leadership_sc_patrol_leader"));//90
+        db.addBadge(new BadgeList("Senior Patrol Leader", "core", "leadership_sc_senior_patrol_leader"));//91
 
     }
     public static void addCoreRequirements(DBHelper db) {
