@@ -92,18 +92,9 @@ public class MainActivity extends Activity {
                 createNotificationChannel();
                 sendNotification("Evidence To Approve", "There is "+count+" pieces evidence to approve.");
             }
+
         }
 
-//        new currentUser("sam", "leader", 1);
-
-//        ArrayList<ArrayList<String>> badges = db.getAllBadges();
-//        badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
-//        Log.d("Badges", badges.toString());
-
-//        ArrayList<ArrayList<Object>> users = db.getAllUsers();
-//        users.forEach(element -> Log.d("User", String.valueOf(element)));
-//        Log.d("Users", users.toString());
-//        Log.d("Current User", String.valueOf(currentUser.getUserID()));
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);

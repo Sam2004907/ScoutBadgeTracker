@@ -130,10 +130,10 @@ public class SelectedBadges_Activity extends Activity{
 
                                 if (memberRole.equals("Scout")) {
                                     String[] completion = db.getCompletion(memberID, badge[0]);
-                                    boolean completed = false;
+                                    boolean notcompleted = true;
                                     if(completion[1]!=null){
                                         if(Double.parseDouble(completion[1]) >= 0.9){
-                                            completed = true;
+                                            notcompleted = false;
                                         }
                                     }
                                     if(position >= 2){
@@ -149,7 +149,7 @@ public class SelectedBadges_Activity extends Activity{
                                                 }
                                             }
 
-                                            if(count < numEvidence || completed){
+                                            if(count < numEvidence || notcompleted){
                                                 Log.d("member", memberName);
                                                 lnrMembers.addView(addCheckBox(checkBox, memberName, memberRole));
                                                 txtID.setText(memberID);
@@ -163,7 +163,7 @@ public class SelectedBadges_Activity extends Activity{
                                             lnrMembers.addView(txtID);
                                         }
                                     }else{
-                                        if(!completed){
+                                        if(notcompleted){
                                             lnrMembers.addView(addCheckBox(checkBox, memberName, memberRole));
                                             txtID.setText(memberID);
                                             txtID.setVisibility(View.INVISIBLE);
