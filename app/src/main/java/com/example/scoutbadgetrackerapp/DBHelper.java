@@ -945,7 +945,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
-            results = String.valueOf(cursor.getCount());
+            results = String.valueOf(cursor.getString(0));
         }
 
         cursor.close();

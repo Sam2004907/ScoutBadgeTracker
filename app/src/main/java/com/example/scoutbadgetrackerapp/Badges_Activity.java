@@ -50,29 +50,18 @@ public class Badges_Activity extends Activity{
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 ArrayList<ArrayList<String>> badges = new ArrayList<ArrayList<String>>();
+                parentLayout.removeAllViews();
                 if(position==1) { //Activity
-                    //Log.d("Activity Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getBadgeByType("activity");
                 }else if(position==2){ //Challenge
-                    //Log.d("Challenge Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getBadgeByType("challenge");
                 }else if(position==3){ //Core
-                    //Log.d("Core Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getBadgeByType("core");
                 }else if(position==4){ //Staged
-                    //Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getBadgeByType("staged");
                 }else if(position==5){ //external
-                    //Log.d("Staged Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getBadgeByType("external");
                 }else{ //All Badges
-                    //Log.d("All Filter", (String) spnFilter.getSelectedItem());
-                    parentLayout.removeAllViews();
                     badges = db.getAllBadges();
 
                 }
