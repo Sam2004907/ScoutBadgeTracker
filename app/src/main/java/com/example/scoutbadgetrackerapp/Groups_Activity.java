@@ -187,19 +187,19 @@ public class Groups_Activity extends Activity{
         spnPosition.setAdapter(adapterRoles);
         Log.d("completion", String.valueOf(completion[1]));
         if(completion[1]!= null){
-            spnPosition.setSelection(4);
+            spnPosition.setSelection(3);
         }else{
             completion = db.getCompletion((String) scoutDetails[0], String.valueOf(90));
 
             if(completion[1]!= null){
-                spnPosition.setSelection(3);
+                spnPosition.setSelection(2);
             }else{
                 completion = db.getCompletion((String) scoutDetails[0], String.valueOf(89));
 
                 if(completion[1]!= null){
-                    spnPosition.setSelection(2);
-                }else{
                     spnPosition.setSelection(1);
+                }else{
+                    spnPosition.setSelection(0);
                 }
             }
         }
@@ -216,11 +216,11 @@ public class Groups_Activity extends Activity{
         btnUpdateDetails.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int position = spnPosition.getSelectedItemPosition();
-                if(position == 2){
+                if(position == 1){
                     db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 89));
-                }else if(position == 3){
+                }else if(position == 2){
                     db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 90));
-                }else if(position == 4){
+                }else if(position == 3){
                     db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 91));
                 }
                 txtScoutName.setText("");

@@ -116,8 +116,23 @@ public class EditMembers_Activity extends Activity{
     View.OnClickListener getOnClickDoSomething(final CheckBox checkBox)  {
         return new View.OnClickListener() {
             public void onClick(View v) {
-                btnApprove.setEnabled(true);
-                btnDeny.setEnabled(true);
+
+                int count = 0;
+                for(int i=0; i < grdLayout.getChildCount(); i++){
+                    View child = grdLayout.getChildAt(i);
+                    if(child instanceof CheckBox) {
+                        if(((CheckBox) child).isChecked()){
+                            count += 1;
+                        }
+                    }
+                }
+                if(count > 0){
+                    btnApprove.setEnabled(true);
+                    btnDeny.setEnabled(true);
+                }else{
+                    btnApprove.setEnabled(false);
+                    btnDeny.setEnabled(false);
+                }
             }
         };
     }
