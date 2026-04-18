@@ -148,17 +148,32 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
         });
         btnUpdateEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(startDay != 0){
-                    eventDetails[2] = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
+                String eventName = String.valueOf(etxtEventname.getText());
+                String location = String.valueOf(etxtLocation.getText());
+                if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Please fill out all of the event details including a start and end date.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else {
+                    if (startDay != 0) {
+                        eventDetails[2] = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
+                    }
+                    if (endDay != 0) {
+                        eventDetails[3] = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
+                    }
+                    eventDetails[1] = String.valueOf(etxtEventname.getText());
+                    eventDetails[4] = String.valueOf(etxtLocation.getText());
+                    db.updateEventDetails(eventDetails);
+                    activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+                    startActivity(activity);
                 }
-                if(endDay != 0){
-                    eventDetails[3] = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
-                }
-                eventDetails[1] = String.valueOf(etxtEventname.getText());
-                eventDetails[4] = String.valueOf(etxtLocation.getText());
-                db.updateEventDetails(eventDetails);
-                activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
-                startActivity(activity);
 
             }
         });
