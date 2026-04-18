@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class SignUp_Activity extends Activity {
     EditText etxtUsername, etxtPassword, etxtName, etxtDOB, etxtEmail, etxtPhone;
     Spinner spnRole, spnGroup, spnCounty, spnDistrict;
-    Button btnSignUp;
+    Button btnSignUp, btnSignUpBack;
     Intent activity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class SignUp_Activity extends Activity {
         spnCounty = findViewById(R.id.spnCounty);
         spnDistrict = findViewById(R.id.spnDistrict);
         btnSignUp = findViewById(R.id.btnSignUp);
+        btnSignUpBack = findViewById(R.id.btnSignUpBack);
 
         ArrayAdapter<CharSequence> adapterRoles = ArrayAdapter.createFromResource(
                 this,
@@ -187,6 +188,14 @@ public class SignUp_Activity extends Activity {
                     activity = new Intent(SignUp_Activity.this, LogIn_Activity.class);
                     startActivity(activity);
                 }
+            }
+        });
+
+        btnSignUpBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(SignUp_Activity.this, LogIn_Activity.class);
+                startActivity(activity);
+
             }
         });
     }

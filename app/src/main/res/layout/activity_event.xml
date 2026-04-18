@@ -138,7 +138,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="235dp">
+        android:layout_height="235dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

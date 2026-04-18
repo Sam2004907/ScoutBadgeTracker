@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class Evidence_Activity extends Activity {
     TextView txtFileName, txtFileType;
     ImageView imgEvidence;
-    Button btnFile, btnUpload;
+    Button btnFile, btnUpload, btnEvidenceBack;
     Spinner spnReq;
     String Fpath;
     Intent activity;
@@ -43,6 +43,7 @@ public class Evidence_Activity extends Activity {
         btnFile = findViewById(R.id.btnFile);
         btnUpload = findViewById(R.id.btnUpload);
         spnReq = findViewById(R.id.spnReq);
+        btnEvidenceBack = findViewById(R.id.btnEvidenceBack);
 
         btnFile.setEnabled(false);
         btnFile.setClickable(false);
@@ -98,6 +99,15 @@ public class Evidence_Activity extends Activity {
                 activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
                 activity.putExtra("key", extras.getString("desc"));
                 startActivity(activity);
+            }
+        });
+
+        btnEvidenceBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
+                activity.putExtra("key", extras.getString("desc"));
+                startActivity(activity);
+
             }
         });
     }

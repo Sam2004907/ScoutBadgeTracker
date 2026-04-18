@@ -33,7 +33,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
         <LinearLayout
             android:id="@+id/lytLeaderList"
             android:orientation="vertical"
@@ -61,7 +63,9 @@
         android:textColor="@color/white"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
         <LinearLayout
             android:id="@+id/lytMemberList"
             android:orientation="vertical"
@@ -84,7 +88,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

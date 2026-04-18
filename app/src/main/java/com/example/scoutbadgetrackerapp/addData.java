@@ -1250,6 +1250,28 @@ public class addData {
     public static void addEvents(DBHelper db){
         //Date Time string = "YYYY-MM-DD HH:MM:SS.SSS"
         db.addEvent(new EventList("Scout camp", "2026-08-06 15:00:00.000", "2026-08-09 15:00:00.000", "Waddecar", 1));
-//        db.addEvent(new EventList("", "", "", "", ));
+        db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 2));
+        db.addEvent(new EventList("meeting", "2026-04-28 18:00:00.000", "2026-04-28 20:00:00.000", "Scout hut", 3));
+        db.addEvent(new EventList("meeting", "2026-04-29 18:00:00.000", "2026-04-29 20:00:00.000", "Scout hut", 4));
+        db.addEvent(new EventList("meeting", "2026-04-30 18:00:00.000", "2026-04-30 20:00:00.000", "Scout hut", 5));
+        db.addEvent(new EventList("meeting", "2026-05-01 18:00:00.000", "2026-05-01 20:00:00.000", "Scout hut", 6));
+
+        db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 7));
+        db.addEvent(new EventList("meeting", "2026-04-28 18:00:00.000", "2026-04-28 20:00:00.000", "Scout hut", 8));
+        db.addEvent(new EventList("meeting", "2026-04-29 18:00:00.000", "2026-04-29 20:00:00.000", "Scout hut", 9));
+        db.addEvent(new EventList("meeting", "2026-04-30 18:00:00.000", "2026-04-30 20:00:00.000", "Scout hut", 10));
+        db.addEvent(new EventList("meeting", "2026-05-1 18:00:00.000", "2026-05-01 20:00:00.000", "Scout hut", 11));
+
+        db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 12));
+        db.addEvent(new EventList("meeting", "2026-04-28 18:00:00.000", "2026-04-28 20:00:00.000", "Scout hut", 13));
+        db.addEvent(new EventList("meeting", "2026-04-29 18:00:00.000", "2026-04-29 20:00:00.000", "Scout hut", 14));
+        db.addEvent(new EventList("meeting", "2026-04-30 18:00:00.000", "2026-04-30 20:00:00.000", "Scout hut", 15));
+        db.addEvent(new EventList("meeting", "2026-05-01 18:00:00.000", "2026-05-01 20:00:00.000", "Scout hut", 16));
+
+        db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 17));
+        db.addEvent(new EventList("meeting", "2026-04-28 18:00:00.000", "2026-04-28 20:00:00.000", "Scout hut", 18));
+        db.addEvent(new EventList("meeting", "2026-04-29 18:00:00.000", "2026-04-29 20:00:00.000", "Scout hut", 19));
+        db.addEvent(new EventList("meeting", "2026-04-30 18:00:00.000", "2026-04-30 20:00:00.000", "Scout hut", 20));
+
     }
 }

@@ -46,7 +46,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
 
         <LinearLayout
             android:id="@+id/lnrEvidence"

@@ -10,6 +10,12 @@
     android:background="@color/Scout_purple"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btnEvidenceBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back" />
+
     <!--Button to pick pdf-->
 
     <ImageView
