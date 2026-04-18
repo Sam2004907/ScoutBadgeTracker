@@ -158,16 +158,7 @@ public class SignUp_Activity extends Activity {
             public void onClick(View v) {
                 Log.d("Role position", String.valueOf(spnRole.getSelectedItemPosition()));
                 if(spnRole.getSelectedItemPosition() == 0 || spnCounty.getSelectedItemPosition() == 0 || spnDistrict.getSelectedItemPosition() == 0 || spnGroup.getSelectedItemPosition() == 0){
-                    AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Please Select a Role and Group.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    alertBox("Please Select a Role and Group.");
 
                 } else if (etxtUsername.getText().length() == 0 ||
                         etxtPassword.getText().length() == 0 ||
@@ -175,34 +166,16 @@ public class SignUp_Activity extends Activity {
                         etxtDOB.getText().length() == 0 ||
                         etxtEmail.getText().length() == 0 ||
                         etxtPhone.getText().length() == 0) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Please fill in all your details.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    alertBox("Please fill in all your details.");
+
 
                 } else {
                     Object[] usernameCheck = db.getUser(etxtUsername.getText().toString());
                     Log.d("check", String.valueOf(usernameCheck.length));
                     if((String)usernameCheck[1] != null){
-                        Log.d("check2", (String) usernameCheck[1]);
-                        Log.d("Check3", etxtUsername.getText().toString());
-                        AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
-                        alertDialog.setTitle("Alert");
-                        alertDialog.setMessage("Username already exists.\n" +
+                        alertBox("Username already exists.\n" +
                                 "Please enter a unique username.");
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.show();
+
                     }else{
                         String role, groupID;
                         Object[] group = db.getGroupByName(spnGroup.getSelectedItem().toString());
@@ -238,5 +211,18 @@ public class SignUp_Activity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    private void alertBox(String text){
+        AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage(text);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

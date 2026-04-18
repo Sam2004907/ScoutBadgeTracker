@@ -161,36 +161,45 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
             ArrayList<ArrayList<Object>> dateEvents = db.getGroupEventsByDate(groupID, searchDate);
             eventLayout.removeAllViews();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            for(int i=0; i<dateEvents.size(); i++){
+            txtDateTitle.setText(searchDate+":");
+            if(dateEvents.size() > 0) {
+                for (int i = 0; i < dateEvents.size(); i++) {
+                    TextView txtEventDetails = new TextView(this);
+                    txtEventDetails.setTextColor(Color.WHITE);
+                    txtEventDetails.setTextSize(25f);
+                    txtEventDetails.append("Event Name: " + (String) dateEvents.get(i).get(1) + "\n");
+                    txtEventDetails.append("Start Date: " + (String) dateEvents.get(i).get(2) + "\n");
+                    txtEventDetails.append("End Date: " + (String) dateEvents.get(i).get(3) + "\n");
+                    txtEventDetails.append("Location: " + (String) dateEvents.get(i).get(4));
+
+                    eventLayout.addView(txtEventDetails);
+                    try {
+                        Date endDate = format.parse((String) dateEvents.get(i).get(3));
+                        Log.d("endDate", String.valueOf(endDate));
+                        if (currentUser.getUserRole().equals("Leader") && !(new Date().after(endDate))) {
+                            Button btnEditEvent = new Button(this);
+                            btnEditEvent.setText("Edit Event");
+                            btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
+                            btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
+                            eventLayout.addView(btnEditEvent);
+                        }
+                        if (new Date().after(endDate)) {
+                            TextView txtArchived = new TextView(this);
+                            txtArchived.setTextColor(Color.WHITE);
+                            txtArchived.setTextSize(25f);
+                            txtArchived.setText("Archived");
+                            eventLayout.addView(txtArchived);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else{
                 TextView txtEventDetails = new TextView(this);
                 txtEventDetails.setTextColor(Color.WHITE);
                 txtEventDetails.setTextSize(25f);
-                txtEventDetails.append("Event Name: "+(String) dateEvents.get(i).get(1)+"\n");
-                txtEventDetails.append("Start Date: "+(String) dateEvents.get(i).get(2)+"\n");
-                txtEventDetails.append("End Date: "+(String) dateEvents.get(i).get(3)+"\n");
-                txtEventDetails.append("Location: "+(String) dateEvents.get(i).get(4));
-
+                txtEventDetails.setText("No Events");
                 eventLayout.addView(txtEventDetails);
-                try{
-                    Date endDate = format.parse((String) dateEvents.get(i).get(3));
-                    Log.d("endDate", String.valueOf(endDate));
-                    if(currentUser.getUserRole().equals("Leader") && !(new Date().after(endDate))){
-                        Button btnEditEvent = new Button(this);
-                        btnEditEvent.setText("Edit Event");
-                        btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
-                        btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
-                        eventLayout.addView(btnEditEvent);
-                    }
-                    if(new Date().after(endDate)){
-                        TextView txtArchived = new TextView(this);
-                        txtArchived.setTextColor(Color.WHITE);
-                        txtArchived.setTextSize(25f);
-                        txtArchived.setText("Archived");
-                        eventLayout.addView(txtArchived);
-                    }
-                }catch(ParseException e){
-                    e.printStackTrace();
-                }
             }
         }
     }
