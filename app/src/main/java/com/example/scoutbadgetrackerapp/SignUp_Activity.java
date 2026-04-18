@@ -157,7 +157,7 @@ public class SignUp_Activity extends Activity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("Role position", String.valueOf(spnRole.getSelectedItemPosition()));
-                if(spnRole.getSelectedItemPosition() == 0 || spnGroup.getSelectedItemPosition() == 0){
+                if(spnRole.getSelectedItemPosition() == 0 || spnCounty.getSelectedItemPosition() == 0 || spnDistrict.getSelectedItemPosition() == 0 || spnGroup.getSelectedItemPosition() == 0){
                     AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
                     alertDialog.setTitle("Alert");
                     alertDialog.setMessage("Please Select a Role and Group.");
@@ -169,24 +169,59 @@ public class SignUp_Activity extends Activity {
                             });
                     alertDialog.show();
 
-                }else {
-                    String role, groupID;
-                    Object[] group = db.getGroupByName(spnGroup.getSelectedItem().toString());
-                    role = spnRole.getSelectedItem().toString();
-                    groupID = (String) group[0];
-                    Log.d("groupID", groupID);
-                    db.addUser(new UserList(
-                            etxtUsername.getText().toString(),
-                            etxtPassword.getText().toString(),
-                            etxtName.getText().toString(),
-                            etxtDOB.getText().toString(),
-                            etxtEmail.getText().toString(),
-                            etxtPhone.getText().toString(),
-                            role,
-                            Integer.parseInt(groupID)
-                    ));
-                    activity = new Intent(SignUp_Activity.this, LogIn_Activity.class);
-                    startActivity(activity);
+                } else if (etxtUsername.getText().length() == 0 ||
+                        etxtPassword.getText().length() == 0 ||
+                        etxtName.getText().length() == 0||
+                        etxtDOB.getText().length() == 0 ||
+                        etxtEmail.getText().length() == 0 ||
+                        etxtPhone.getText().length() == 0) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Please fill in all your details.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+
+                } else {
+                    Object[] usernameCheck = db.getUser(etxtUsername.getText().toString());
+                    Log.d("check", String.valueOf(usernameCheck.length));
+                    if((String)usernameCheck[1] != null){
+                        Log.d("check2", (String) usernameCheck[1]);
+                        Log.d("Check3", etxtUsername.getText().toString());
+                        AlertDialog alertDialog = new AlertDialog.Builder(SignUp_Activity.this).create();
+                        alertDialog.setTitle("Alert");
+                        alertDialog.setMessage("Username already exists.\n" +
+                                "Please enter a unique username.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    }else{
+                        String role, groupID;
+                        Object[] group = db.getGroupByName(spnGroup.getSelectedItem().toString());
+                        role = spnRole.getSelectedItem().toString();
+                        groupID = (String) group[0];
+                        Log.d("groupID", groupID);
+                        db.addUser(new UserList(
+                                etxtUsername.getText().toString(),
+                                etxtPassword.getText().toString(),
+                                etxtName.getText().toString(),
+                                etxtDOB.getText().toString(),
+                                etxtEmail.getText().toString(),
+                                etxtPhone.getText().toString(),
+                                role,
+                                Integer.parseInt(groupID)
+                        ));
+                        activity = new Intent(SignUp_Activity.this, LogIn_Activity.class);
+                        startActivity(activity);
+                    }
                 }
             }
         });
