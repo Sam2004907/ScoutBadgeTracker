@@ -104,42 +104,56 @@ public class UserAccount_Activity extends Activity {
         });
         btnUpdateDetails.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!(String.valueOf(etxtPassword2.getText()).equals(""))){
-                    userDetails[2] = encrypt.encode(String.valueOf(etxtPassword2.getText()));
-                }
-                userDetails[5] = String.valueOf(etxtEmail2.getText());
-                userDetails[6] = String.valueOf(etxtPhone2.getText());
-                if(((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
-                    if(spnGroup2.getSelectedItemPosition() !=0 ) {
-                        Log.d("test", "test");
-                        Object[] group = db.getGroupByName(spnGroup2.getSelectedItem().toString());
-                        userDetails[8] = (String) group[0];
-                        userDetails[9] = "unapproved";
+                if(etxtEmail2.getText().length() == 0 || etxtPhone2.getText().length() == 0){
+                    AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Please fill in all your details.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else {
+                    if (!(String.valueOf(etxtPassword2.getText()).equals(""))) {
+                        userDetails[2] = encrypt.encode(String.valueOf(etxtPassword2.getText()));
                     }
+                    userDetails[5] = String.valueOf(etxtEmail2.getText());
+                    userDetails[6] = String.valueOf(etxtPhone2.getText());
+                    if (((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
+                        if (spnGroup2.getSelectedItemPosition() != 0) {
+                            Log.d("test", "test");
+                            Object[] group = db.getGroupByName(spnGroup2.getSelectedItem().toString());
+                            userDetails[8] = (String) group[0];
+                            userDetails[9] = "unapproved";
+                        }
+                    }
+                    boolean successful = false;
+                    try {
+                        db.updateUserDetails(userDetails);
+                        successful = true;
+                    } catch (Exception e) {
+                        Log.e("tag", e.getMessage());
+                    }
+                    AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    if (successful) {
+                        alertDialog.setMessage("Details Updated");
+                        spnGroup2.setEnabled(false);
+                        spnGroup2.setClickable(false);
+                    } else {
+                        alertDialog.setMessage("An Error has Occurred.\n Your Details have not been updated");
+                    }
+                    etxtPassword2.setText("");
+                    alertDialog.show();
                 }
-                boolean successful = false;
-                try{
-                    db.updateUserDetails(userDetails);
-                    successful = true;
-                }catch (Exception e) {
-                    Log.e("tag", e.getMessage());
-                }
-                AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
-                alertDialog.setTitle("Alert");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                if(successful){
-                    alertDialog.setMessage("Details Updated");
-                }else{
-                    alertDialog.setMessage("An Error has Occurred.\n Your Details have not been updated");
-                }
-                etxtPassword2.setText("");
-                alertDialog.show();
-
             }
         });
         btnDeleteUser.setOnClickListener(new View.OnClickListener() {
