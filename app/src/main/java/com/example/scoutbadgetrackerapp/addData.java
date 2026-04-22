@@ -1237,14 +1237,14 @@ public class addData {
         db.updateGroupMemberStatus( "18",  currentDateString);
         db.updateGroupMemberStatus( "21",  currentDateString);
         db.updateGroupMemberStatus( "22",  currentDateString);
+        db.updateGroupMemberStatus( "23",  currentDateString);
         db.updateGroupMemberStatus( "24",  currentDateString);
-        db.updateGroupMemberStatus( "25",  currentDateString);
+        db.updateGroupMemberStatus( "26",  currentDateString);
         db.updateGroupMemberStatus( "27",  currentDateString);
-        db.updateGroupMemberStatus( "28",  currentDateString);
+        db.updateGroupMemberStatus( "29",  currentDateString);
         db.updateGroupMemberStatus( "30",  currentDateString);
-        db.updateGroupMemberStatus( "31",  currentDateString);
+        db.updateGroupMemberStatus( "32",  currentDateString);
         db.updateGroupMemberStatus( "33",  currentDateString);
-        db.updateGroupMemberStatus( "34",  currentDateString);
     }
 
     public static void addEvents(DBHelper db){
