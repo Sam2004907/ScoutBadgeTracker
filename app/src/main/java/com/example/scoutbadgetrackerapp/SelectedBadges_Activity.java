@@ -2,11 +2,8 @@ package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class SelectedBadges_Activity extends Activity{
     ImageView imgBadge;
@@ -115,7 +110,6 @@ public class SelectedBadges_Activity extends Activity{
                             btnAward.setClickable(true);
 
                             Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-                            Log.d("groupNum", (String) userDetails[8]);
                             ArrayList<ArrayList<Object>> approvedMembers = db.getApprovedGroupMembers((String) userDetails[8]);
                             String memberName, memberRole, memberID;
                             lnrMembers.setRowCount(approvedMembers.size());
@@ -137,7 +131,7 @@ public class SelectedBadges_Activity extends Activity{
                                         }
                                     }
                                     if(position >= 2){
-                                        btnAward.setText("Update");
+                                        btnAward.setText(R.string.update);
                                         ArrayList<ArrayList<Object>> userEvidence = db.getUserBadgeReqEvidence(memberID, badge[0], requirements.get(position-2).get(0));
 
                                         if(userEvidence.size() > 0){
@@ -150,7 +144,6 @@ public class SelectedBadges_Activity extends Activity{
                                             }
 
                                             if(count < numEvidence || notcompleted){
-                                                Log.d("member", memberName);
                                                 lnrMembers.addView(addCheckBox(checkBox, memberName, memberRole));
                                                 txtID.setText(memberID);
                                                 txtID.setVisibility(View.INVISIBLE);
@@ -168,7 +161,7 @@ public class SelectedBadges_Activity extends Activity{
                                             txtID.setText(memberID);
                                             txtID.setVisibility(View.INVISIBLE);
                                             lnrMembers.addView(txtID);
-                                            btnAward.setText("Award Badge");
+                                            btnAward.setText(R.string.awardBadge);
                                         }
                                     }
                                 }
@@ -187,8 +180,7 @@ public class SelectedBadges_Activity extends Activity{
                 });
 
             }else{
-                Log.d("reqNumEvidence", String.valueOf(reqNumEvidence));
-                ArrayList<ArrayList<Object>> badgeEvidence = new ArrayList<ArrayList<Object>>();
+                ArrayList<ArrayList<Object>> badgeEvidence;
                 badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID);
                 double unapprovedCount = 0;
                 for(int i=0; i<badgeEvidence.size(); i++){
@@ -196,15 +188,14 @@ public class SelectedBadges_Activity extends Activity{
                         unapprovedCount += 1;
                     }
                 }
-                Log.d("unapprovedCount", String.valueOf(unapprovedCount));
+
                 String[] completionDetails = db.getCompletion(String.valueOf(currentUser.getUserID()),badge[0]);
                 float percentage = 0;
                 double secondPercentage = (unapprovedCount/reqNumEvidence)*100;
-                Log.d("secondPercentage", String.valueOf(secondPercentage));
+
                 if(completionDetails[1]!=null){
                     percentage = Float.parseFloat(completionDetails[1])*100;
                 }
-                //Log.d("percentage", String.valueOf(percentage));
                 if(percentage > 99){
                     pgbCompletion.setVisibility(View.INVISIBLE);
                     pgbCompletion.setEnabled(false);
@@ -222,39 +213,32 @@ public class SelectedBadges_Activity extends Activity{
 
         }
         String finalBadgeID = badgeID;
-        btnEvidence.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(SelectedBadges_Activity.this, Evidence_Activity.class);
-                activity.putExtra("key", finalBadgeID);
-                activity.putExtra("desc", extras.getString("key"));
-                startActivity(activity);
-            }
+        btnEvidence.setOnClickListener(v -> {
+            activity = new Intent(SelectedBadges_Activity.this, Evidence_Activity.class);
+            activity.putExtra("key", finalBadgeID);
+            activity.putExtra("desc", extras.getString("key"));
+            startActivity(activity);
         });
-        btnSelectedBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(SelectedBadges_Activity.this, Badges_Activity.class);
-                startActivity(activity);
+        btnSelectedBack.setOnClickListener(v -> {
+            activity = new Intent(SelectedBadges_Activity.this, Badges_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        double finalReqNumEvidence = reqNumEvidence;
-        btnAward.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int position = spnAward.getSelectedItemPosition();
-                if(position > 1){
-                    updateCompletion(
-                            db,
-                            0,
-                            badgeID,
-                            position
-                    );
-                }else{
-                    updateCompletion(db, 1,badgeID, position);
-                }
-                spnAward.setSelection(0);
-                lnrMembers.removeAllViews();
-                btnAward.setEnabled(false);
+        btnAward.setOnClickListener(v -> {
+            int position = spnAward.getSelectedItemPosition();
+            if(position > 1){
+                updateCompletion(
+                        db,
+                        0,
+                        badgeID,
+                        position
+                );
+            }else{
+                updateCompletion(db, 1,badgeID, position);
             }
+            spnAward.setSelection(0);
+            lnrMembers.removeAllViews();
+            btnAward.setEnabled(false);
         });
 
     }
@@ -279,7 +263,7 @@ public class SelectedBadges_Activity extends Activity{
                     if (child instanceof TextView) {
                         String userID = (String) ((TextView) child).getText();
                         String[] completion = db.getCompletion(userID, badgeID);
-                        ArrayList<ArrayList<Object>> userEvidence = new ArrayList<>();
+                        ArrayList<ArrayList<Object>> userEvidence;
                         int evidenceAdd = 0;
                         if(position >= 2){
                             userEvidence = db.getUserBadgeReqEvidence(userID, badgeID, requirements.get(position-2).get(0));
@@ -296,15 +280,12 @@ public class SelectedBadges_Activity extends Activity{
                             if(position > 1 && percentage != 1){
                                 percentage += (double) evidenceAdd/ reqNumEvidence;
                                 percentage += Float.parseFloat(completion[1]);
-                                Log.d("completion", completion[1]);
                             }
-                            Log.d("percentage1", String.valueOf(percentage));
                             db.updateCompletion(completion[0], percentage); //updateCompletion
                         }else{
                             if(percentage != 1){
                                 percentage += (double) evidenceAdd/ reqNumEvidence;
                             }
-                            Log.d("percentage2", String.valueOf(percentage));
                             db.addCompletion(new CompletionList(percentage, Integer.parseInt(userID), Integer.parseInt(badgeID)));
                         }
 

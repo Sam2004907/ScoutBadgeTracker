@@ -44,7 +44,7 @@
             android:gravity="start|top"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:text="Requirements:"
+            android:text="@string/reqs"
             android:paddingLeft="5dp"/>
 
     </ScrollView>

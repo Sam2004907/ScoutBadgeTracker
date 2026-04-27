@@ -45,14 +45,14 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="60dp"
-            android:text="Events"
+            android:text="@string/event"
             android:padding="15dp"/>
         <Button
             android:id="@+id/btnUserAccount"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="60dp"
-            android:text="User Account"
+            android:text="@string/userAccount"
             android:padding="15dp"/>
 
     </GridLayout>
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:textSize="25dp"
-        android:text="Badge Progress Overview:"
+        android:text="@string/badgeOverview"
         android:textColor="@color/white" />
     <GridLayout
         android:layout_width="match_parent"
@@ -102,7 +102,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Completed"
+                android:text="@string/completed"
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 android:paddingLeft="5dp"/>
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text="@string/inProgress"
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 android:paddingLeft="5dp"/>
@@ -141,7 +141,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Not Started"
+                android:text="@string/notStarted"
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 android:paddingLeft="5dp"/>

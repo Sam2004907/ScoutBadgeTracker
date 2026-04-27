@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:text="Leaders"
+        android:text="@string/leaders"
         android:textColor="@color/white"/>
 
     <ScrollView
@@ -52,14 +52,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:text="Edit Leaders" />
+        android:text="@string/editLeaders" />
 
     <TextView
         android:id="@+id/txtMemberTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:text="Members"
+        android:text="@string/members"
         android:textColor="@color/white"/>
     <ScrollView
         android:layout_width="match_parent"
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:visibility="invisible"
-        android:text="Parents/Guardians"
+        android:text="@string/parentsGuardians"
         android:textColor="@color/white"/>
 
     <ScrollView
@@ -115,13 +115,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:text="Edit Members" />
+        android:text="@string/editMembers" />
 
     <Button
         android:id="@+id/btnLeaveGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Leave Group" />
+        android:text="@string/leaveGroup" />
 
     <LinearLayout
         android:id="@+id/lytScoutDetails"
@@ -150,7 +150,7 @@
             android:id="@+id/btnUpdateDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update"
+            android:text="@string/update"
             android:visibility="invisible"/>
 
 

@@ -1,16 +1,13 @@
 package com.example.scoutbadgetrackerapp;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,11 +53,11 @@ public class Groups_Activity extends Activity{
             btnLeaveGroup.setVisibility(View.INVISIBLE);
 
             if(currentUser.getUserApproval().equals("unapproved")){
-                txtTitle.setText("You are currently waiting for approval.");
-                txtLeaderTitle.setText("Please speak with a leader at the group to be added.");
+                txtTitle.setText(R.string.waitingApproval);
+                txtLeaderTitle.setText(R.string.speakLeader);
             }else{
-                txtTitle.setText("You have been denied from joining.");
-                txtLeaderTitle.setText("If you believe this to be wrong speak to a leader at the group.");
+                txtTitle.setText(R.string.deniedApproval);
+                txtLeaderTitle.setText(R.string.speakLeader2);
             }
         }else {
             if (currentUser.getUserRole().equals("Leader")) {
@@ -70,85 +67,75 @@ public class Groups_Activity extends Activity{
                 txtParentList.setVisibility(View.VISIBLE);
             }
             Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-            Log.d("group", (String) userDetails[8]);
+
             Object[] groupDetails = db.getGroupByID((String) userDetails[8]);
             ArrayList<ArrayList<Object>> groupMembers = db.getApprovedGroupMembers((String) userDetails[8]);
             txtTitle.setText((CharSequence) groupDetails[1]);
             String memberName, memberRole;
             for (int i = 0; i < groupMembers.size(); i++) {
-                Log.d("Approved Member " + i, (String) groupMembers.get(i).get(0));
+
                 memberName = (String) groupMembers.get(i).get(0);
                 memberRole = (String) groupMembers.get(i).get(1);
-                if (memberRole.equals("Leader")) {
-                    TextView txtLeader = new TextView(this);
-                    txtLeader.setTextColor(Color.WHITE);
-                    txtLeader.setTextSize(20f);
-                    txtLeader.setText(" - " + memberName);
-                    lytLeaderList.addView(txtLeader);
-                } else if (memberRole.equals("Scout")) {
-                    TextView txtScout = new TextView(this);
-                    txtScout.setTextColor(Color.WHITE);
-                    txtScout.setTextSize(20f);
-                    txtScout.setText(" - " + memberName);
-                    txtScout.setContentDescription((String) groupMembers.get(i).get(4));
-                    txtScout.setClickable(true);
-                    txtScout.setOnClickListener(editScoutMember(txtScout));
-                    lytMemberList.addView(txtScout);
-                } else if (memberRole.equals("Parent/Guardian")) {
-                    txtParentList.append(" - " + memberName + "\n");
+                switch (memberRole) {
+                    case "Leader":
+                        TextView txtLeader = new TextView(this);
+                        txtLeader.setTextColor(Color.WHITE);
+                        txtLeader.setTextSize(20f);
+                        txtLeader.setText(" - " + memberName);
+                        lytLeaderList.addView(txtLeader);
+                        break;
+                    case "Scout":
+                        TextView txtScout = new TextView(this);
+                        txtScout.setTextColor(Color.WHITE);
+                        txtScout.setTextSize(20f);
+                        txtScout.setText(" - " + memberName);
+                        txtScout.setContentDescription((String) groupMembers.get(i).get(4));
+                        txtScout.setClickable(true);
+                        txtScout.setOnClickListener(editScoutMember(txtScout));
+                        lytMemberList.addView(txtScout);
+                        break;
+                    case "Parent/Guardian":
+                        txtParentList.append(" - " + memberName + "\n");
+                        break;
                 }
             }
         }
-        btnEditLeaders.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Groups_Activity.this, EditMembers_Activity.class);
-                activity.putExtra("key", "Leaders");
-                startActivity(activity);
+        btnEditLeaders.setOnClickListener(v -> {
+            activity = new Intent(Groups_Activity.this, EditMembers_Activity.class);
+            activity.putExtra("key", "Leaders");
+            startActivity(activity);
 
-            }
         });
-        btnEditMembers.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Groups_Activity.this, EditMembers_Activity.class);
-                activity.putExtra("key", "Members");
-                startActivity(activity);
-            }
+        btnEditMembers.setOnClickListener(v -> {
+            activity = new Intent(Groups_Activity.this, EditMembers_Activity.class);
+            activity.putExtra("key", "Members");
+            startActivity(activity);
         });
-        btnGroupBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Groups_Activity.this, MainActivity.class);
-                startActivity(activity);
+        btnGroupBack.setOnClickListener(v -> {
+            activity = new Intent(Groups_Activity.this, MainActivity.class);
+            startActivity(activity);
 
-            }
         });
-        btnLeaveGroup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(Groups_Activity.this).create();
-                alertDialog.setTitle("Alert");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Delete User", "Yes");
-                                Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
-                                userDetails[8] = "0"; //groupID
-                                userDetails[9] = "unapproved"; //groupStatus
-                                currentUser.setUserApproval("unapproved");
-                                db.updateUserDetails(userDetails);
-                                activity = new Intent(Groups_Activity.this, MainActivity.class);
-                                startActivity(activity);
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setMessage("Are you sure you wish to leave the group?");
-                alertDialog.show();
+        btnLeaveGroup.setOnClickListener(v -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(Groups_Activity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                    (dialog, which) -> {
 
-            }
+                        Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
+                        userDetails[8] = "0"; //groupID
+                        userDetails[9] = "unapproved"; //groupStatus
+                        currentUser.setUserApproval("unapproved");
+                        db.updateUserDetails(userDetails);
+                        activity = new Intent(Groups_Activity.this, MainActivity.class);
+                        startActivity(activity);
+                        dialog.dismiss();
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                    (dialog, which) -> dialog.dismiss());
+            alertDialog.setMessage("Are you sure you wish to leave the group?");
+            alertDialog.show();
+
         });
 
     }
@@ -159,16 +146,7 @@ public class Groups_Activity extends Activity{
     }
 
     private View.OnClickListener editScoutMember(final TextView textview){
-        return new View.OnClickListener() {
-            public void onClick(View v) {
-//                activity = new Intent(Badges_Activity.this, SelectedBadges_Activity.class);
-//                activity.putExtra("key", (String) v.getContentDescription());
-//                startActivity(activity);
-                Log.d("id", (String) textview.getContentDescription());
-                showUpdateScout((String) textview.getContentDescription());
-
-            }
-        };
+        return v -> showUpdateScout((String) textview.getContentDescription());
     }
     private void showUpdateScout(String scoutID){
         DBHelper db = new DBHelper(this);
@@ -185,7 +163,7 @@ public class Groups_Activity extends Activity{
         );
         adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPosition.setAdapter(adapterRoles);
-        Log.d("completion", String.valueOf(completion[1]));
+
         if(completion[1]!= null){
             spnPosition.setSelection(3);
         }else{
@@ -213,22 +191,20 @@ public class Groups_Activity extends Activity{
 
             }
         });
-        btnUpdateDetails.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int position = spnPosition.getSelectedItemPosition();
-                if(position == 1){
-                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 89));
-                }else if(position == 2){
-                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 90));
-                }else if(position == 3){
-                    db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 91));
-                }
-                txtScoutName.setText("");
-                txtScoutName.setVisibility(View.INVISIBLE);
-                spnPosition.setVisibility(View.INVISIBLE);
-                btnUpdateDetails.setVisibility(View.INVISIBLE);
-
+        btnUpdateDetails.setOnClickListener(v -> {
+            int position = spnPosition.getSelectedItemPosition();
+            if(position == 1){
+                db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 89));
+            }else if(position == 2){
+                db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 90));
+            }else if(position == 3){
+                db.addCompletion(new CompletionList(1, Integer.parseInt((String) scoutDetails[0]), 91));
             }
+            txtScoutName.setText("");
+            txtScoutName.setVisibility(View.INVISIBLE);
+            spnPosition.setVisibility(View.INVISIBLE);
+            btnUpdateDetails.setVisibility(View.INVISIBLE);
+
         });
     }
 }

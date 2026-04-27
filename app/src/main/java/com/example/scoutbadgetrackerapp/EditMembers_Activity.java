@@ -3,17 +3,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -44,59 +37,52 @@ public class EditMembers_Activity extends Activity{
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-        Log.d("groupNum", (String) userDetails[8]);
+
         Object[] groupDetails = db.getGroupByID((String) userDetails[8]);
         ArrayList<ArrayList<Object>> unapprovedMembers = db.getUnapprovedGroupMembers((String) userDetails[8]);
         txtGroupName.setText((CharSequence) groupDetails[1]);
-        Log.d("GroupName", (String) groupDetails[1]);
+
         String memberName, memberRole, memberID;
         grdLayout.setRowCount(unapprovedMembers.size());
         grdLayout.setColumnCount(2);
 
         for(int i = 0; i < unapprovedMembers.size(); i++){
-            Log.d("Unapproved Member "+i, (String) unapprovedMembers.get(i).get(0));
+
             memberName = (String) unapprovedMembers.get(i).get(0);
             memberRole = (String) unapprovedMembers.get(i).get(1);
             memberID = (String) unapprovedMembers.get(i).get(4);
-            CheckBox checkBox = new CheckBox(this);
 
             TextView txtID = new TextView(this);
 
             if(memberRole.equals("Leader") && editMembers.equals("Leaders")) {
-                grdLayout.addView(addCheckBox(checkBox, memberName, memberRole));
+                grdLayout.addView(addCheckBox(memberName, memberRole));
                 txtID.setText(memberID);
                 txtID.setVisibility(View.INVISIBLE);
                 grdLayout.addView(txtID);
             } else if ((memberRole.equals("Scout")||memberRole.equals("Parent/Guardian")) && editMembers.equals("Members")) {
-                grdLayout.addView(addCheckBox(checkBox, memberName, memberRole));
+                grdLayout.addView(addCheckBox(memberName, memberRole));
                 txtID.setText(memberID);
                 txtID.setVisibility(View.INVISIBLE);
                 grdLayout.addView(txtID);
             }
         }
 
-        btnApprove.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                String currentDateString = dateFormat.format(new Date());
-                updateStatus(db, currentDateString);
-                activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
-                startActivity(activity);
-            }
+        btnApprove.setOnClickListener(v -> {
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            String currentDateString = dateFormat.format(new Date());
+            updateStatus(db, currentDateString);
+            activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
+            startActivity(activity);
         });
-        btnDeny.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                updateStatus(db, "Denied");
-                activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
-                startActivity(activity);
-            }
+        btnDeny.setOnClickListener(v -> {
+            updateStatus(db, "Denied");
+            activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
+            startActivity(activity);
         });
-        btnMemberBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
-                startActivity(activity);
+        btnMemberBack.setOnClickListener(v -> {
+            activity = new Intent(EditMembers_Activity.this, Groups_Activity.class);
+            startActivity(activity);
 
-            }
         });
     }
 
@@ -104,35 +90,33 @@ public class EditMembers_Activity extends Activity{
     protected void onStart() {
         super.onStart();
     }
-    private CheckBox addCheckBox(CheckBox cb, String memberName, String memberRole){
+    private CheckBox addCheckBox(String memberName, String memberRole){
         CheckBox checkBox = new CheckBox(this);
         checkBox.setTextSize(20);
         checkBox.setText("Name: " + memberName + " Role: " + memberRole);
         checkBox.setTextColor(Color.WHITE);
         checkBox.setDrawingCacheBackgroundColor(Color.WHITE);
-        checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
+        checkBox.setOnClickListener(getOnClickDoSomething());
         return checkBox;
     }
-    View.OnClickListener getOnClickDoSomething(final CheckBox checkBox)  {
-        return new View.OnClickListener() {
-            public void onClick(View v) {
+    View.OnClickListener getOnClickDoSomething()  {
+        return v -> {
 
-                int count = 0;
-                for(int i=0; i < grdLayout.getChildCount(); i++){
-                    View child = grdLayout.getChildAt(i);
-                    if(child instanceof CheckBox) {
-                        if(((CheckBox) child).isChecked()){
-                            count += 1;
-                        }
+            int count = 0;
+            for(int i=0; i < grdLayout.getChildCount(); i++){
+                View child = grdLayout.getChildAt(i);
+                if(child instanceof CheckBox) {
+                    if(((CheckBox) child).isChecked()){
+                        count += 1;
                     }
                 }
-                if(count > 0){
-                    btnApprove.setEnabled(true);
-                    btnDeny.setEnabled(true);
-                }else{
-                    btnApprove.setEnabled(false);
-                    btnDeny.setEnabled(false);
-                }
+            }
+            if(count > 0){
+                btnApprove.setEnabled(true);
+                btnDeny.setEnabled(true);
+            }else{
+                btnApprove.setEnabled(false);
+                btnDeny.setEnabled(false);
             }
         };
     }
@@ -141,7 +125,6 @@ public class EditMembers_Activity extends Activity{
             View child = grdLayout.getChildAt(i);
             if(child instanceof CheckBox) {
                 if(((CheckBox) child).isChecked()){
-                    Log.d("Information", (String) ((CheckBox) child).getText());
                     i +=1;
                     child = grdLayout.getChildAt(i);
                     if (child instanceof TextView) {

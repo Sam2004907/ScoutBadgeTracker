@@ -2,7 +2,6 @@ package com.example.scoutbadgetrackerapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -49,7 +47,7 @@ public class Badges_Activity extends Activity{
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
-                ArrayList<ArrayList<String>> badges = new ArrayList<ArrayList<String>>();
+                ArrayList<ArrayList<String>> badges;
                 parentLayout.removeAllViews();
                 if(position==1) { //Activity
                     badges = db.getBadgeByType("activity");
@@ -74,12 +72,10 @@ public class Badges_Activity extends Activity{
 
             }
         });
-        btnBadgesBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Badges_Activity.this, MainActivity.class);
-                startActivity(activity);
+        btnBadgesBack.setOnClickListener(v -> {
+            activity = new Intent(Badges_Activity.this, MainActivity.class);
+            startActivity(activity);
 
-            }
         });
 
     }
@@ -91,74 +87,36 @@ public class Badges_Activity extends Activity{
     }
 
     View.OnClickListener getOnClickDoSomething(final ImageButton button)  {
-        return new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Badges_Activity.this, SelectedBadges_Activity.class);
-                activity.putExtra("key", (String) v.getContentDescription());
-                startActivity(activity);
-            }
+        return v -> {
+            activity = new Intent(Badges_Activity.this, SelectedBadges_Activity.class);
+            activity.putExtra("key", (String) v.getContentDescription());
+            startActivity(activity);
         };
     }
     private void addBadgeView(ArrayList<ArrayList<String>> badges, ScrollView parentLayout){
-        Badges_Activity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                while (progressStatus < 100) {
-                    try {
-                        int imgNum = 0;
-                        int ROWS = badges.size() / 2;
-                        boolean oddBadgeSize = false;
-                        if((badges.size() % 2) != 0){
-                            oddBadgeSize = true;
-                        }
-                        int COLUMNS = 2;
-                        GridLayout gridLayout = new GridLayout(Badges_Activity.this);
-                        gridLayout.setLayoutParams(new ViewGroup.LayoutParams(
-                                GridLayout.LayoutParams.WRAP_CONTENT,
-                                GridLayout.LayoutParams.WRAP_CONTENT
-                        ));
-                        gridLayout.setPadding(50,10,50,10);
+        Badges_Activity.this.runOnUiThread(() -> {
+            while (progressStatus < 100) {
+                try {
+                    int imgNum = 0;
+                    int ROWS = badges.size() / 2;
+                    boolean oddBadgeSize = (badges.size() % 2) != 0;
+                    int COLUMNS = 2;
+                    GridLayout gridLayout = new GridLayout(Badges_Activity.this);
+                    gridLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                            GridLayout.LayoutParams.WRAP_CONTENT,
+                            GridLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    gridLayout.setPadding(50,10,50,10);
 
-                        gridLayout.setRowCount(ROWS);
-                        gridLayout.setColumnCount(COLUMNS);
-                        int halfWidth = (parentLayout.getWidth()/2) - 100;
+                    gridLayout.setRowCount(ROWS);
+                    gridLayout.setColumnCount(COLUMNS);
+                    int halfWidth = (parentLayout.getWidth()/2) - 100;
 
-                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(halfWidth,halfWidth);
+                    ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(halfWidth,halfWidth);
 
-                        for (int i = 0; i < ROWS; i++) {
+                    for (int i = 0; i < ROWS; i++) {
 
-                            for (int j = 0; j < COLUMNS; j++) {
-                                ImageButton imgButton = new ImageButton(Badges_Activity.this);
-                                imgButton.setLayoutParams(params);
-                                imgButton.setPaddingRelative(100,100,100,100);
-                                imgButton.setContentDescription(badges.get(imgNum).get(1));
-                                imgButton.setBackgroundResource(
-                                        getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
-                                );
-
-                                DBHelper db = new DBHelper(Badges_Activity.this);
-                                String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
-                                if(completion[0]!=null) {
-                                    if ((Float.parseFloat(completion[1]) * 100) > 99) {
-                                        RelativeLayout relLayout = new RelativeLayout(Badges_Activity.this);
-                                        ImageView imgComplete = new ImageView(Badges_Activity.this);
-                                        imgComplete.setBackgroundResource(R.drawable.accept_icon);
-                                        imgComplete.setMaxHeight(30);
-                                        imgComplete.setMaxWidth(30);
-                                        relLayout.addView(imgButton);
-                                        relLayout.addView(imgComplete);
-                                        gridLayout.addView(relLayout);
-                                    } else {
-                                        gridLayout.addView(imgButton);
-                                    }
-                                }else{
-                                    gridLayout.addView(imgButton);
-                                }
-                                imgButton.setOnClickListener(getOnClickDoSomething(imgButton));
-                                imgNum += 1;
-                            }
-                        }
-                        if(oddBadgeSize){
+                        for (int j = 0; j < COLUMNS; j++) {
                             ImageButton imgButton = new ImageButton(Badges_Activity.this);
                             imgButton.setLayoutParams(params);
                             imgButton.setPaddingRelative(100,100,100,100);
@@ -186,13 +144,43 @@ public class Badges_Activity extends Activity{
                                 gridLayout.addView(imgButton);
                             }
                             imgButton.setOnClickListener(getOnClickDoSomething(imgButton));
+                            imgNum += 1;
                         }
-                        parentLayout.addView(gridLayout);
-                        progressStatus = 100;
-                    } catch (Exception e) {
-                        Log.e("tag", e.getMessage());
-                        progressStatus = 100;
                     }
+                    if(oddBadgeSize){
+                        ImageButton imgButton = new ImageButton(Badges_Activity.this);
+                        imgButton.setLayoutParams(params);
+                        imgButton.setPaddingRelative(100,100,100,100);
+                        imgButton.setContentDescription(badges.get(imgNum).get(1));
+                        imgButton.setBackgroundResource(
+                                getResources().getIdentifier(badges.get(imgNum).get(3), "drawable", getPackageName())
+                        );
+
+                        DBHelper db = new DBHelper(Badges_Activity.this);
+                        String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
+                        if(completion[0]!=null) {
+                            if ((Float.parseFloat(completion[1]) * 100) > 99) {
+                                RelativeLayout relLayout = new RelativeLayout(Badges_Activity.this);
+                                ImageView imgComplete = new ImageView(Badges_Activity.this);
+                                imgComplete.setBackgroundResource(R.drawable.accept_icon);
+                                imgComplete.setMaxHeight(30);
+                                imgComplete.setMaxWidth(30);
+                                relLayout.addView(imgButton);
+                                relLayout.addView(imgComplete);
+                                gridLayout.addView(relLayout);
+                            } else {
+                                gridLayout.addView(imgButton);
+                            }
+                        }else{
+                            gridLayout.addView(imgButton);
+                        }
+                        imgButton.setOnClickListener(getOnClickDoSomething(imgButton));
+                    }
+                    parentLayout.addView(gridLayout);
+                    progressStatus = 100;
+                } catch (Exception e) {
+                    Log.e("tag", e.getMessage());
+                    progressStatus = 100;
                 }
             }
         });

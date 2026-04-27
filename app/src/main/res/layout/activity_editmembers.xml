@@ -51,13 +51,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Approve" />
+        android:text="@string/approve" />
     <Button
         android:id="@+id/btnDeny"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Deny" />
+        android:text="@string/deny" />
 
 
 </LinearLayout>

@@ -14,7 +14,7 @@
         android:id="@+id/btnEvidenceBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="@string/back" />
 
     <!--Button to pick pdf-->
 
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:text="Select Evidence"/>
+        android:text="@string/selectEvidence"/>
 
     <!--TextView to display file information-->
 

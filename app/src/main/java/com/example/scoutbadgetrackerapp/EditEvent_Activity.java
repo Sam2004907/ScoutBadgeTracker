@@ -1,17 +1,13 @@
 package com.example.scoutbadgetrackerapp;
 
-import static java.lang.reflect.Array.set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,8 +17,6 @@ import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditEvent_Activity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -71,111 +65,88 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
             btnAddEvent.setVisibility(View.VISIBLE);
         }
 
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txtStartDate.setText("");
-                startOrEnd = "start";
-                Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditEvent_Activity.this, EditEvent_Activity.this,year, month,day);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
-                datePickerDialog.show();
-            }
+        btnStartDate.setOnClickListener(v -> {
+            txtStartDate.setText("");
+            startOrEnd = "start";
+            Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(EditEvent_Activity.this, EditEvent_Activity.this,year, month,day);
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+            datePickerDialog.show();
         });
-        btnEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txtEndDate.setText("");
-                startOrEnd = "end";
-                Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditEvent_Activity.this, EditEvent_Activity.this,year, month,day);
-                Calendar mCalendar = Calendar.getInstance();
-                mCalendar.set(startYear, startMonth-1, startDay);
-                datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis()-1000);
-                datePickerDialog.show();
-            }
+        btnEndDate.setOnClickListener(v -> {
+            txtEndDate.setText("");
+            startOrEnd = "end";
+            Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(EditEvent_Activity.this, EditEvent_Activity.this,year, month,day);
+            Calendar mCalendar = Calendar.getInstance();
+            mCalendar.set(startYear, startMonth-1, startDay);
+            datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis()-1000);
+            datePickerDialog.show();
         });
-        btnAddEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String eventName = String.valueOf(etxtEventname.getText());
-                String location = String.valueOf(etxtLocation.getText());
-                if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0){
-                    AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Please fill out all of the event details including a start and end date.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                }else{
-                    String startDate = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
-                    String endDate = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
-                    Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-                    String groupID = (String) userDetails[8];
-                    db.addEvent(new EventList(eventName, startDate, endDate, location, Integer.parseInt(groupID)));
+        btnAddEvent.setOnClickListener(v -> {
+            String eventName = String.valueOf(etxtEventname.getText());
+            String location = String.valueOf(etxtLocation.getText());
+            if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0){
+                AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Please fill out all of the event details including a start and end date.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+            }else{
+                String startDate = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
+                String endDate = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
+                Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
+                String groupID = (String) userDetails[8];
+                db.addEvent(new EventList(eventName, startDate, endDate, location, Integer.parseInt(groupID)));
 
-                    activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
-                    startActivity(activity);
-
-                }
-
-            }
-        });
-        btnEditEventBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
                 activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
                 startActivity(activity);
 
             }
+
         });
-        btnDeleteEvent.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                db.deleteEvent(eventID);
+        btnEditEventBack.setOnClickListener(v -> {
+            activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+            startActivity(activity);
+
+        });
+        btnDeleteEvent.setOnClickListener(v -> {
+            db.deleteEvent(eventID);
+            activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
+            startActivity(activity);
+
+        });
+        btnUpdateEvent.setOnClickListener(v -> {
+            String eventName = String.valueOf(etxtEventname.getText());
+            String location = String.valueOf(etxtLocation.getText());
+            if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0) {
+                AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Please fill out all of the event details including a start and end date.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+            }else {
+                if (startDay != 0) {
+                    eventDetails[2] = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
+                }
+                if (endDay != 0) {
+                    eventDetails[3] = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
+                }
+                eventDetails[1] = String.valueOf(etxtEventname.getText());
+                eventDetails[4] = String.valueOf(etxtLocation.getText());
+                db.updateEventDetails(eventDetails);
                 activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
                 startActivity(activity);
-
             }
-        });
-        btnUpdateEvent.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String eventName = String.valueOf(etxtEventname.getText());
-                String location = String.valueOf(etxtLocation.getText());
-                if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Please fill out all of the event details including a start and end date.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                }else {
-                    if (startDay != 0) {
-                        eventDetails[2] = convertToStringDate(startYear, startMonth, startDay, startHour, startMinute);
-                    }
-                    if (endDay != 0) {
-                        eventDetails[3] = convertToStringDate(endYear, endMonth, endDay, endHour, endMinute);
-                    }
-                    eventDetails[1] = String.valueOf(etxtEventname.getText());
-                    eventDetails[4] = String.valueOf(etxtLocation.getText());
-                    db.updateEventDetails(eventDetails);
-                    activity = new Intent(EditEvent_Activity.this, Event_Activity.class);
-                    startActivity(activity);
-                }
 
-            }
         });
 
     }

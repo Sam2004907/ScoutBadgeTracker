@@ -1,37 +1,26 @@
 package com.example.scoutbadgetrackerapp;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class ViewEvidence_Activity extends Activity {
@@ -40,7 +29,6 @@ public class ViewEvidence_Activity extends Activity {
     LinearLayout lnrEvidence;
     private int progressStatus = 0;
     private int requirementPosition = 0;
-    private Handler handler = new Handler();
     Intent activity;
     private String userID, badgeID;
 
@@ -55,31 +43,27 @@ public class ViewEvidence_Activity extends Activity {
         btnShow = findViewById(R.id.btnShow);
         btnViewBack = findViewById(R.id.btnViewBack);
 
-        btnViewBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ;
-                activity = new Intent(ViewEvidence_Activity.this, MainActivity.class);
-                startActivity(activity);
+        btnViewBack.setOnClickListener(v -> {
+            activity = new Intent(ViewEvidence_Activity.this, MainActivity.class);
+            startActivity(activity);
 
-            }
         });
 
         DBHelper db = new DBHelper(this);
 
         Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
-        Object[] groupDetails = db.getGroupByID((String) userDetails[8]);
         ArrayList<ArrayList<Object>> groupMembers = db.getApprovedGroupMembers((String) userDetails[8]);
-        ArrayList<ArrayList<String>> scoutDetails = new ArrayList<ArrayList<String>>();
-        ArrayList<String> memberNames = new ArrayList<String>();
-        ArrayList<String> badgeList = new ArrayList<String>();
-        ArrayList<String> requirementList = new ArrayList<String>();
-        ArrayList<String> requirementIDList = new ArrayList<String>();
+        ArrayList<ArrayList<String>> scoutDetails = new ArrayList<>();
+        ArrayList<String> memberNames = new ArrayList<>();
+        ArrayList<String> badgeList = new ArrayList<>();
+        ArrayList<String> requirementList = new ArrayList<>();
+        ArrayList<String> requirementIDList = new ArrayList<>();
 
         int count=0;
         for(int i=0; i<groupMembers.size(); i++){
             if(groupMembers.get(i).get(1).equals("Scout")){
                 memberNames.add((String) groupMembers.get(i).get(0));
-                scoutDetails.add(new ArrayList<String>());
+                scoutDetails.add(new ArrayList<>());
                 scoutDetails.get(count).add((String) groupMembers.get(i).get(0));
                 scoutDetails.get(count).add((String) groupMembers.get(i).get(4));
                 count+=1;
@@ -162,7 +146,7 @@ public class ViewEvidence_Activity extends Activity {
                     ArrayList<ArrayList<String>> badgeRequirementList = db.getBadgeReqs(badgeID);
                     ArrayList<ArrayList<Object>> userBadgeEvidenceList = db.getUserBadgeEvidence(userID, badgeID);
                     requirementList.add("Select a Requirement");
-                    ArrayList<String> unapprovedReqID = new ArrayList<String>();
+                    ArrayList<String> unapprovedReqID = new ArrayList<>();
                     for(int i=0; i < userBadgeEvidenceList.size(); i++){
                         if(((String) userBadgeEvidenceList.get(i).get(3)).equals("unapproved")){
                             unapprovedReqID.add((String) userBadgeEvidenceList.get(i).get(6));
@@ -214,37 +198,32 @@ public class ViewEvidence_Activity extends Activity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-        btnShow.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                lnrEvidence.removeAllViews();
-                if(requirementPosition>0) {
-                    ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(userID, requirementIDList.get(requirementPosition - 1));
-                    if(reqEvidence.size()>0) {
-                        progressStatus=0;
-                        ViewEvidence_Activity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                int progressUpdate = 100 / reqEvidence.size();
-                                while (progressStatus < 100) {
-                                    try {
-                                        for (int i = 0; i < reqEvidence.size(); i++) {
-                                            addEvidenceView((String) reqEvidence.get(i).get(2), (String) reqEvidence.get(i).get(0), (String) reqEvidence.get(i).get(1));
-                                            progressStatus += progressUpdate;
-                                        }
-                                    } catch (Exception e) {
-                                        Log.e("tag", e.getMessage());
-                                    }
+        btnShow.setOnClickListener(v -> {
+            lnrEvidence.removeAllViews();
+            if(requirementPosition>0) {
+                ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(userID, requirementIDList.get(requirementPosition - 1));
+                if(reqEvidence.size()>0) {
+                    progressStatus=0;
+                    ViewEvidence_Activity.this.runOnUiThread(() -> {
+                        int progressUpdate = 100 / reqEvidence.size();
+                        while (progressStatus < 100) {
+                            try {
+                                for (int i = 0; i < reqEvidence.size(); i++) {
+                                    addEvidenceView((String) reqEvidence.get(i).get(2), (String) reqEvidence.get(i).get(0), (String) reqEvidence.get(i).get(1));
+                                    progressStatus += progressUpdate;
                                 }
+                            } catch (Exception e) {
+                                Log.e("tag", e.getMessage());
                             }
-                        });
-                    }else{
-                        noEvidence();
-                    }
+                        }
+                    });
                 }else{
-                    lnrEvidence.removeAllViews();
+                    noEvidence();
                 }
-
+            }else{
+                lnrEvidence.removeAllViews();
             }
+
         });
 
     }
@@ -256,7 +235,7 @@ public class ViewEvidence_Activity extends Activity {
     private void noEvidence(){
         lnrEvidence.removeAllViews();
         TextView noEvidence = new TextView(ViewEvidence_Activity.this);
-        noEvidence.setText("No Unapproved Evidence");
+        noEvidence.setText(R.string.noUnapproved);
         noEvidence.setTextSize(24);
         noEvidence.setTextColor(Color.WHITE);
         lnrEvidence.addView(noEvidence);
@@ -281,9 +260,9 @@ public class ViewEvidence_Activity extends Activity {
         //set Evidence linear layout component details
         txtEvidence.setText("Evidence ID: "+evidenceID+" Evidence Type: "+evidenceType);
         txtEvidence.setTextColor(Color.WHITE);
-        btnApprove.setText("Approve");
+        btnApprove.setText(R.string.approve);
         btnApprove.setContentDescription((CharSequence) evidenceID);
-        btnDeny.setText("Deny");
+        btnDeny.setText(R.string.deny);
         btnDeny.setContentDescription((CharSequence) evidenceID);
         txtEvidence.setTextSize(18);
         txtEvidence.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -303,44 +282,40 @@ public class ViewEvidence_Activity extends Activity {
     }
 
     View.OnClickListener getOnApproveClick(final Button button)  {
-        return new View.OnClickListener() {
-            public void onClick(View v) {
-                DBHelper db = new DBHelper(ViewEvidence_Activity.this);
-                db.updateEvidenceApproval((String) v.getContentDescription(), "approved");
-                String[] completionDetails = db.getCompletion(userID, badgeID);
+        return v -> {
+            DBHelper db = new DBHelper(ViewEvidence_Activity.this);
+            db.updateEvidenceApproval((String) v.getContentDescription(), "approved");
+            String[] completionDetails = db.getCompletion(userID, badgeID);
 
-                ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badgeID);
-                int reqNumEvidence = 0;
-                float percentage = 0;
-                for(int i=0; i<requirements.size(); i++){
-                    reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
-                }
-
-                if(completionDetails[0]==null){
-                    //Add new completion
-                    db.addCompletion(new CompletionList(percentage, Integer.parseInt(userID), Integer.parseInt(badgeID)));
-                    completionDetails = db.getCompletion(userID, badgeID);
-                }else{
-                    percentage = Float.parseFloat(completionDetails[1]);
-                }
-                //Add one evidence piece worth to percentage value.
-                percentage += (double) 1/ (double )reqNumEvidence;
-                db.updateCompletion(completionDetails[0], percentage);
-
-                lnrEvidence.removeAllViews();
-                btnShow.performClick();
-
+            ArrayList<ArrayList<String>> requirements = db.getBadgeReqs(badgeID);
+            int reqNumEvidence = 0;
+            float percentage = 0;
+            for(int i=0; i<requirements.size(); i++){
+                reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
             }
+
+            if(completionDetails[0]==null){
+                //Add new completion
+                db.addCompletion(new CompletionList(percentage, Integer.parseInt(userID), Integer.parseInt(badgeID)));
+                completionDetails = db.getCompletion(userID, badgeID);
+            }else{
+                percentage = Float.parseFloat(completionDetails[1]);
+            }
+            //Add one evidence piece worth to percentage value.
+            percentage += (double) 1/ (double )reqNumEvidence;
+            db.updateCompletion(completionDetails[0], percentage);
+
+            lnrEvidence.removeAllViews();
+            btnShow.performClick();
+
         };
     }
     View.OnClickListener getOnDenyClick(final Button button)  {
-        return new View.OnClickListener() {
-            public void onClick(View v) {
-                DBHelper db = new DBHelper(ViewEvidence_Activity.this);
-                db.updateEvidenceApproval((String) v.getContentDescription(), "denied");
-                lnrEvidence.removeAllViews();
-                btnShow.performClick();
-            }
+        return v -> {
+            DBHelper db = new DBHelper(ViewEvidence_Activity.this);
+            db.updateEvidenceApproval((String) v.getContentDescription(), "denied");
+            lnrEvidence.removeAllViews();
+            btnShow.performClick();
         };
     }
 }

@@ -1,16 +1,14 @@
 package com.example.scoutbadgetrackerapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,14 +21,15 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class Event_Activity extends Activity implements CalendarAdapter.OnItemListener{
     LinearLayout eventLayout;
     Button btnEventBack, btnNewEvent;
-    TextView txtDateTitle, txtEventList;
+    TextView txtDateTitle;
     Intent activity;
 
-    static ArrayList<ArrayList<Object>> events = new ArrayList<ArrayList<Object>>();
+    static ArrayList<ArrayList<Object>> events;
 
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -61,20 +60,16 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
         }
 
 
-        btnEventBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Event_Activity.this, MainActivity.class);
-                startActivity(activity);
+        btnEventBack.setOnClickListener(v -> {
+            activity = new Intent(Event_Activity.this, MainActivity.class);
+            startActivity(activity);
 
-            }
         });
-        btnNewEvent.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
-                activity.putExtra("key", "new");
-                startActivity(activity);
+        btnNewEvent.setOnClickListener(v -> {
+            activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
+            activity.putExtra("key", "new");
+            startActivity(activity);
 
-            }
         });
 
     }
@@ -160,25 +155,25 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
             DBHelper db = new DBHelper(this);
             ArrayList<ArrayList<Object>> dateEvents = db.getGroupEventsByDate(groupID, searchDate);
             eventLayout.removeAllViews();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             txtDateTitle.setText(searchDate+":");
             if(dateEvents.size() > 0) {
                 for (int i = 0; i < dateEvents.size(); i++) {
                     TextView txtEventDetails = new TextView(this);
                     txtEventDetails.setTextColor(Color.WHITE);
                     txtEventDetails.setTextSize(25f);
-                    txtEventDetails.append("Event Name: " + (String) dateEvents.get(i).get(1) + "\n");
-                    txtEventDetails.append("Start Date: " + (String) dateEvents.get(i).get(2) + "\n");
-                    txtEventDetails.append("End Date: " + (String) dateEvents.get(i).get(3) + "\n");
-                    txtEventDetails.append("Location: " + (String) dateEvents.get(i).get(4));
+                    txtEventDetails.append("Event Name: " + dateEvents.get(i).get(1) + "\n");
+                    txtEventDetails.append("Start Date: " + dateEvents.get(i).get(2) + "\n");
+                    txtEventDetails.append("End Date: " + dateEvents.get(i).get(3) + "\n");
+                    txtEventDetails.append("Location: " + dateEvents.get(i).get(4));
 
                     eventLayout.addView(txtEventDetails);
                     try {
                         Date endDate = format.parse((String) dateEvents.get(i).get(3));
-                        Log.d("endDate", String.valueOf(endDate));
+
                         if (currentUser.getUserRole().equals("Leader") && !(new Date().after(endDate))) {
                             Button btnEditEvent = new Button(this);
-                            btnEditEvent.setText("Edit Event");
+                            btnEditEvent.setText(R.string.editEvent);
                             btnEditEvent.setContentDescription((CharSequence) dateEvents.get(i).get(0));
                             btnEditEvent.setOnClickListener(editEventButton(btnEditEvent));
                             eventLayout.addView(btnEditEvent);
@@ -187,7 +182,7 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
                             TextView txtArchived = new TextView(this);
                             txtArchived.setTextColor(Color.WHITE);
                             txtArchived.setTextSize(25f);
-                            txtArchived.setText("Archived");
+                            txtArchived.setText(R.string.archived);
                             eventLayout.addView(txtArchived);
                         }
                     } catch (ParseException e) {
@@ -198,16 +193,16 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
                 TextView txtEventDetails = new TextView(this);
                 txtEventDetails.setTextColor(Color.WHITE);
                 txtEventDetails.setTextSize(25f);
-                txtEventDetails.setText("No Events");
+                txtEventDetails.setText(R.string.noEvents);
                 eventLayout.addView(txtEventDetails);
             }
         }
     }
 
     public static boolean checkDateEvent(String day){
-        String checkDate = "";
+        String checkDate;
         boolean dateEvent = false;
-        if(day != "") {
+        if(!Objects.equals(day, "")) {
             if (Integer.parseInt(day) < 10) {
                 checkDate = month + "0" + day;
             } else {
@@ -224,13 +219,11 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
     }
 
     View.OnClickListener editEventButton(final Button button){
-        return new View.OnClickListener() {
-            public void onClick(View v) {
-                String eventID = (String) button.getContentDescription();
-                activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
-                activity.putExtra("key", eventID);
-                startActivity(activity);
-            }
+        return v -> {
+            String eventID = (String) button.getContentDescription();
+            activity = new Intent(Event_Activity.this, EditEvent_Activity.class);
+            activity.putExtra("key", eventID);
+            startActivity(activity);
         };
     }
 }

@@ -2,7 +2,6 @@ package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,7 +48,6 @@ public class UserAccount_Activity extends Activity {
 
         DBHelper db = new DBHelper(this);
         Object[] userDetails = db.getUserByID(String.valueOf(currentUser.getUserID()));
-        Object[] groupDetails = db.getGroupByID((String) userDetails[8]);
 
         txtUsername2.setText((CharSequence) userDetails[1]);
         etxtPassword2.setHint("Change Password");
@@ -95,90 +92,69 @@ public class UserAccount_Activity extends Activity {
             }
         });
 
-        btnAccountBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(UserAccount_Activity.this, MainActivity.class);
-                startActivity(activity);
+        btnAccountBack.setOnClickListener(v -> {
+            activity = new Intent(UserAccount_Activity.this, MainActivity.class);
+            startActivity(activity);
 
-            }
         });
-        btnUpdateDetails.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(etxtEmail2.getText().length() == 0 || etxtPhone2.getText().length() == 0){
-                    AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage("Please fill in all your details.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                }else {
-                    if (!(String.valueOf(etxtPassword2.getText()).equals(""))) {
-                        userDetails[2] = encrypt.encode(String.valueOf(etxtPassword2.getText()));
-                    }
-                    userDetails[5] = String.valueOf(etxtEmail2.getText());
-                    userDetails[6] = String.valueOf(etxtPhone2.getText());
-                    if (((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
-                        if (spnGroup2.getSelectedItemPosition() != 0) {
-                            Log.d("test", "test");
-                            Object[] group = db.getGroupByName(spnGroup2.getSelectedItem().toString());
-                            userDetails[8] = (String) group[0];
-                            userDetails[9] = "unapproved";
-                        }
-                    }
-                    boolean successful = false;
-                    try {
-                        db.updateUserDetails(userDetails);
-                        successful = true;
-                    } catch (Exception e) {
-                        Log.e("tag", e.getMessage());
-                    }
-                    AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    if (successful) {
-                        alertDialog.setMessage("Details Updated");
-                        spnGroup2.setEnabled(false);
-                        spnGroup2.setClickable(false);
-                    } else {
-                        alertDialog.setMessage("An Error has Occurred.\n Your Details have not been updated");
-                    }
-                    etxtPassword2.setText("");
-                    alertDialog.show();
-                }
-            }
-        });
-        btnDeleteUser.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        btnUpdateDetails.setOnClickListener(v -> {
+            if(etxtEmail2.getText().length() == 0 || etxtPhone2.getText().length() == 0){
                 AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
                 alertDialog.setTitle("Alert");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Delete User", "Yes");
-                                db.deleteUser((String) userDetails[0]);
-                                activity = new Intent(UserAccount_Activity.this, LogIn_Activity.class);
-                                startActivity(activity);
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setMessage("Are you sure you wish to delete your account.\n This Action Cannot Be Undone");
+                alertDialog.setMessage("Please fill in all your details.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+            }else {
+                if (!(String.valueOf(etxtPassword2.getText()).equals(""))) {
+                    userDetails[2] = encrypt.encode(String.valueOf(etxtPassword2.getText()));
+                }
+                userDetails[5] = String.valueOf(etxtEmail2.getText());
+                userDetails[6] = String.valueOf(etxtPhone2.getText());
+                if (((String) userDetails[8]).equals("0") || ((String) userDetails[9]).equals("Denied")) {
+                    if (spnGroup2.getSelectedItemPosition() != 0) {
+                        Object[] group = db.getGroupByName(spnGroup2.getSelectedItem().toString());
+                        userDetails[8] = (String) group[0];
+                        userDetails[9] = "unapproved";
+                    }
+                }
+                boolean successful = false;
+                try {
+                    db.updateUserDetails(userDetails);
+                    successful = true;
+                } catch (Exception e) {
+                    Log.e("tag", e.getMessage());
+                }
+                AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                if (successful) {
+                    alertDialog.setMessage("Details Updated");
+                    spnGroup2.setEnabled(false);
+                    spnGroup2.setClickable(false);
+                } else {
+                    alertDialog.setMessage("An Error has Occurred.\n Your Details have not been updated");
+                }
+                etxtPassword2.setText("");
                 alertDialog.show();
             }
+        });
+        btnDeleteUser.setOnClickListener(v -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                    (dialog, which) -> {
+
+                        db.deleteUser((String) userDetails[0]);
+                        activity = new Intent(UserAccount_Activity.this, LogIn_Activity.class);
+                        startActivity(activity);
+                        dialog.dismiss();
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                    (dialog, which) -> dialog.dismiss());
+            alertDialog.setMessage("Are you sure you wish to delete your account.\n This Action Cannot Be Undone");
+            alertDialog.show();
         });
     }
 

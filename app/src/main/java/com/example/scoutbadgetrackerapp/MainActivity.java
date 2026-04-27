@@ -1,11 +1,7 @@
 package com.example.scoutbadgetrackerapp;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_MEDIA_IMAGES;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,19 +11,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -37,23 +25,14 @@ import androidx.core.content.ContextCompat;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends Activity {
     Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence, btnEvents;
     TextView txtTitle, txtBadgeOverview;
     Intent activity;
-    Date stringDate;
     PieChart badgeCompletionChart;
     private final String channelId = "i.apps.notifications"; // Unique channel ID for notifications
-    private final String description = "Test notification";  // Description for the notification channel
-    private final int notificationId = 1234; // Unique identifier for the notification
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,48 +90,35 @@ public class MainActivity extends Activity {
         if (currentUser.getUserRole().equals("Leader")) {
             btnViewEvidence.setVisibility(View.VISIBLE);
         }
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(MainActivity.this, LogIn_Activity.class);
-                startActivity(activity);
+        btnLogin.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, LogIn_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        btnBadges.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ;
-                activity = new Intent(MainActivity.this, Badges_Activity.class);
-                startActivity(activity);
+        btnBadges.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, Badges_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        btnGroups.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(MainActivity.this, Groups_Activity.class);
-                startActivity(activity);
+        btnGroups.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, Groups_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        btnUserAccount.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(MainActivity.this, UserAccount_Activity.class);
-                startActivity(activity);
+        btnUserAccount.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, UserAccount_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        btnViewEvidence.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(MainActivity.this, ViewEvidence_Activity.class);
-                startActivity(activity);
+        btnViewEvidence.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, ViewEvidence_Activity.class);
+            startActivity(activity);
 
-            }
         });
-        btnEvents.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(MainActivity.this, Event_Activity.class);
-                startActivity(activity);
+        btnEvents.setOnClickListener(v -> {
+            activity = new Intent(MainActivity.this, Event_Activity.class);
+            startActivity(activity);
 
-            }
         });
 
     }
@@ -200,10 +166,14 @@ public class MainActivity extends Activity {
 
         // Display the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        // Unique identifier for the notification
+        int notificationId = 1234;
         notificationManager.notify(notificationId, builder.build());
     }
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Description for the notification channel
+            String description = "Test notification";
             NotificationChannel notificationChannel = new NotificationChannel(
                     channelId,
                     description,

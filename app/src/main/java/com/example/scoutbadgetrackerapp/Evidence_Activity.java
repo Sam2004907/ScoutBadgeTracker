@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -25,17 +23,15 @@ public class Evidence_Activity extends Activity {
     ImageView imgEvidence;
     Button btnFile, btnUpload, btnEvidenceBack;
     Spinner spnReq;
-    String Fpath;
     Intent activity;
 
-    public static final int GET_FROM_GALLERY = 3;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence);
         DBHelper db = new DBHelper(this);
         Bundle extras = getIntent().getExtras();
-        Log.d("Given badgeID", extras.getString("key"));
+
 
         txtFileName = findViewById(R.id.txtFileName);
         txtFileType = findViewById(R.id.txtFileType);
@@ -81,34 +77,28 @@ public class Evidence_Activity extends Activity {
 
             }
         });
-        btnFile.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, 1);
-                btnUpload.setEnabled(true);
-                btnUpload.setClickable(true);
-            }
+        btnFile.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, 1);
+            btnUpload.setEnabled(true);
+            btnUpload.setClickable(true);
         });
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String FilePath = txtFileName.getText().toString();
-                int reqID = Integer.parseInt(reqs.get(spnReq.getSelectedItemPosition() - 1).get(0));
-                String type = txtFileType.getText().toString();
-                db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID, "unapproved"));
-                activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
-                activity.putExtra("key", extras.getString("desc"));
-                startActivity(activity);
-            }
+        btnUpload.setOnClickListener(v -> {
+            String FilePath = txtFileName.getText().toString();
+            int reqID = Integer.parseInt(reqs.get(spnReq.getSelectedItemPosition() - 1).get(0));
+            String type = txtFileType.getText().toString();
+            db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID, "unapproved"));
+            activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
+            activity.putExtra("key", extras.getString("desc"));
+            startActivity(activity);
         });
 
-        btnEvidenceBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
-                activity.putExtra("key", extras.getString("desc"));
-                startActivity(activity);
+        btnEvidenceBack.setOnClickListener(v -> {
+            activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
+            activity.putExtra("key", extras.getString("desc"));
+            startActivity(activity);
 
-            }
         });
     }
     @Override
@@ -117,13 +107,13 @@ public class Evidence_Activity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1){
             Uri uri = data.getData();
-            String selectedFilePath = null;
+            String selectedFilePath;
             try {
                 selectedFilePath = RealFilePath.getPath(this, uri);
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
-            //Log.d("Fpath", selectedFilePath);
+
             txtFileName.setText(selectedFilePath);
             txtFileType.setText(getContentResolver().getType(uri));
             imgEvidence.setImageURI(uri);

@@ -12,7 +12,7 @@
         android:id="@+id/btnEditEventBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="@string/back" />
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:text="Event Name:"
+            android:text="@string/eventName2"
             android:padding="10dp"
             android:textSize="25dp"
             android:textColor="@color/white"/>
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:hint="Event Name"
+            android:hint="@string/eventName"
             android:padding="10dp"
             android:textSize="25dp"
             android:textColorHint="@color/white"
@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:text="Location:"
+            android:text="@string/location2"
             android:padding="10dp"
             android:textSize="25dp"
             android:textColor="@color/white"/>
@@ -64,7 +64,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:hint="Location"
+            android:hint="@string/location"
             android:padding="10dp"
             android:textSize="25dp"
             android:textColorHint="@color/white"
@@ -80,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:text="Start Date"
+            android:text="@string/startDate"
             android:textSize="25dp"
             android:padding="15dp"/>
 
@@ -89,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="70dp"
-            android:text="End Date"
+            android:text="@string/endDate"
             android:textSize="25dp"
             android:padding="15dp"/>
 
@@ -108,7 +108,7 @@
             android:padding="10dp"
             android:textSize="25dp"
             android:textColor="@color/white"
-            android:text="Start Date:"/>
+            android:text="@string/startDate2"/>
 
         <TextView
             android:layout_width="0dp"
@@ -117,7 +117,7 @@
             android:padding="10dp"
             android:textSize="25dp"
             android:textColor="@color/white"
-            android:text="End Date:"/>
+            android:text="@string/endDate2"/>
     </GridLayout>
     <GridLayout
         android:layout_width="match_parent"
@@ -146,7 +146,7 @@
         android:id="@+id/btnAddEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Event"
+        android:text="@string/addEvent"
         android:visibility="invisible"
         android:enabled="false"/>
     <GridLayout
@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
-            android:text="Update"
+            android:text="@string/update"
             android:visibility="invisible"
             android:enabled="false"/>
         <Button
@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
-            android:text="Delete"
+            android:text="@string/delete"
             android:visibility="invisible"
             android:enabled="false"/>
     </GridLayout>
