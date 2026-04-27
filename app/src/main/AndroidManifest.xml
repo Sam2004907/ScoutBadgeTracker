@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.scoutbadgetrackerapp">
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/membership_award"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/membership_award"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoutBadgeTrackerApp"
-        tools:targetApi="31">
+        tools:targetApi="34"
+        android:requestLegacyExternalStorage="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LogIn_Activity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
@@ -24,22 +30,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".LogIn_Activity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Home" />
+
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Badges_Activity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Badges" />
             </intent-filter>
         </activity>
         <activity
@@ -48,7 +57,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Groups" />
             </intent-filter>
         </activity>
         <activity
@@ -57,7 +66,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.SelectedBadges" />
             </intent-filter>
         </activity>
         <activity
@@ -66,7 +75,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.Evidence" />
             </intent-filter>
         </activity>
         <activity
@@ -75,9 +84,54 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ScoutBadgeTrackerApp">
             <intent-filter>
-                <action android:name="android.intent.action.LogIn" />
+                <action android:name="android.intent.action.SignUp" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EditMembers_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.EditMembers" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ViewEvidence_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.ViewEvidence" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserAccount_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.UserAccount" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Event_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.Event" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EditEvent_Activity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ScoutBadgeTrackerApp">
+            <intent-filter>
+                <action android:name="android.intent.action.EditEvent" />
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 </manifest>

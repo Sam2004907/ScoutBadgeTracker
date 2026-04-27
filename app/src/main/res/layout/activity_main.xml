@@ -5,36 +5,170 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
 
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Main Activity"
-    />
+        android:layout_height="100dp"
+        android:textSize="40dp"
+        android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btnLogin"
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/logIn" />
-    <Button
-        android:id="@+id/btnBadges"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnBadges"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/badges"
+            android:padding="15dp"/>
+        <Button
+            android:id="@+id/btnGroups"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/groups"
+            android:padding="15dp"/>
+    </GridLayout>
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/badges" />
-    <Button
-        android:id="@+id/btnGroups"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnEvents"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="Events"
+            android:padding="15dp"/>
+        <Button
+            android:id="@+id/btnUserAccount"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="User Account"
+            android:padding="15dp"/>
+
+    </GridLayout>
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/groups"
-        android:enabled="false"/>
-    <Button
-        android:id="@+id/btnSelectedBadges"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/logIn" />
+
+        <Button
+            android:id="@+id/btnViewEvidence"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:layout_height="60dp"
+            android:text="@string/viewEvidence"
+            android:visibility="invisible"
+            android:padding="15dp"/>
+
+    </GridLayout>
+    <TextView
+        android:id="@+id/txtBadgeOverview"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/selectedBadges"
-        android:enabled="false"/>
+        android:layout_height="35dp"
+        android:textSize="25dp"
+        android:text="Badge Progress Overview:"
+        android:textColor="@color/white" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_green"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+        </LinearLayout>
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_yellow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:background="@color/Scout_red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not Started"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1">
+            <org.eazegraph.lib.charts.PieChart
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/badgeCompletionChart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp" />
+        </LinearLayout>
+    </GridLayout>
+
 
 </LinearLayout>

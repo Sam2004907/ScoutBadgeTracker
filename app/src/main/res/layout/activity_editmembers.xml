@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
+
+    <Button
+        android:id="@+id/btnMemberBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
+
+    <TextView
+        android:id="@+id/txtEditTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:enabled="true"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/txtGroupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:enabled="true" />
+
+    <ScrollView
+        android:id="@+id/scrView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grdLayout">
+
+            </GridLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnApprove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Approve" />
+    <Button
+        android:id="@+id/btnDeny"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Deny" />
+
+
+</LinearLayout>

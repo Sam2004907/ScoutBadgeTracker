@@ -5,7 +5,14 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
+
+    <Button
+        android:id="@+id/btnSelectedBack"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/back" />
 
     <TextView
         android:id="@+id/txtTitle"
@@ -14,22 +21,42 @@
         android:fontFamily="sans-serif-medium"
         android:textAlignment="center"
         android:textSize="34sp"
+        android:textColor="@color/white"
         android:text="@string/upload"/>
 
     <ImageView
         android:id="@+id/imgBadge"
         android:layout_width="match_parent"
-        android:layout_height="278dp"
+        android:layout_height="260dp"
         android:src="@drawable/ic_launcher_foreground"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
+
+        <TextView
+            android:id="@+id/txtBadgeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:text="Requirements:"
+            android:paddingLeft="5dp"/>
+
+    </ScrollView>
+
     <TextView
-        android:id="@+id/txtBadgeInfo"
+        android:id="@+id/txtComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="start|top"
-        android:textColor="#000000"
-        android:textSize="24sp" />
+        android:fontFamily="sans-serif-medium"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btnEvidence"
@@ -42,6 +69,32 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:scaleY="5"/>
+        android:scaleY="5"
+        android:progressTint="@color/Scout_green"
+        android:secondaryProgressTint="@color/Scout_yellow"
+        android:secondaryProgressTintMode="add"
+        android:progressBackgroundTint="@color/Scout_red"
+        android:progressBackgroundTintMode="add"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/spnAward"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scvAward">
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lnrMembers">
+
+        </GridLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btnAward"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
 </LinearLayout>

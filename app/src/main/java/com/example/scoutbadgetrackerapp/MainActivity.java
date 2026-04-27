@@ -1,6 +1,17 @@
 package com.example.scoutbadgetrackerapp;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,39 +21,96 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends Activity{
-    Button btnLogin, btnBadges, btnGroups, btnSelectedBadges;
+public class MainActivity extends Activity {
+    Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence, btnEvents;
+    TextView txtTitle, txtBadgeOverview;
     Intent activity;
     Date stringDate;
+    PieChart badgeCompletionChart;
+    private final String channelId = "i.apps.notifications"; // Unique channel ID for notifications
+    private final String description = "Test notification";  // Description for the notification channel
+    private final int notificationId = 1234; // Unique identifier for the notification
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHelper db = new DBHelper(this);
-//        addData(db);
-        new currentUser("sam", "leader", 1);
 
-        ArrayList<ArrayList<String>> badges = db.getAllBadges();
-        badges.forEach(element -> Log.d("Badge", String.valueOf(element)));
-        Log.d("Badges", badges.toString());
+        //Check Permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Images Permission", "Already Granted");
+        }else{
+            String[] permissions = {Manifest.permission.READ_MEDIA_IMAGES};
+            ActivityCompat.requestPermissions(this, permissions, 0);
+            Log.d("Images Permission", "Granted");
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Notification Permission", "Already Granted");
+        }else{
+            String[] permissions = {Manifest.permission.POST_NOTIFICATIONS};
+            ActivityCompat.requestPermissions(this, permissions, 0);
+            Log.d("Notification Permission", "Granted");
+        }
+        if(currentUser.getUserRole().equals("Leader")){
+            Object[] userDetails = db.getUser(String.valueOf(currentUser.getUsername()));
+            ArrayList<ArrayList<Object>> groupMembers = db.getApprovedGroupMembers((String) userDetails[8]);
 
-        ArrayList<ArrayList<Object>> users = db.getAllUsers();
-        users.forEach(element -> Log.d("User", String.valueOf(element)));
-        Log.d("Users", users.toString());
+            int count=0;
+            for(int i=0; i<groupMembers.size(); i++){
+                if(groupMembers.get(i).get(1).equals("Scout")){
+                    count += Integer.parseInt(db.getUserUnapprovedEvidenceCount((String) groupMembers.get(i).get(4)));
+                }
+            }
+            if(count > 0){
+                createNotificationChannel();
+                sendNotification("Evidence To Approve", "There are "+count+" pieces evidence to approve.");
+            }
+
+        }
 
         btnLogin = findViewById(R.id.btnLogin);
         btnBadges = findViewById(R.id.btnBadges);
         btnGroups = findViewById(R.id.btnGroups);
-        btnSelectedBadges = findViewById(R.id.btnSelectedBadges);
+        btnUserAccount = findViewById(R.id.btnUserAccount);
+        btnViewEvidence = findViewById(R.id.btnViewEvidence);
+        btnEvents = findViewById(R.id.btnEvents);
+        badgeCompletionChart = findViewById(R.id.badgeCompletionChart);
+
+        txtTitle = findViewById(R.id.txtTitle);
+        txtBadgeOverview = findViewById(R.id.txtBadgeOverview);
+        txtTitle.setText("Welcome "+currentUser.getUsername());
+
+
+        setScoutPieChartData();
+
+        if (currentUser.getUserRole().equals("Leader")) {
+            btnViewEvidence.setVisibility(View.VISIBLE);
+        }
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 activity = new Intent(MainActivity.this, LogIn_Activity.class);
@@ -51,7 +119,8 @@ public class MainActivity extends Activity{
             }
         });
         btnBadges.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {;
+            public void onClick(View v) {
+                ;
                 activity = new Intent(MainActivity.this, Badges_Activity.class);
                 startActivity(activity);
 
@@ -64,13 +133,28 @@ public class MainActivity extends Activity{
 
             }
         });
-        btnSelectedBadges.setOnClickListener(new View.OnClickListener() {
+        btnUserAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                activity = new Intent(MainActivity.this, SelectedBadges_Activity.class);
+                activity = new Intent(MainActivity.this, UserAccount_Activity.class);
                 startActivity(activity);
 
             }
         });
+        btnViewEvidence.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(MainActivity.this, ViewEvidence_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+        btnEvents.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(MainActivity.this, Event_Activity.class);
+                startActivity(activity);
+
+            }
+        });
+
     }
 
     @Override
@@ -78,119 +162,62 @@ public class MainActivity extends Activity{
         super.onStart();
     }
 
-    private void addData(DBHelper db){
-        //Groups
-        db.addGroup(new GroupList("Anchorsholme Scout Group", "Wyre", "West Lancashire"));
-        db.addGroup(new GroupList("1st Thornton-Cleveleys Scout Group", "Wyre", "West Lancashire"));
-        db.addGroup(new GroupList("2nd Cleveleys Scout Group", "Wyre", "West Lancashire"));
-        db.addGroup(new GroupList("1st Thornton Scout Group", "Wyre", "West Lancashire"));
-
-        //User
-        db.addUser(new UserList("SamWilmer", "1234", "Sam Wilmer", "2004-06-07", "Test@test.com", "0567438921", "Leader", 1));
-
-
-        //Core Awards
-        db.addBadge(new BadgeList("Membership","core","membership_award"));
-        db.addBadge(new BadgeList("Chief Scout Award Gold","core","sc_chief_scout_award_gold"));
-
-        //Test Requirements
-        db.addRequirement(new RequirementsList("Complete all nine challenge awards",9, 2));
-        db.addRequirement(new RequirementsList("Complete 6 Activity Badges",6, 2));
-
-        //Challenge Awards
-        db.addBadge(new BadgeList("Adventure","challenge","challenge_sc_adventure"));
-
-        db.addBadge(new BadgeList("Creative","challenge","challenge_sc_creative"));
-        db.addBadge(new BadgeList("Expedition","challenge","challenge_sc_expedition"));
-        db.addBadge(new BadgeList("Outdoors","challenge","challenge_sc_outdoors"));
-        db.addBadge(new BadgeList("Personal Challenge","challenge","challenge_sc_personal_challenge"));
-        db.addBadge(new BadgeList("Skills","challenge","challenge_sc_skills"));
-        db.addBadge(new BadgeList("Team Leader","challenge","challenge_sc_team_leader"));
-        db.addBadge(new BadgeList("Teamwork","challenge","challenge_sc_teamwork"));
-        db.addBadge(new BadgeList("World","challenge","challenge_sc_world"));
-
-        //Staged Awards
-        db.addBadge(new BadgeList("Air Activities","staged","staged_air_activities"));
-        db.addBadge(new BadgeList("Community","staged","staged_community"));
-        db.addBadge(new BadgeList("Digital Citizen","staged","staged_digital_citizen"));
-        db.addBadge(new BadgeList("Digital Maker","staged","staged_digital_maker"));
-        db.addBadge(new BadgeList("Emergency Aid","staged","staged_emergency_aid"));
-        db.addBadge(new BadgeList("Hikes Away","staged","staged_hikes_away"));
-        db.addBadge(new BadgeList("Musician","staged","staged_musician"));
-        db.addBadge(new BadgeList("Nautical","staged","staged_nautical"));
-        db.addBadge(new BadgeList("Navigator","staged","staged_navigator"));
-        db.addBadge(new BadgeList("Nights Away","staged","staged_nights_away"));
-        db.addBadge(new BadgeList("Paddle Sports","staged","staged_paddle_sports"));
-        db.addBadge(new BadgeList("Sailing","staged","staged_sailing"));
-        db.addBadge(new BadgeList("Snowsports","staged","staged_snowsports"));
-        db.addBadge(new BadgeList("Swimmer","staged","staged_swimmer"));
-        db.addBadge(new BadgeList("Time On The Water","staged","staged_time_on_the_water"));
-
-        //Activity Awards
-        db.addBadge(new BadgeList("Activity Center Service","activity","activity_sc_activitycenterservice"));
-        db.addBadge(new BadgeList("Air or Sea Navigation","activity","activity_sc_air_or_sea_nav"));
-        db.addBadge(new BadgeList("Air Researcher","activity","activity_sc_air_researcher"));
-        db.addBadge(new BadgeList("Air Spotter","activity","activity_sc_air_spotter"));
-        db.addBadge(new BadgeList("Angler","activity","activity_sc_angler"));
-        db.addBadge(new BadgeList("Artist","activity","activity_sc_artist"));
-        db.addBadge(new BadgeList("Astronomer","activity","activity_sc_astronomer"));
-        db.addBadge(new BadgeList("Athletics","activity","activity_sc_athletics"));
-        db.addBadge(new BadgeList("Athletics Plus","activity","activity_sc_athleticsplus"));
-        db.addBadge(new BadgeList("Camper","activity","activity_sc_camper"));
-
-        db.addBadge(new BadgeList("Caver","activity","activity_sc_caver"));
-        db.addBadge(new BadgeList("Chef","activity","activity_sc_chef"));
-        db.addBadge(new BadgeList("Circus Skills","activity","activity_sc_circus_skills"));
-        db.addBadge(new BadgeList("Climber","activity","activity_sc_climber"));
-        db.addBadge(new BadgeList("Communicator","activity","activity_sc_communicator"));
-        db.addBadge(new BadgeList("Craft","activity","activity_sc_craft"));
-        db.addBadge(new BadgeList("Cyclist","activity","activity_sc_cyclist"));
-        db.addBadge(new BadgeList("DIY","activity","activity_sc_diy"));
-        db.addBadge(new BadgeList("Dragon Boating","activity","activity_sc_dragon_boating"));
-        db.addBadge(new BadgeList("Electronics","activity","activity_sc_electronics"));
-
-        db.addBadge(new BadgeList("Entertainer","activity","activity_sc_entertainer"));
-        db.addBadge(new BadgeList("Environmental Conservation","activity","activity_sc_environmental_conservation"));
-        db.addBadge(new BadgeList("Equestrian","activity","activity_sc_equestrian"));
-        db.addBadge(new BadgeList("Farming","activity","activity_sc_farming"));
-        db.addBadge(new BadgeList("Fire Safety","activity","activity_sc_fire_safety"));
-        db.addBadge(new BadgeList("Forrester","activity","activity_sc_forrester"));
-        db.addBadge(new BadgeList("Fundraising","activity","activity_sc_fundraising"));
-        db.addBadge(new BadgeList("Geocaching","activity","activity_sc_geocaching"));
-        db.addBadge(new BadgeList("Global Issues","activity","activity_sc_global_issues"));
-        db.addBadge(new BadgeList("Hill Walker","activity","activity_sc_hill_walker"));
-
-        db.addBadge(new BadgeList("Hobbies","activity","activity_sc_hobbies"));
-        db.addBadge(new BadgeList("International","activity","activity_sc_international"));
-        db.addBadge(new BadgeList("Librarian","activity","activity_sc_librarian"));
-        db.addBadge(new BadgeList("Lifesaver","activity","activity_sc_lifesaver"));
-        db.addBadge(new BadgeList("Local Knowledge","activity","activity_sc_local_knowledge"));
-        db.addBadge(new BadgeList("Martial Arts","activity","activity_sc_martial_arts"));
-        db.addBadge(new BadgeList("Master at Arms","activity","activity_sc_master_at_arms"));
-        db.addBadge(new BadgeList("Mechanic","activity","activity_sc_mechanic"));
-        db.addBadge(new BadgeList("Media Relations","activity","activity_sc_mediarelations"));
-        db.addBadge(new BadgeList("Meteorologist","activity","activity_sc_meteorologist"));
-
-        db.addBadge(new BadgeList("Model Maker","activity","activity_sc_model_maker"));
-        db.addBadge(new BadgeList("Money Skills","activity","activity_sc_money_skills"));
-        db.addBadge(new BadgeList("My Faith","activity","activity_sc_my_faith"));
-        db.addBadge(new BadgeList("Naturalist","activity","activity_sc_naturalist"));
-        db.addBadge(new BadgeList("Orienteer","activity","activity_sc_orienteer"));
-        db.addBadge(new BadgeList("Parascending","activity","activity_sc_parascending"));
-        db.addBadge(new BadgeList("Photographer","activity","activity_sc_photographer"));
-        db.addBadge(new BadgeList("Physical Recreation","activity","activity_sc_physical_recreation"));
-        db.addBadge(new BadgeList("Pioneer","activity","activity_sc_pioneer"));
-        db.addBadge(new BadgeList("Power Coxswain","activity","activity_sc_power_coxswain"));
-
-        db.addBadge(new BadgeList("Pulling","activity","activity_sc_pulling"));
-        db.addBadge(new BadgeList("Quartermaster","activity","activity_sc_quartermaster"));
-        db.addBadge(new BadgeList("Scientist","activity","activity_sc_scientist"));
-        db.addBadge(new BadgeList("Sports Enthusiast","activity","activity_sc_sports_enthusiast"));
-        db.addBadge(new BadgeList("Street Sports","activity","activity_sc_street_sports"));
-        db.addBadge(new BadgeList("Survival Skills","activity","activity_sc_survival_skills"));
-        db.addBadge(new BadgeList("Water Activities","activity","activity_sc_wateractivities"));
-        db.addBadge(new BadgeList("World Faiths","activity","activity_sc_world_faiths"));
-        db.addBadge(new BadgeList("Writer","activity","activity_sc_writer"));
-//
+    private void setScoutPieChartData(){
+        DBHelper db = new DBHelper(this);
+        int badgeTotal = 91;
+        String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));
+        String inProgress = db.getUserInprogressBadges(String.valueOf(currentUser.getUserID()));
+        badgeTotal -= (Integer.parseInt(completed) + Integer.parseInt(inProgress));
+        txtBadgeOverview.append(" "+completed+"/91");
+        badgeCompletionChart.addPieSlice(
+                new PieModel(Float.parseFloat(completed), getColor(R.color.Scout_green))
+        );
+        badgeCompletionChart.addPieSlice(
+                new PieModel(Float.parseFloat(inProgress), getColor(R.color.Scout_yellow))
+        );
+        badgeCompletionChart.addPieSlice(
+                new PieModel(badgeTotal, getColor(R.color.Scout_red))
+        );
+        badgeCompletionChart.startAnimation();
     }
+
+    public void sendNotification(String title, String content) {
+        // Intent that triggers when the notification is tapped
+        Intent intent = new Intent(this, ViewEvidence_Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.membership_award) // Notification icon
+                .setContentTitle(title) // Title displayed in the notification
+                .setContentText(content) // Text displayed in the notification
+                .setContentIntent(pendingIntent) // Pending intent triggered when tapped
+                .setAutoCancel(true) // Dismiss notification when tapped
+                .setPriority(NotificationCompat.PRIORITY_HIGH); // Notification priority for better visibility
+
+        // Display the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, builder.build());
+    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    channelId,
+                    description,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationChannel.enableLights(true); // Turn on notification light
+            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.enableVibration(true); // Allow vibration for notifications
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+    }
+
 }

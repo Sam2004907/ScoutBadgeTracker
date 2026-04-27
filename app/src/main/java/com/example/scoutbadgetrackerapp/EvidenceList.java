@@ -2,16 +2,17 @@ package com.example.scoutbadgetrackerapp;
 
 public class EvidenceList {
     int _id, _user_id, _badge_id, _requirement_id;
-    String _type, _evidencePath;
+    String _type, _evidencePath, _approval;
 
     public EvidenceList(){ }
 
-    public EvidenceList(String type, String evidencePath, int user_id, int badge_id, int requirement_id){
+    public EvidenceList(String type, String evidencePath, int user_id, int badge_id, int requirement_id, String approval){
         this._type = type;
         this._evidencePath = evidencePath;
         this._user_id = user_id;
         this._badge_id = badge_id;
         this._requirement_id = requirement_id;
+        this._approval = approval;
     }
 
     public int getID(){
@@ -56,6 +57,14 @@ public class EvidenceList {
 
     public void setRequirementID(int requirement_id){
         this._requirement_id = requirement_id;
+    }
+
+    public String getApproval(){
+        return this._approval;
+    }
+
+    public void setApproval(String approval){
+        this._approval = approval;
     }
 
 }

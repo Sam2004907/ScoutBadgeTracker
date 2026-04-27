@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Scout_purple">#7413DC</color>
+    <color name="Scout_green">#23A950</color>
+    <color name="Scout_yellow">#FFE627</color>
+    <color name="Scout_red">#E22E12</color>
 </resources>

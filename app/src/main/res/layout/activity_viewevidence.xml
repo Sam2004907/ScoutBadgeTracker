@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Scout_purple">
+
+    <Button
+        android:id="@+id/btnViewBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
+
+    <TextView
+        android:id="@+id/txtTitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Evidence"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textColor="@color/white"/>
+    <Spinner
+        android:id="@+id/spnMember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/spnBadge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:visibility="invisible"/>
+    <Spinner
+        android:id="@+id/spnRequirement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:visibility="invisible"/>
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Show Evidence"
+        android:visibility="invisible" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
+
+        <LinearLayout
+            android:id="@+id/lnrEvidence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -7,8 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -19,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_REQUIREMENTS = "requirements";
     private static final String TABLE_GROUPS = "groups";
+    private static final String TABLE_EVENTS = "events";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "phone_number TEXT, "
                 + "role TEXT, "
                 + "scout_group_id INTEGER, "
+                + "group_join_date TEXT,"
                 + "FOREIGN KEY (scout_group_id) REFERENCES " + TABLE_GROUPS + "(id))";
         db.execSQL(createUsersTable);
 
@@ -52,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "type Text, "
                 + "evidencePath TEXT, "
-                + "approved BOOLEAN, "
+                + "approved TEXT, "
                 + "user_id INTEGER, "
                 + "badge_id INTEGER, "
                 + "requirement_id INTEGER, "
@@ -87,6 +93,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (user_id) REFERENCES " + TABLE_USERS + "(id), "
                 + "FOREIGN KEY (badge_id) REFERENCES " + TABLE_BADGES + "(id))";
         db.execSQL(createCompletionTable);
+
+        //Events Table
+        String createEventsTable = "CREATE TABLE " + TABLE_EVENTS + "("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "event_name TEXT,"
+                + "start_date_time TEXT,"
+                + "end_date_time TEXT,"
+                + "location TEXT, "
+                + "group_id INTEGER, "
+                + "FOREIGN KEY (group_id) REFERENCES " + TABLE_GROUPS + "(id))";
+        db.execSQL(createEventsTable);
     }
 
     @Override
@@ -150,11 +167,13 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badges list
         return results;
     }
     //Get Badge
-    public String[] getBadge(String badgeName) {
+    public String[] getBadgeByName(String badgeName) {
         String[] results = new String[4];
 
         // Select All Query
@@ -173,7 +192,62 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badge list
+        return results;
+    }
+    public String[] getBadgeByID(String badgeID) {
+        String[] results = new String[4];
+
+        // Select All Query
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //Name
+                results[2] = cursor.getString(2); //Type
+                results[3] = cursor.getString(3); //Icon
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return Badge list
+        return results;
+    }
+    public ArrayList<ArrayList<String>> getBadgeByType(String badgeType) {
+        Log.d("DB run", "getAllBadgesgetBadgeByType ran");
+
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        int index = 0;
+
+        // Select All Query
+        String whereQuery = "SELECT * FROM " + TABLE_BADGES + " WHERE type = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(whereQuery, new String[] {badgeType});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//Name
+                results.get(index).add(cursor.getString(2));//Type
+                results.get(index).add(cursor.getString(3));//Icon
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return Badges list
         return results;
     }
 
@@ -184,13 +258,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put("username", user.getUsername());
-        values.put("password", user.getPassword());
+        values.put("password", encrypt.encode(user.getPassword()));
         values.put("name", user.getName());
         values.put("DOB", user.getDOB());
         values.put("email", user.getEmail());
         values.put("phone_number", user.getPhoneNumber());
         values.put("role", user.getRole());
         values.put("scout_group_id", user.getScoutGroup());
+        values.put("group_join_date", "unapproved");
 
         db.insert(TABLE_USERS, null, values);
 
@@ -221,12 +296,177 @@ public class DBHelper extends SQLiteOpenHelper {
                 results.get(index).add(cursor.getString(6));//Phone Number
                 results.get(index).add(cursor.getString(7));//Role
                 results.get(index).add(cursor.getString(8));//Group
+                results.get(index).add(cursor.getString(9));//group_join_date
                 index+=1;
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Users list
         return results;
+    }
+    public Object[] getUser(String username) {
+
+        Object[] results = new Object[10];
+        Log.d("DB run", "getUser");
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE username = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {username});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //username
+                results[2] = cursor.getString(2); //password
+                results[3] = cursor.getString(3); //name
+                results[4] = cursor.getString(4); //DOB
+                results[5] = cursor.getString(5); //email
+                results[6] = cursor.getString(6); //phone_number
+                results[7] = cursor.getString(7); //role
+                results[8] = cursor.getString(8); //scout_group_id
+                results[9] = cursor.getString(9);//group_join_date
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return User
+        return results;
+    }
+    public Object[] getUserByID(String userID) {
+
+        Object[] results = new Object[10];
+        Log.d("DB run", "getUserByID");
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //username
+                results[2] = cursor.getString(2); //password
+                results[3] = cursor.getString(3); //name
+                results[4] = cursor.getString(4); //DOB
+                results[5] = cursor.getString(5); //email
+                results[6] = cursor.getString(6); //phone_number
+                results[7] = cursor.getString(7); //role
+                results[8] = cursor.getString(8); //scout_group_id
+                results[9] = cursor.getString(9);//group_join_date
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return User
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getApprovedGroupMembers(String groupID) {
+        Log.d("DB run", "getApprovedGroupMembers ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        int index = 0;
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE scout_group_id = ? AND (group_join_date != ?  AND group_join_date != ?)";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID, "unapproved", "Denied"});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(3));//Name
+                results.get(index).add(cursor.getString(7));//Role
+                results.get(index).add(cursor.getString(8));//Group
+                results.get(index).add(cursor.getString(9));//group_join_date
+                results.get(index).add(cursor.getString(0));//userID
+
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return groupMembers list
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getUnapprovedGroupMembers(String groupID) {
+        Log.d("DB run", "getUnapprovedGroupMembers ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        int index = 0;
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " WHERE scout_group_id = ? AND group_join_date = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID, "unapproved"});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(3));//Name
+                results.get(index).add(cursor.getString(7));//Role
+                results.get(index).add(cursor.getString(8));//Group
+                results.get(index).add(cursor.getString(9));//group_join_date
+                results.get(index).add(cursor.getString(0));//userID
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return groupMembers list
+        return results;
+    }
+    public void updateGroupMemberStatus(String userID, String status){
+        Log.d("DB run", "groupJoiningApproval ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("group_join_date", status);
+
+        db.update(TABLE_USERS, values, "id=?", new String[]{userID});
+
+        db.close();
+    }
+    public void updateUserDetails(Object[] userDetails){
+        Log.d("DB run", "updateUserDetails ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", (String) userDetails[1]);
+        values.put("password", (String) userDetails[2]);
+        values.put("email", (String) userDetails[5]);
+        values.put("phone_number", (String) userDetails[6]);
+        values.put("scout_group_id", (String) userDetails[8]);
+        values.put("group_join_date", (String) userDetails[9]);
+
+        db.update(TABLE_USERS, values, "id=?", new String[]{(String) userDetails[0]});
+
+        db.close();
+    }
+    public void deleteUser(String userID){
+        Log.d("DB run", "removeUser ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        db.delete(TABLE_USERS, "id=?", new String[]{userID});
+        db.delete(TABLE_EVIDENCE , "user_id=?", new String[]{userID});
+        db.delete(TABLE_COMPLETION , "user_id=?", new String[]{userID});
+
+        db.close();
     }
 
     //Add Requirements
@@ -267,6 +507,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Reqs list
         return results;
     }
@@ -293,6 +535,8 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
         // return Badge Reqs list
         return results;
     }
@@ -335,14 +579,41 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return Group list
+        cursor.close();
+        db.close();
         return results;
     }
 
-    public Object[] getGroup(String groupName) {
+    public Object[] getGroupByID(String groupID) {
 
         Object[] results = new Object[4];
-        Log.d("groupName", groupName);
+        Log.d("DB Run", "getGroupByID");
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //groupName
+                results[2] = cursor.getString(2); //district
+                results[3] = cursor.getString(3); //county
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        // return Group
+        return results;
+    }
+    public Object[] getGroupByName(String groupName) {
+
+        Object[] results = new Object[4];
+        Log.d("DB Run", "getGroupByName");
 
         // Select Badge_id Query
         String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE groupName = ? ";
@@ -359,7 +630,73 @@ public class DBHelper extends SQLiteOpenHelper {
                 results[3] = cursor.getString(3); //county
             } while (cursor.moveToNext());
         }
-        // return Group
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<String> getAllCounty(){
+        ArrayList<String> results = new ArrayList<String>();
+        Log.d("DB Run", "getAllCounty");
+
+        String selectQuery = "SELECT county FROM " + TABLE_GROUPS + " GROUP BY county";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0)); //county
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<String> getCountyDistricts(String county){
+        ArrayList<String> results = new ArrayList<String>();
+        Log.d("DB Run", "getCountyDistricts");
+
+        String selectQuery = "SELECT district FROM " + TABLE_GROUPS + " WHERE county = ? GROUP BY district";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {county});
+
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0)); //district
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<String>> getDistrictGroups(String district){
+        ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+        Log.d("DB Run", "getDistrictGroups");
+        int index = 0;
+
+        String selectQuery = "SELECT * FROM " + TABLE_GROUPS + " WHERE district = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {district});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(new ArrayList<String>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//groupName
+                results.get(index).add(cursor.getString(2));//district
+                results.get(index).add(cursor.getString(3));//county
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
         return results;
     }
 
@@ -377,6 +714,81 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
     }
+    public String[] getCompletion(String userID, String badgeID) {
+        String[] results = new String[4];
+        //Log.d("DB run", "getCompletion ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT * FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND badge_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0); //ID
+                results[1] = cursor.getString(1); //percentage
+                results[2] = cursor.getString(2); //user_ID
+                results[3] = cursor.getString(3); //badge_ID
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String getUserCompletedBadges(String userID) {
+        String results;
+        Log.d("DB run", "getUserCompletedBadges ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT count(user_id) FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND percentage > ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "0.9"});
+
+        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
+            results = "0";
+        }else{
+            results = cursor.getString(0);
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String getUserInprogressBadges(String userID) {
+        String results;
+        Log.d("DB run", "getUserInprogressBadges ran");
+
+        //Select userID and badgeID query
+        String selectQuery = "SELECT count(user_id) FROM " + TABLE_COMPLETION + " WHERE user_id = ? AND percentage <= ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "0.9"});
+
+        if(!(cursor.moveToFirst()) || cursor.getCount() == 0){
+            results = "0";
+        }else{
+            results = cursor.getString(0);
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public void updateCompletion(String completionID, float percentage){
+        Log.d("DB run", "updateCompletion ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("percentage", percentage);
+
+        db.update(TABLE_COMPLETION, values, "id=?", new String[]{completionID});
+
+        db.close();
+    }
 
     //Add Evidence
     void addEvidence(EvidenceList evidence) {
@@ -386,7 +798,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("type", evidence.getType());
         values.put("evidencePath", evidence.getEvidencePath());
-        values.put("approved", false);
+        values.put("approved", evidence.getApproval());
         values.put("user_id", evidence.getUserID());
         values.put("badge_id", evidence.getBadgeID());
         values.put("requirement_id", evidence.getRequirementID());
@@ -396,6 +808,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
     public ArrayList<ArrayList<Object>> getUserBadgeEvidence(String userID, String badgeID) {
+        Log.d("DB run", "getUserBadgeEvidence ran");
 
         ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
         Log.d("badgeID, userID", badgeID +", "+userID);
@@ -421,7 +834,255 @@ public class DBHelper extends SQLiteOpenHelper {
                 index+=1;
             } while (cursor.moveToNext());
         }
-        // return Group
+
+        cursor.close();
+        db.close();
         return results;
     }
+    public ArrayList<ArrayList<Object>> getUserBadgeReqEvidence(String userID, String badgeID, String reqID) {
+        Log.d("DB run", "getUserBadgeEvidencegetUserBadgeReqEvidence ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        Log.d("badgeID, userID", badgeID +", "+userID);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND badge_id = ? AND requirement_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, badgeID, reqID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//type
+                results.get(index).add(cursor.getString(2));//EvidencePath
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
+        Log.d("DB run", "getUserEvidenceList ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+        Log.d("userID",  userID);
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getSpecificUnapprovedEvidence(String userID, String reqID) {
+        Log.d("DB run", "getSpecificUnapprovedEvidence ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND requirement_id = ? AND approved = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, reqID, "unapproved"});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//type
+                results.get(index).add(cursor.getString(2));//EvidencePath
+                results.get(index).add(cursor.getString(3));//approved
+                results.get(index).add(cursor.getString(4));//user_id
+                results.get(index).add(cursor.getString(5));//badge_id
+                results.get(index).add(cursor.getString(6));//requirement_id
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String getUserUnapprovedEvidenceCount(String userID) {
+        Log.d("DB run", "getUserUnapprovedEvidenceCount ran");
+
+        String results = "0";
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT count(*) FROM " + TABLE_EVIDENCE + " WHERE user_id = ? AND approved = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {userID, "unapproved"});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            results = String.valueOf(cursor.getString(0));
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public void updateEvidenceApproval(String evidenceID, String approved){
+        Log.d("DB run", "updateEvidenceApproval ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("approved", approved);
+
+        db.update(TABLE_EVIDENCE, values, "id=?", new String[]{evidenceID});
+
+        db.close();
+    }
+    void addEvent(EventList event) {
+        Log.d("DB run", "addEvent ran");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("event_name", event.getEventName());
+        values.put("start_date_time", event.getStartDateTime());
+        values.put("end_date_time", event.getEndDateTime());
+        values.put("location", event.getLocation());
+        values.put("group_id", event.getGroupID());
+
+        db.insert(TABLE_EVENTS, null, values);
+
+        db.close(); // Closing database connection
+    }
+    public ArrayList<ArrayList<Object>> getGroupEvents(String groupID) {
+        Log.d("DB run", "getGroupEventsByDate ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ?";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//event_name
+                results.get(index).add(cursor.getString(2));//start_date_time
+                results.get(index).add(cursor.getString(3));//end_date_time
+                results.get(index).add(cursor.getString(4));//location
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public ArrayList<ArrayList<Object>> getGroupEventsByDate(String groupID, String date) {
+        Log.d("DB run", "getGroupEventsByDate ran");
+
+        ArrayList<ArrayList<Object>> results = new ArrayList<ArrayList<Object>>();
+
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE group_id = ? AND start_date_time LIKE '%' || ? || '%'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {groupID, date});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int index = 0;
+            do {
+                results.add(new ArrayList<Object>());
+                results.get(index).add(cursor.getString(0));//ID
+                results.get(index).add(cursor.getString(1));//event_name
+                results.get(index).add(cursor.getString(2));//start_date_time
+                results.get(index).add(cursor.getString(3));//end_date_time
+                results.get(index).add(cursor.getString(4));//location
+                index+=1;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public String[] getEventByID(String eventID) {
+        Log.d("DB run", "getEventByID ran");
+
+        String[] results = new String[5];
+        // Select Badge_id Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE id = ? ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {eventID});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                results[0] = cursor.getString(0);//ID
+                results[1] = cursor.getString(1);//event_name
+                results[2] = cursor.getString(2);//start_date_time
+                results[3] = cursor.getString(3);//end_date_time
+                results[4] = cursor.getString(4);//location
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return results;
+    }
+    public void updateEventDetails(String[] eventDetails){
+        Log.d("DB run", "updateEventDetails ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("event_name", (String) eventDetails[1]);
+        values.put("start_date_time", (String) eventDetails[2]);
+        values.put("end_date_time", (String) eventDetails[3]);
+        values.put("location", (String) eventDetails[4]);
+
+        db.update(TABLE_EVENTS, values, "id=?", new String[]{(String) eventDetails[0]});
+
+        db.close();
+    }
+    public void deleteEvent(String eventID){
+        Log.d("DB run", "deleteEvent ran");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        db.delete(TABLE_EVENTS, "id=?", new String[]{eventID});
+
+        db.close();
+    }
+
 }

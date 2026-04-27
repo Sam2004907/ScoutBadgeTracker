@@ -5,13 +5,156 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:background="@color/Scout_purple">
+
+    <Button
+        android:id="@+id/btnGroupBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
 
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Groups Page"
-        />
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/txtLeaderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Leaders"
+        android:textColor="@color/white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
+        <LinearLayout
+            android:id="@+id/lytLeaderList"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:background="@color/Scout_purple">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnEditLeaders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Edit Leaders" />
+
+    <TextView
+        android:id="@+id/txtMemberTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Members"
+        android:textColor="@color/white"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
+        <LinearLayout
+            android:id="@+id/lytMemberList"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:background="@color/Scout_purple">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/txtParentTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        android:text="Parents/Guardians"
+        android:textColor="@color/white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@color/white">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:background="@color/Scout_purple">
+            <TextView
+                android:id="@+id/txtParentList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                android:gravity="start|top"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnEditMembers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Edit Members" />
+
+    <Button
+        android:id="@+id/btnLeaveGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leave Group" />
+
+    <LinearLayout
+        android:id="@+id/lytScoutDetails"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:background="@color/Scout_purple">
+
+        <TextView
+            android:id="@+id/txtScoutName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:gravity="start|top"
+            android:textColor="@color/white"/>
+        <Spinner
+            android:id="@+id/spnPosition"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="60dp" />
+
+        <Button
+            android:id="@+id/btnUpdateDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:visibility="invisible"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

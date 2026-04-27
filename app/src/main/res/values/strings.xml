@@ -1,22 +1,42 @@
 <resources>
     <string name="app_name">ScoutBadgeTrackerApp</string>
-    <string-array name="badgeTypes">
-        <item>activity</item>
-        <item>challenge</item>
-        <item>core</item>
-        <item>staged</item>
-    </string-array>
-    <string-array name="userRoles">
-        <item>Select a Role</item>
-        <item>Scout</item>
-        <item>Leader</item>
-        <item>Parent/Guardian</item>
-    </string-array>
     <string name="logIn">Log In</string>
     <string name="badges">Badges</string>
     <string name="groups">Groups</string>
     <string name="selectedBadges">Selected Badges</string>
     <string name="upload">Upload Evidence</string>
     <string name="signUp">Sign Up</string>
-    <string name="scoutBadges">Scout</string>
+    <string name="scoutBadges">Scout Badges</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="viewEvidence">View Evidence</string>
+    <string name="complete">Complete</string>
+    <string name="back">Back</string>
+    <string name="calendarBack"><![CDATA[<-]]></string>
+    <string name="calendarForward"><![CDATA[->]]></string>
+
+<!--    String Arrays -->
+<!--    Badge Types -->
+    <string-array name="badgeTypes">
+        <item>All Badges</item>
+        <item>Activity</item>
+        <item>Challenge</item>
+        <item>Core</item>
+        <item>Staged</item>
+        <item>External</item>
+    </string-array>
+<!--    Roles -->
+    <string-array name="userRoles">
+        <item>Select a Role</item>
+        <item>Scout</item>
+        <item>Leader</item>
+        <item>Parent/Guardian</item>
+    </string-array>
+<!--   Patrol Position -->
+    <string-array name="scoutPosition">
+        <item>Patrol Member</item>
+        <item>Assistant Patrol Leader</item>
+        <item>Patrol Leader</item>
+        <item>Senior Patrol Leader</item>
+    </string-array>
 </resources>

@@ -2,6 +2,7 @@ package com.example.scoutbadgetrackerapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Evidence_Activity extends Activity {
-    TextView txtFileName;
+    TextView txtFileName, txtFileType;
     ImageView imgEvidence;
-    Button btnFile, btnUpload;
+    Button btnFile, btnUpload, btnEvidenceBack;
     Spinner spnReq;
     String Fpath;
     Intent activity;
@@ -35,10 +38,12 @@ public class Evidence_Activity extends Activity {
         Log.d("Given badgeID", extras.getString("key"));
 
         txtFileName = findViewById(R.id.txtFileName);
+        txtFileType = findViewById(R.id.txtFileType);
         imgEvidence = findViewById(R.id.imgEvidence);
         btnFile = findViewById(R.id.btnFile);
         btnUpload = findViewById(R.id.btnUpload);
         spnReq = findViewById(R.id.spnReq);
+        btnEvidenceBack = findViewById(R.id.btnEvidenceBack);
 
         btnFile.setEnabled(false);
         btnFile.setClickable(false);
@@ -61,6 +66,7 @@ public class Evidence_Activity extends Activity {
 
         spnReq.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
                 if(position > 0){
                     btnFile.setEnabled(true);
                     btnFile.setClickable(true);
@@ -88,14 +94,20 @@ public class Evidence_Activity extends Activity {
             public void onClick(View v) {
                 String FilePath = txtFileName.getText().toString();
                 int reqID = Integer.parseInt(reqs.get(spnReq.getSelectedItemPosition() - 1).get(0));
-                String type = FilePath.substring(FilePath.length() - 3);
-//                Log.d("reqID", String.valueOf(reqID));
-//                Log.d("type", type);
-//                Log.d("userID", String.valueOf(currentUser.getUserID()));
-                db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID));
+                String type = txtFileType.getText().toString();
+                db.addEvidence(new EvidenceList(type, FilePath, currentUser.getUserID(), Integer.parseInt(extras.getString("key")), reqID, "unapproved"));
                 activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
                 activity.putExtra("key", extras.getString("desc"));
                 startActivity(activity);
+            }
+        });
+
+        btnEvidenceBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity = new Intent(Evidence_Activity.this, SelectedBadges_Activity.class);
+                activity.putExtra("key", extras.getString("desc"));
+                startActivity(activity);
+
             }
         });
     }
@@ -104,14 +116,17 @@ public class Evidence_Activity extends Activity {
     {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1){
-            Log.d("select pivture", "passed her");
-            Uri selectedMediaUri = data.getData();
-
-            Fpath = selectedMediaUri.getPath();
-
-            Log.d("Fpath", Fpath);
-            txtFileName.setText(Fpath);
-            imgEvidence.setImageURI(selectedMediaUri);
+            Uri uri = data.getData();
+            String selectedFilePath = null;
+            try {
+                selectedFilePath = RealFilePath.getPath(this, uri);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+            //Log.d("Fpath", selectedFilePath);
+            txtFileName.setText(selectedFilePath);
+            txtFileType.setText(getContentResolver().getType(uri));
+            imgEvidence.setImageURI(uri);
         }
     }
     @Override
