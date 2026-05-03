@@ -1,23 +1,15 @@
 package com.example.scoutbadgetrackerapp;
 
 public class RequirementsList {
+    //used for adding requirements to database
     int _id, _badge_id, _numOfEvidence;
     String _details;
 
-    public RequirementsList(){ }
 
     public RequirementsList(String details, int numOfEvidence, int badge_id){
         this._details = details;
         this._numOfEvidence = numOfEvidence;
         this._badge_id = badge_id;
-    }
-
-    public int getID(){
-        return this._id;
-    }
-
-    public void setID(int id){
-        this._id = id;
     }
 
     public String getDetails(){
@@ -32,16 +24,8 @@ public class RequirementsList {
         return this._numOfEvidence;
     }
 
-    public void setnumOfEvidence(int numOfEvidence){
-        this._numOfEvidence = numOfEvidence;
-    }
-
     public int getBadgeID(){
         return this._badge_id;
-    }
-
-    public void setBadgeID(int badge_id){
-        this._badge_id = badge_id;
     }
 
 }

@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Groups_Activity extends Activity{
+    //this class displays group details via the interface.
     TextView txtTitle, txtParentTitle, txtParentList, txtMemberTitle, txtLeaderTitle, txtScoutName;
     Button btnEditLeaders, btnEditMembers, btnGroupBack, btnLeaveGroup, btnUpdateDetails;
     LinearLayout lytLeaderList, lytMemberList;
@@ -44,6 +45,7 @@ public class Groups_Activity extends Activity{
 
         DBHelper db = new DBHelper(this);
 
+        //displays awaiting approval message to unapproved/denied users.
         if(currentUser.getUserApproval().equals("unapproved") || currentUser.getUserApproval().equals("Denied")){
             txtMemberTitle.setVisibility(View.INVISIBLE);
             txtParentTitle.setVisibility(View.INVISIBLE);
@@ -60,6 +62,7 @@ public class Groups_Activity extends Activity{
                 txtLeaderTitle.setText(R.string.speakLeader2);
             }
         }else {
+            //determines what member details will be displayed depending on role
             if (currentUser.getUserRole().equals("Leader")) {
                 btnEditLeaders.setVisibility(View.VISIBLE);
                 btnEditMembers.setVisibility(View.VISIBLE);
@@ -72,6 +75,7 @@ public class Groups_Activity extends Activity{
             ArrayList<ArrayList<Object>> groupMembers = db.getApprovedGroupMembers((String) userDetails[8]);
             txtTitle.setText((CharSequence) groupDetails[1]);
             String memberName, memberRole;
+            //loads details of group members and siaplys them
             for (int i = 0; i < groupMembers.size(); i++) {
 
                 memberName = (String) groupMembers.get(i).get(0);
@@ -149,6 +153,7 @@ public class Groups_Activity extends Activity{
         return v -> showUpdateScout((String) textview.getContentDescription());
     }
     private void showUpdateScout(String scoutID){
+        //shows a check box and button that allows for a leader to update member patrol positions.
         DBHelper db = new DBHelper(this);
         Object[] scoutDetails = db.getUserByID(scoutID);
         String[] completion = db.getCompletion((String) scoutDetails[0], String.valueOf(91));

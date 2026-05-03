@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Badges_Activity extends Activity{
+//    this class is used to display the Scout badges
     Intent activity;
     Button btnBadgesBack;
     private int progressStatus = 0;
@@ -35,6 +36,7 @@ public class Badges_Activity extends Activity{
         ScrollView parentLayout = findViewById(R.id.srvBadges);
         btnBadgesBack = findViewById(R.id.btnBadgesBack);
 
+//        loads the badge types array form string.xml to be added to dropdown
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.badgeTypes,
@@ -44,6 +46,7 @@ public class Badges_Activity extends Activity{
         spnFilter.setAdapter(adapter);
 
         spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+//            Allows for a user to select the type of badge they wish to view
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -73,6 +76,7 @@ public class Badges_Activity extends Activity{
             }
         });
         btnBadgesBack.setOnClickListener(v -> {
+//            code for going back one activity.
             activity = new Intent(Badges_Activity.this, MainActivity.class);
             startActivity(activity);
 
@@ -88,12 +92,14 @@ public class Badges_Activity extends Activity{
 
     View.OnClickListener getOnClickDoSomething(final ImageButton button)  {
         return v -> {
+//            image button click to load selected badge activity
             activity = new Intent(Badges_Activity.this, SelectedBadges_Activity.class);
             activity.putExtra("key", (String) v.getContentDescription());
             startActivity(activity);
         };
     }
     private void addBadgeView(ArrayList<ArrayList<String>> badges, ScrollView parentLayout){
+//        adds the badges to the scroll view via a thread to reduce resource load.
         Badges_Activity.this.runOnUiThread(() -> {
             while (progressStatus < 100) {
                 try {
@@ -102,6 +108,7 @@ public class Badges_Activity extends Activity{
                     boolean oddBadgeSize = (badges.size() % 2) != 0;
                     int COLUMNS = 2;
                     GridLayout gridLayout = new GridLayout(Badges_Activity.this);
+//                    add parameters to layout
                     gridLayout.setLayoutParams(new ViewGroup.LayoutParams(
                             GridLayout.LayoutParams.WRAP_CONTENT,
                             GridLayout.LayoutParams.WRAP_CONTENT
@@ -113,10 +120,11 @@ public class Badges_Activity extends Activity{
                     int halfWidth = (parentLayout.getWidth()/2) - 100;
 
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(halfWidth,halfWidth);
-
+//                    loop to create 2 by number of badges grid layout.
                     for (int i = 0; i < ROWS; i++) {
 
                         for (int j = 0; j < COLUMNS; j++) {
+//                            adds image button with the current badge.
                             ImageButton imgButton = new ImageButton(Badges_Activity.this);
                             imgButton.setLayoutParams(params);
                             imgButton.setPaddingRelative(100,100,100,100);
@@ -128,6 +136,7 @@ public class Badges_Activity extends Activity{
                             DBHelper db = new DBHelper(Badges_Activity.this);
                             String[] completion = db.getCompletion(String.valueOf(currentUser.getUserID()), badges.get(imgNum).get(0));
                             if(completion[0]!=null) {
+//                                add completion indicator to completed badges
                                 if ((Float.parseFloat(completion[1]) * 100) > 99) {
                                     RelativeLayout relLayout = new RelativeLayout(Badges_Activity.this);
                                     ImageView imgComplete = new ImageView(Badges_Activity.this);
@@ -148,6 +157,7 @@ public class Badges_Activity extends Activity{
                         }
                     }
                     if(oddBadgeSize){
+//                        Adds an extra row to factor an odd number of badges being displayed
                         ImageButton imgButton = new ImageButton(Badges_Activity.this);
                         imgButton.setLayoutParams(params);
                         imgButton.setPaddingRelative(100,100,100,100);

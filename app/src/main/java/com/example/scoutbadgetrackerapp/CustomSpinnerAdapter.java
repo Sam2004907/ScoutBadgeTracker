@@ -8,6 +8,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
+//    Used to allow for spinner customisation.
     private Context context;
     private List<String> values;
     private int customLayoutId;

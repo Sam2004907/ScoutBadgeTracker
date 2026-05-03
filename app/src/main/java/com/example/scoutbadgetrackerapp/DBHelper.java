@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
+//    creates the native database for the application.
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "ScoutBadgeTracker";
     private static final String TABLE_BADGES = "badges";
@@ -29,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) { //database table creation
         //Badge Table
         String createBadgeTable = "CREATE TABLE " + TABLE_BADGES+ "("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -197,6 +198,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Badge list
         return results;
     }
+    //get badge by ID
     public String[] getBadgeByID(String badgeID) {
         String[] results = new String[4];
 
@@ -221,6 +223,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Badge list
         return results;
     }
+//    get badge by badge type
     public ArrayList<ArrayList<String>> getBadgeByType(String badgeType) {
         Log.d("DB run", "getAllBadgesgetBadgeByType ran");
 
@@ -306,6 +309,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Users list
         return results;
     }
+    // get a user by username
     public Object[] getUser(String username) {
 
         Object[] results = new Object[10];
@@ -338,6 +342,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return User
         return results;
     }
+    // get a user by their id
     public Object[] getUserByID(String userID) {
 
         Object[] results = new Object[10];
@@ -370,6 +375,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return User
         return results;
     }
+    // get all users part of a specific group and have been approved
     public ArrayList<ArrayList<Object>> getApprovedGroupMembers(String groupID) {
         Log.d("DB run", "getApprovedGroupMembers ran");
 
@@ -400,6 +406,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return groupMembers list
         return results;
     }
+    // get all users part of a specific group and have not been approved
     public ArrayList<ArrayList<Object>> getUnapprovedGroupMembers(String groupID) {
         Log.d("DB run", "getUnapprovedGroupMembers ran");
 
@@ -429,6 +436,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return groupMembers list
         return results;
     }
+    // get a specific group members joining status
     public void updateGroupMemberStatus(String userID, String status){
         Log.d("DB run", "groupJoiningApproval ran");
 
@@ -440,6 +448,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    // update a users details
     public void updateUserDetails(Object[] userDetails){
         Log.d("DB run", "updateUserDetails ran");
 
@@ -456,6 +465,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    //delete a specific user
     public void deleteUser(String userID){
         Log.d("DB run", "removeUser ran");
 
@@ -512,6 +522,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Reqs list
         return results;
     }
+    //get the requirements for a badge
     public ArrayList<ArrayList<String>> getBadgeReqs(String badge_id) {
 
         ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
@@ -583,7 +594,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
-
+    //get a group by its id
     public Object[] getGroupByID(String groupID) {
 
         Object[] results = new Object[4];
@@ -610,6 +621,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // return Group
         return results;
     }
+    //get a group by name
     public Object[] getGroupByName(String groupName) {
 
         Object[] results = new Object[4];
@@ -635,6 +647,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get the group Counties
     public ArrayList<String> getAllCounty(){
         ArrayList<String> results = new ArrayList<String>();
         Log.d("DB Run", "getAllCounty");
@@ -654,6 +667,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get the county districts
     public ArrayList<String> getCountyDistricts(String county){
         ArrayList<String> results = new ArrayList<String>();
         Log.d("DB Run", "getCountyDistricts");
@@ -673,6 +687,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    // get the groups in the chosen district.
     public ArrayList<ArrayList<String>> getDistrictGroups(String district){
         ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
         Log.d("DB Run", "getDistrictGroups");
@@ -714,6 +729,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
     }
+    //get the completion of a specific badge for a specific user
     public String[] getCompletion(String userID, String badgeID) {
         String[] results = new String[4];
         //Log.d("DB run", "getCompletion ran");
@@ -738,6 +754,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get completed badges for a specific user
     public String getUserCompletedBadges(String userID) {
         String results;
         Log.d("DB run", "getUserCompletedBadges ran");
@@ -758,6 +775,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get the inprogress badges for a specific user
     public String getUserInprogressBadges(String userID) {
         String results;
         Log.d("DB run", "getUserInprogressBadges ran");
@@ -778,6 +796,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //update the badge completion.
     public void updateCompletion(String completionID, float percentage){
         Log.d("DB run", "updateCompletion ran");
 
@@ -807,6 +826,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
     }
+
+    // get the badge evidence for a specific user
     public ArrayList<ArrayList<Object>> getUserBadgeEvidence(String userID, String badgeID) {
         Log.d("DB run", "getUserBadgeEvidence ran");
 
@@ -839,6 +860,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get specific evidence based on a badge, requirement and user
     public ArrayList<ArrayList<Object>> getUserBadgeReqEvidence(String userID, String badgeID, String reqID) {
         Log.d("DB run", "getUserBadgeEvidencegetUserBadgeReqEvidence ran");
 
@@ -871,6 +893,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get the user evidence list
     public ArrayList<ArrayList<Object>> getUserEvidenceList(String userID) {
         Log.d("DB run", "getUserEvidenceList ran");
 
@@ -901,6 +924,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get a specific piece of unapproved evidence
     public ArrayList<ArrayList<Object>> getSpecificUnapprovedEvidence(String userID, String reqID) {
         Log.d("DB run", "getSpecificUnapprovedEvidence ran");
 
@@ -932,6 +956,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get the totla number of unapproed evidence for a user
     public String getUserUnapprovedEvidenceCount(String userID) {
         Log.d("DB run", "getUserUnapprovedEvidenceCount ran");
 
@@ -952,6 +977,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //update a specific evidences approval.
     public void updateEvidenceApproval(String evidenceID, String approved){
         Log.d("DB run", "updateEvidenceApproval ran");
 
@@ -963,6 +989,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    //add event to the calendar
     void addEvent(EventList event) {
         Log.d("DB run", "addEvent ran");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -978,6 +1005,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
     }
+    //get all events for a specific group
     public ArrayList<ArrayList<Object>> getGroupEvents(String groupID) {
         Log.d("DB run", "getGroupEventsByDate ran");
 
@@ -1007,6 +1035,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //Get all group events by data
     public ArrayList<ArrayList<Object>> getGroupEventsByDate(String groupID, String date) {
         Log.d("DB run", "getGroupEventsByDate ran");
 
@@ -1036,6 +1065,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //get event by id
     public String[] getEventByID(String eventID) {
         Log.d("DB run", "getEventByID ran");
 
@@ -1060,6 +1090,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return results;
     }
+    //update an events details
     public void updateEventDetails(String[] eventDetails){
         Log.d("DB run", "updateEventDetails ran");
 
@@ -1074,6 +1105,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    //delete an event.
     public void deleteEvent(String eventID){
         Log.d("DB run", "deleteEvent ran");
 

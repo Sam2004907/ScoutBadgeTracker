@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class SignUp_Activity extends Activity {
+    //used as an interface for collecting signup details.
     EditText etxtUsername, etxtPassword, etxtName, etxtDOB, etxtEmail, etxtPhone;
     Spinner spnRole, spnGroup, spnCounty, spnDistrict;
     Button btnSignUp, btnSignUpBack;
@@ -73,6 +74,7 @@ public class SignUp_Activity extends Activity {
         adapterCounty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCounty.setAdapter(adapterCounty);
         spnCounty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //sets district spinner based on selection.
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -106,6 +108,7 @@ public class SignUp_Activity extends Activity {
             }
         });
         spnDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //sets groups spinner based on county.
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -151,6 +154,7 @@ public class SignUp_Activity extends Activity {
 
 
         btnSignUp.setOnClickListener(v -> {
+            //check all details have been entered
 
             if(spnRole.getSelectedItemPosition() == 0 || spnCounty.getSelectedItemPosition() == 0 || spnDistrict.getSelectedItemPosition() == 0 || spnGroup.getSelectedItemPosition() == 0){
                 alertBox("Please Select a Role and Group.");

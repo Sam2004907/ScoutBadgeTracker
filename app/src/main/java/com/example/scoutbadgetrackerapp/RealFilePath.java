@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 //https://stackoverflow.com/questions/13209494/how-to-get-the-full-file-path-from-uri/41520090#41520090
 //akhilesh0707.
 public class RealFilePath {
+    //used to get file path of evidence
 
     /*
      * Gets the file path of the given Uri.

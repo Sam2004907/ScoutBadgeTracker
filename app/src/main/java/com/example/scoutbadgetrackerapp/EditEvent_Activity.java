@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import java.util.Calendar;
 
 public class EditEvent_Activity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+//    creates a visual interface for updating and adding events.
     Button btnStartDate, btnEndDate, btnAddEvent, btnUpdateEvent, btnDeleteEvent, btnEditEventBack;
     TextView txtStartDate, txtEndDate;
     EditText etxtEventname, etxtLocation;
@@ -49,6 +50,7 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
 
         Bundle extras = getIntent().getExtras();
         eventID = extras.getString("key");
+        //different interface for adding and editing event.
         if(!(eventID.equals("new"))){
             eventDetails = db.getEventByID(eventID);
             btnUpdateEvent.setEnabled(true);
@@ -65,6 +67,7 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
             btnAddEvent.setVisibility(View.VISIBLE);
         }
 
+        //start date picker launch
         btnStartDate.setOnClickListener(v -> {
             txtStartDate.setText("");
             startOrEnd = "start";
@@ -76,6 +79,7 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
             datePickerDialog.show();
         });
+        //end date picker launch
         btnEndDate.setOnClickListener(v -> {
             txtEndDate.setText("");
             startOrEnd = "end";
@@ -89,9 +93,11 @@ public class EditEvent_Activity extends Activity implements DatePickerDialog.OnD
             datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis()-1000);
             datePickerDialog.show();
         });
+        //add event button function
         btnAddEvent.setOnClickListener(v -> {
             String eventName = String.valueOf(etxtEventname.getText());
             String location = String.valueOf(etxtLocation.getText());
+            //if details are missing send alert.
             if(eventName.equals("") || location.equals("") || startDay == 0 || endDay == 0){
                 AlertDialog alertDialog = new AlertDialog.Builder(EditEvent_Activity.this).create();
                 alertDialog.setTitle("Alert");

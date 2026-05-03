@@ -18,6 +18,7 @@
         android:theme="@style/Theme.ScoutBadgeTrackerApp"
         tools:targetApi="34"
         android:requestLegacyExternalStorage="true">
+<!--        <profileable android:shell="true" />-->
 
         <activity
             android:name=".LogIn_Activity"

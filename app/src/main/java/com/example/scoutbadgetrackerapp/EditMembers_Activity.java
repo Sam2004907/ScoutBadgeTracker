@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditMembers_Activity extends Activity{
+    // visual interface for approving or denying group joing events
     TextView txtEditTitle, txtGroupName;
     Button btnApprove, btnDeny, btnMemberBack;
     GridLayout grdLayout;
@@ -46,6 +47,7 @@ public class EditMembers_Activity extends Activity{
         grdLayout.setRowCount(unapprovedMembers.size());
         grdLayout.setColumnCount(2);
 
+        // adds details to checkboxes for approving or denying
         for(int i = 0; i < unapprovedMembers.size(); i++){
 
             memberName = (String) unapprovedMembers.get(i).get(0);
@@ -54,6 +56,7 @@ public class EditMembers_Activity extends Activity{
 
             TextView txtID = new TextView(this);
 
+            //decides which details should be visible to a lead depending on role.
             if(memberRole.equals("Leader") && editMembers.equals("Leaders")) {
                 grdLayout.addView(addCheckBox(memberName, memberRole));
                 txtID.setText(memberID);

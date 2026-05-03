@@ -6,6 +6,7 @@ package com.example.scoutbadgetrackerapp;
 import android.util.Log;
 
 public class decrypt {
+    //used to decrypt encrypted data. not used by application at the moment.
     public static String decode(String s) {
         String invalid = "Invalid Code";
 

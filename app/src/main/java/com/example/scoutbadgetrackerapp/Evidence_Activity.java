@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Evidence_Activity extends Activity {
+    //used to allow user to upload evidence to application.
     TextView txtFileName, txtFileType;
     ImageView imgEvidence;
     Button btnFile, btnUpload, btnEvidenceBack;
@@ -52,6 +53,7 @@ public class Evidence_Activity extends Activity {
         for(int i = 0; i < reqs.size(); i++){
             badgeReqs[i+1]=reqs.get(i).get(1);//badge Requirements
         }
+        //used to add badge requirements to requirement spinner based on selected badge.
         ArrayAdapter<String> adapterReqs = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -77,6 +79,7 @@ public class Evidence_Activity extends Activity {
 
             }
         });
+        //open phone file explorer.
         btnFile.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -84,6 +87,7 @@ public class Evidence_Activity extends Activity {
             btnUpload.setEnabled(true);
             btnUpload.setClickable(true);
         });
+        //send details to databse
         btnUpload.setOnClickListener(v -> {
             String FilePath = txtFileName.getText().toString();
             int reqID = Integer.parseInt(reqs.get(spnReq.getSelectedItemPosition() - 1).get(0));

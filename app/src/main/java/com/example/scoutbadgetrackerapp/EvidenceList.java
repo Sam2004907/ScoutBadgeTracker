@@ -1,10 +1,10 @@
 package com.example.scoutbadgetrackerapp;
 
 public class EvidenceList {
+    //used to add evidence to databse
     int _id, _user_id, _badge_id, _requirement_id;
     String _type, _evidencePath, _approval;
 
-    public EvidenceList(){ }
 
     public EvidenceList(String type, String evidencePath, int user_id, int badge_id, int requirement_id, String approval){
         this._type = type;
@@ -15,56 +15,24 @@ public class EvidenceList {
         this._approval = approval;
     }
 
-    public int getID(){
-        return this._id;
-    }
-
-    public void setID(int id){
-        this._id = id;
-    }
-
     public String getType(){ return this._type; }
-
-    public void setType(String type){
-        this._type = type;
-    }
 
     public String getEvidencePath(){
         return this._evidencePath;
-    }
-
-    public void setEvidencePath(String evidencePath){
-        this._evidencePath = evidencePath;
     }
 
     public int getUserID(){
         return this._user_id;
     }
 
-    public void setUserID(int user_id){
-        this._user_id = user_id;
-    }
-
     public int getBadgeID(){ return this._badge_id; }
-
-    public void setBadgeID(int badge_id){
-        this._badge_id = badge_id;
-    }
 
     public int getRequirementID(){
         return this._requirement_id;
     }
 
-    public void setRequirementID(int requirement_id){
-        this._requirement_id = requirement_id;
-    }
-
     public String getApproval(){
         return this._approval;
-    }
-
-    public void setApproval(String approval){
-        this._approval = approval;
     }
 
 }

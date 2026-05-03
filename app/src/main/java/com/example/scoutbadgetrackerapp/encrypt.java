@@ -5,6 +5,7 @@ package com.example.scoutbadgetrackerapp;
  * https://www.geeksforgeeks.org/android/how-to-encrypt-and-decrypt-text-in-android-using-cryptography/
  */
 public class encrypt {
+    //used for encrypting passwords
     public static String encode(String s) {
         // create a string to add in the initial
         // binary code for extra security

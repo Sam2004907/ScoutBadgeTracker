@@ -10,6 +10,7 @@ import com.example.scoutbadgetrackerapp.CalendarAdapter;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
+//    Responsible for viewing the calendar
     public final TextView dayOfMonth;
     private final CalendarAdapter.OnItemListener onItemListener;
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener)

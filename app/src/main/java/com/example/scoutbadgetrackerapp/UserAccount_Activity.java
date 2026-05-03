@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class UserAccount_Activity extends Activity {
+    // displays user details and allows for them to be updated.
     EditText etxtPassword2, etxtEmail2, etxtPhone2;
     TextView txtName2, txtDOB2, txtRole2, txtGroupJoinDate, txtUsername2;
     Button btnAccountBack, btnUpdateDetails, btnDeleteUser;
@@ -98,6 +99,7 @@ public class UserAccount_Activity extends Activity {
 
         });
         btnUpdateDetails.setOnClickListener(v -> {
+            //checks all details have been entered before upload.
             if(etxtEmail2.getText().length() == 0 || etxtPhone2.getText().length() == 0){
                 AlertDialog alertDialog = new AlertDialog.Builder(UserAccount_Activity.this).create();
                 alertDialog.setTitle("Alert");

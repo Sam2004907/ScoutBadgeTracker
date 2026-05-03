@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Event_Activity extends Activity implements CalendarAdapter.OnItemListener{
+    // shows interface for events and calendar view
     LinearLayout eventLayout;
     Button btnEventBack, btnNewEvent;
     TextView txtDateTitle;
@@ -143,7 +144,7 @@ public class Event_Activity extends Activity implements CalendarAdapter.OnItemLi
 
     @Override
     public void onItemClick(int position, String dayText)
-    {
+    { //used to display event details on clicked event.
         if(!dayText.equals(""))
         {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");

@@ -28,6 +28,7 @@ import org.eazegraph.lib.models.PieModel;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
+//    displays main home page
     Button btnLogin, btnBadges, btnGroups, btnUserAccount, btnViewEvidence, btnEvents;
     TextView txtTitle, txtBadgeOverview;
     Intent activity;
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
 
 
         setScoutPieChartData();
-
+        //shows a differnt view to leader and scouts.
         if (currentUser.getUserRole().equals("Leader")) {
             btnViewEvidence.setVisibility(View.VISIBLE);
         }
@@ -129,6 +130,7 @@ public class MainActivity extends Activity {
     }
 
     private void setScoutPieChartData(){
+        //loads pie chart for displaying badge details
         DBHelper db = new DBHelper(this);
         int badgeTotal = 91;
         String completed = db.getUserCompletedBadges(String.valueOf(currentUser.getUserID()));

@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class SelectedBadges_Activity extends Activity{
+    //ussed to display the selected badge details
     ImageView imgBadge;
     TextView txtTitle, txtBadgeInfo, txtComplete;
     Button btnEvidence, btnSelectedBack, btnAward;
@@ -54,6 +55,7 @@ public class SelectedBadges_Activity extends Activity{
         scvAward = findViewById(R.id.scvAward);
         spnAward = findViewById(R.id.spnAward);
 
+        //check role for different visuals
         if(currentUser.getUserRole().equals("Leader")){
             layout.removeView(pgbCompletion);
             layout.removeView(txtComplete);
@@ -76,6 +78,7 @@ public class SelectedBadges_Activity extends Activity{
 
             badgeID = badge[0];
             String iconName = badge[3];
+            //sets badge icon.
             imgBadge.setImageResource(
                     getResources().getIdentifier(iconName, "drawable", getPackageName())
             );
@@ -85,6 +88,7 @@ public class SelectedBadges_Activity extends Activity{
             badgeReqs[0] = "Select a Requirement";
             badgeReqs[1] = "Award Badge";
             txtBadgeInfo.append("\n");
+            //displays badge requirements
             for(int i=0; i<requirements.size(); i++){
                 txtBadgeInfo.append((i+1)+". "+requirements.get(i).get(1) + ". \n");
                 reqNumEvidence += Integer.parseInt(requirements.get(i).get(2));
@@ -92,6 +96,7 @@ public class SelectedBadges_Activity extends Activity{
                     badgeReqs[i+2]=requirements.get(i).get(1);//badge Requirements
                 }
             }
+            //displays an award badge system for leaders
             if(currentUser.getUserRole().equals("Leader")){
                 ArrayAdapter<String> adapterReqs = new ArrayAdapter<>(
                         this,
@@ -101,6 +106,7 @@ public class SelectedBadges_Activity extends Activity{
                 adapterReqs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnAward.setAdapter(adapterReqs);
 
+                //sets dropdown with badge requirements and award bage
                 spnAward.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
                     public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                         ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -119,6 +125,7 @@ public class SelectedBadges_Activity extends Activity{
                                 memberName = (String) approvedMembers.get(i).get(0);
                                 memberRole = (String) approvedMembers.get(i).get(1);
                                 memberID = (String) approvedMembers.get(i).get(4);
+                                //creates checkboxes for members who have not earn't, the requirement/badge
                                 CheckBox checkBox = new CheckBox(SelectedBadges_Activity.this);
                                 TextView txtID = new TextView(SelectedBadges_Activity.this);
 
@@ -180,6 +187,7 @@ public class SelectedBadges_Activity extends Activity{
                 });
 
             }else{
+                //loads progress bar and upload evidence button for scouts.
                 ArrayList<ArrayList<Object>> badgeEvidence;
                 badgeEvidence = db.getUserBadgeEvidence(String.valueOf(currentUser.getUserID()), badgeID);
                 double unapprovedCount = 0;
@@ -254,6 +262,7 @@ public class SelectedBadges_Activity extends Activity{
         return cb;
     }
     private void updateCompletion(DBHelper db, float percentage, String badgeID, int position){
+        //updates progress bar completion.
         for(int i=0; i < lnrMembers.getChildCount(); i++){
             View child = lnrMembers.getChildAt(i);
             if(child instanceof CheckBox) {

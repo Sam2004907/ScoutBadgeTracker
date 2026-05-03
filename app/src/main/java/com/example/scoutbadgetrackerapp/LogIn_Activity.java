@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 public class LogIn_Activity extends Activity {
+    // used to display the log in interface.
     Button btnLogIn, btnSignUp;
     EditText etxtUsername, etxtPassword;
     TextView txtTimer;
@@ -26,6 +27,8 @@ public class LogIn_Activity extends Activity {
         etxtPassword = findViewById(R.id.etxtPassword);
         txtTimer = findViewById(R.id.txtTimer);
         DBHelper db = new DBHelper(this);
+
+        //used to add databse details, uncomment in pairs and relaunch app, once added recomment the lines.
 //        addData.addCoreBadges(db);
 //        addData.addChallengeBadges(db);
 //        addData.addStagedBadges(db);
@@ -39,6 +42,7 @@ public class LogIn_Activity extends Activity {
 //        addData.addUsers(db);
 //        addData.updateUsersStatus(db);
 //        addData.addEvents(db);
+
         AlertDialog alertDialog = new AlertDialog.Builder(LogIn_Activity.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -47,6 +51,7 @@ public class LogIn_Activity extends Activity {
             String givenUsername, givenPassword;
             givenUsername = String.valueOf(etxtUsername.getText());
             givenPassword = String.valueOf(etxtPassword.getText());
+            //checks that a username and password has been entered
             if(givenUsername.equals("") || givenPassword.equals("")){
                 alertDialog.setMessage("Please enter a username and password.");
                 alertDialog.show();
@@ -54,11 +59,13 @@ public class LogIn_Activity extends Activity {
                 attempts[0] -= 1;
                 if(attempts[0] > 0){
                     Object[] user = db.getUser(givenUsername);
+                    //checks if username and password are correct
                     if (givenUsername.equals(user[1]) && encrypt.encode(givenPassword).equals(user[2])) {
                         new currentUser((String) user[1], (String) user[3], (String) user[7], (String) user[9], Integer.parseInt((String) user[0]));
                         activity = new Intent(LogIn_Activity.this, MainActivity.class);
                         startActivity(activity);
                     } else {
+                        //if not correct error message appears
                         alertDialog.setMessage("Incorrect Username and Password. You have " + attempts[0] + " remaining");
                         alertDialog.show();
                         etxtUsername.setText("");

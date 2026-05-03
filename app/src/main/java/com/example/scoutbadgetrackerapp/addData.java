@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class addData {
-    public static void addGroups(DBHelper db) {
+//    This class is responsible for populating the database with the required information after a phone reset.
+    public static void addGroups(DBHelper db) { //Adds the groups to the database.
         //Groups
         db.addGroup(new GroupList("Anchorsholme Scout Group", "Wyre", "West Lancashire"));
         db.addGroup(new GroupList("1st Thornton-Cleveleys Scout Group", "Wyre", "West Lancashire"));
@@ -34,13 +35,13 @@ public class addData {
         db.addGroup(new GroupList("21st St Helens","St Helens","Merseyside"));
 
     }
-    public static void addCoreBadges(DBHelper db) {
+    public static void addCoreBadges(DBHelper db) { //Adds the Core badges to the database.
 
         //Core Awards
         db.addBadge(new BadgeList("Membership", "core", "membership_award"));//1
         db.addBadge(new BadgeList("Chief Scout Award Gold", "core", "sc_chief_scout_award_gold"));//2
     }
-    public static void addChallengeBadges(DBHelper db) {
+    public static void addChallengeBadges(DBHelper db) { //Adds the challenge badges to the database.
         //Challenge Awards
         db.addBadge(new BadgeList("Adventure", "challenge", "challenge_sc_adventure"));
         db.addBadge(new BadgeList("Creative", "challenge", "challenge_sc_creative"));
@@ -52,7 +53,7 @@ public class addData {
         db.addBadge(new BadgeList("Teamwork", "challenge", "challenge_sc_teamwork"));
         db.addBadge(new BadgeList("World", "challenge", "challenge_sc_world"));//11
     }
-    public static void addStagedBadges(DBHelper db) {
+    public static void addStagedBadges(DBHelper db) { //Adds the staged badges to the database.
 
         //Staged Awards
         db.addBadge(new BadgeList("Air Activities", "staged", "staged_air_activities"));//12
@@ -71,7 +72,7 @@ public class addData {
         db.addBadge(new BadgeList("Swimmer", "staged", "staged_swimmer"));
         db.addBadge(new BadgeList("Time On The Water", "staged", "staged_time_on_the_water"));//26
     }
-    public static void addActivityBadges(DBHelper db) {
+    public static void addActivityBadges(DBHelper db) { //Adds the activity badges to the database.
         //Activity Awards
         db.addBadge(new BadgeList("Activity Center Service", "activity", "activity_sc_activitycenterservice"));//27
         db.addBadge(new BadgeList("Air or Sea Navigation", "activity", "activity_sc_air_or_sea_nav"));
@@ -138,7 +139,7 @@ public class addData {
         db.addBadge(new BadgeList("World Faiths", "activity", "activity_sc_world_faiths"));
         db.addBadge(new BadgeList("Writer", "activity", "activity_sc_writer"));//85
     }
-    public static void addExternalBadges(DBHelper db) {
+    public static void addExternalBadges(DBHelper db) { //Adds the external badges to the database.
         //External Awards
         db.addBadge(new BadgeList("Duke Of Edinburgh: Bronze", "external", "dofe_bronze"));
         db.addBadge(new BadgeList("Duke Of Edinburgh: Silver", "external", "dofe_silver"));
@@ -149,7 +150,7 @@ public class addData {
         db.addBadge(new BadgeList("Senior Patrol Leader", "core", "leadership_sc_senior_patrol_leader"));//91
 
     }
-    public static void addCoreRequirements(DBHelper db) {
+    public static void addCoreRequirements(DBHelper db) { //Adds the core badge reqs to the database.
         //Membership Award
         db.addRequirement(new RequirementsList("Know about the Scout Troop:\n" +
                 "a. Find out about the ceremonies and traditions in the Troop.\n" +
@@ -263,7 +264,7 @@ public class addData {
         db.addRequirement(new RequirementsList("Investigate and try to make contact with Scouts in another country.", 1, 11));
         db.addRequirement(new RequirementsList("Take part in an activity that explores an international issue.", 1, 11));
     }
-    public static void addStagedRequirements(DBHelper db) {
+    public static void addStagedRequirements(DBHelper db) { //Adds the staged badge requirements to the database.
         //Staged Awards Stage 1
         // add other stages at later date.
 //    "Air Activities"
@@ -390,7 +391,7 @@ public class addData {
 //    "Time On The Water"
         db.addRequirement(new RequirementsList("Complete 1 session on the water to earn this badge", 1, 26));
     }
-    public static void addActivityRequirements(DBHelper db){
+    public static void addActivityRequirements(DBHelper db){ //Adds the actvity badge reqs to the database.
         //https://www.scouts.org.uk/scouts/activity-badges/
 //    Activity awards
 //    "Activity Center Service"27
@@ -1168,7 +1169,7 @@ public class addData {
                 "i. Write a letter to a pen pal (real or imaginary) of at least 600 words.", 4, 85));
 
     }
-    public static void addExternalRequirements(DBHelper db){
+    public static void addExternalRequirements(DBHelper db){ //Adds the external badge reqs to the database.
         //bronze
         db.addRequirement(new RequirementsList("See: https://www.scouts.org.uk/volunteers/running-your-section/programme-guidance/information-for-volunteers/top-awards-for-young-people/the-duke-of-edinburghs-award/ for details", 1, 86));
 
@@ -1178,7 +1179,7 @@ public class addData {
         //gold
         db.addRequirement(new RequirementsList("See: https://www.scouts.org.uk/volunteers/running-your-section/programme-guidance/information-for-volunteers/top-awards-for-young-people/the-duke-of-edinburghs-award/ for details", 1, 88));
     }
-    public static void addUsers(DBHelper db){
+    public static void addUsers(DBHelper db){ //Adds the test users to the database.
         db.addUser(new UserList("JoanneG", "password", "Joanne Gould", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
         db.addUser(new UserList("TayaR", "password", "Taya Rollins", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
         db.addUser(new UserList("GeorgiaT", "password", "Georgia Trujillo", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
@@ -1224,7 +1225,7 @@ public class addData {
 
     }
 
-    public static void updateUsersStatus(DBHelper db){
+    public static void updateUsersStatus(DBHelper db){ //Updates the test users status.
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDateString = dateFormat.format(new Date());
         db.updateGroupMemberStatus( "1",  currentDateString);
@@ -1247,7 +1248,7 @@ public class addData {
         db.updateGroupMemberStatus( "33",  currentDateString);
     }
 
-    public static void addEvents(DBHelper db){
+    public static void addEvents(DBHelper db){ //Adds the test events to the database.
         //Date Time string = "YYYY-MM-DD HH:MM:SS.SSS"
         db.addEvent(new EventList("Scout camp", "2026-08-06 15:00:00.000", "2026-08-09 15:00:00.000", "Waddecar", 1));
         db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 2));

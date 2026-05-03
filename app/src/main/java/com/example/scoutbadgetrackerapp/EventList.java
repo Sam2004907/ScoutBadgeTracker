@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 
 public class EventList {
+    //used to add event details to database.
     int _id, _group_id;
     String _eventName, _startDateTime, _endDateTime, _location;
 
@@ -14,26 +15,10 @@ public class EventList {
         this._group_id = group_id;
     }
 
-    public int getID(){
-        return this._id;
-    }
-
-    public void setID(int id){
-        this._id = id;
-    }
-
     public String getEventName(){ return this._eventName; }
-
-    public void setEventName(String eventName){
-        this._eventName = eventName;
-    }
 
     public String getStartDateTime(){
         return this._startDateTime;
-    }
-
-    public void setStartDateTime(String startDateTime){
-        this._startDateTime = startDateTime;
     }
 
     public String getEndDateTime(){
@@ -46,16 +31,8 @@ public class EventList {
         return this._location;
     }
 
-    public void setLocation(String location){
-        this._location = location;
-    }
-
     public int getGroupID(){
         return this._group_id;
-    }
-
-    public void setGroupID(int group_id){
-        this._group_id = group_id;
     }
 
 }

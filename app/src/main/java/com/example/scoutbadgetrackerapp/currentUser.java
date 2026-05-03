@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 
 public class currentUser {
+//    used to contain simple details on the current user.
     static String _username, _role, _name, _approval;
     static int _userID;
 

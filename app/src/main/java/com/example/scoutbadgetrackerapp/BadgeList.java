@@ -1,6 +1,7 @@
 package com.example.scoutbadgetrackerapp;
 
 public class BadgeList {
+    // this class standardises the data being passed to a database
     String _name, _type, _icon;
 
     public BadgeList(String name, String type, String icon){

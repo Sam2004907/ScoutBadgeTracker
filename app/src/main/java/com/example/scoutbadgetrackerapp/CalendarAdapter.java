@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 {
+//    This is used to display the calendar on the events page.
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
 

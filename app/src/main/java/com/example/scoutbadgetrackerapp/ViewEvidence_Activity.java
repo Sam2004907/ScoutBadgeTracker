@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ViewEvidence_Activity extends Activity {
+    //displays and process evidence approvals made by leaders.
     Button btnShow, btnViewBack;
     Spinner spnMember, spnBadge, spnRequirement;
     LinearLayout lnrEvidence;
@@ -60,6 +61,7 @@ public class ViewEvidence_Activity extends Activity {
         ArrayList<String> requirementIDList = new ArrayList<>();
 
         int count=0;
+        //gets group members
         for(int i=0; i<groupMembers.size(); i++){
             if(groupMembers.get(i).get(1).equals("Scout")){
                 memberNames.add((String) groupMembers.get(i).get(0));
@@ -75,6 +77,7 @@ public class ViewEvidence_Activity extends Activity {
         for(int i = 0; i < memberNames.size(); i++){
             membersArray[i+1]=memberNames.get(i);//badge Requirements
         }
+        //diplays member dropdown
         List<String> membersList = Arrays.asList(membersArray);
         CustomSpinnerAdapter adapterMembers = new CustomSpinnerAdapter(
                 this,
@@ -85,6 +88,7 @@ public class ViewEvidence_Activity extends Activity {
         spnMember.setAdapter(adapterMembers);
 
         spnMember.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            //displays badges based on member selection
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -134,6 +138,7 @@ public class ViewEvidence_Activity extends Activity {
         });
 
         spnBadge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            //displays requirements based on badge selection.
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -181,6 +186,7 @@ public class ViewEvidence_Activity extends Activity {
             }
         });
         spnRequirement.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            //displays the view evidence button
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ((TextView)parentView.getChildAt(0)).setTextColor(Color.WHITE);
@@ -199,6 +205,7 @@ public class ViewEvidence_Activity extends Activity {
             }
         });
         btnShow.setOnClickListener(v -> {
+            //loads the evidence based on previous selections
             lnrEvidence.removeAllViews();
             if(requirementPosition>0) {
                 ArrayList<ArrayList<Object>> reqEvidence = db.getSpecificUnapprovedEvidence(userID, requirementIDList.get(requirementPosition - 1));
@@ -282,6 +289,7 @@ public class ViewEvidence_Activity extends Activity {
     }
 
     View.OnClickListener getOnApproveClick(final Button button)  {
+        //updates members progress if evidence is approved.
         return v -> {
             DBHelper db = new DBHelper(ViewEvidence_Activity.this);
             db.updateEvidenceApproval((String) v.getContentDescription(), "approved");
