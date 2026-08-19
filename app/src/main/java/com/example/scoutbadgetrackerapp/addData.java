@@ -1204,7 +1204,7 @@ public class addData {
         db.addUser(new UserList("SufyaanC", "password", "Sufyaan Collier", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
         db.addUser(new UserList("AshleyT", "password", "Ashley Tapia", "01/01/2015", "test@test.com", "01234567891", "Scout", 4));
 
-        db.addUser(new UserList("SamW", "password", "Sam Wilmer", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
+        db.addUser(new UserList("JohnS", "password", "John Smith", "01/01/1990", "test@test.com", "01234567891", "Leader", 1));
         db.addUser(new UserList("BobS", "password", "Bob Smith", "01/01/2015", "test@test.com", "01234567891", "Scout", 1));
 
         db.addUser(new UserList("VinnieS", "password", "Vinnie Small", "01/01/2015", "test@test.com", "01234567891", "Leader", 5));
@@ -1250,7 +1250,7 @@ public class addData {
 
     public static void addEvents(DBHelper db){ //Adds the test events to the database.
         //Date Time string = "YYYY-MM-DD HH:MM:SS.SSS"
-        db.addEvent(new EventList("Scout camp", "2026-08-06 15:00:00.000", "2026-08-09 15:00:00.000", "Waddecar", 1));
+        db.addEvent(new EventList("meeting", "2026-04-26 18:00:00.000", "2026-04-26 20:00:00.000", "Scout hut", 1));
         db.addEvent(new EventList("meeting", "2026-04-27 18:00:00.000", "2026-04-27 20:00:00.000", "Scout hut", 2));
         db.addEvent(new EventList("meeting", "2026-04-28 18:00:00.000", "2026-04-28 20:00:00.000", "Scout hut", 3));
         db.addEvent(new EventList("meeting", "2026-04-29 18:00:00.000", "2026-04-29 20:00:00.000", "Scout hut", 4));
